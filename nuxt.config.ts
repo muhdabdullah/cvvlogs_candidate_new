@@ -7,6 +7,9 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
+  modules: [
+    '@nuxt/image-edge',
+  ],
   build: {
     transpile: ["vuetify"],
   },
