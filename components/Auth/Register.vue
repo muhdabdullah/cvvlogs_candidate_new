@@ -6,53 +6,102 @@
       <v-dialog persistent v-model="dialog" activator="parent">
         <v-card
           color="primary"
-          width="500"
+          width="582"
           height="516"
           rounded="lg"
           flat
           class="mx-auto"
         >
-          <v-card-item class="card__login__bg pa-2">
-            <div class="d-flex align-center justify-end">
-              <v-btn
-                size="29"
-                variant="flat"
-                rounded="xl"
-                class="bg-primary"
-                color="primary"
-                @click="dialog = false"
-                >x</v-btn
-              >
+          <div class="pa-2 card__login__bg d-flex justify-end">
+            <div class="d-flex align-center tw-w-full">
+              <nuxt-img
+                class="mx-auto"
+                fit="contain"
+                height="100"
+                src="./img/logo.png"
+              />
             </div>
-            <nuxt-img
-              class="mx-auto"
-              fit="contain"
-              width="283"
-              src="./img/logo.png"
-            />
-          </v-card-item>
+
+            <v-btn
+              size="29"
+              variant="flat"
+              rounded="xl"
+              class="bg-primary"
+              color="primary"
+              @click="dialog = false"
+              >x</v-btn
+            >
+          </div>
 
           <v-card-text class="pa-5">
             <v-form v-model="form" @submit.prevent="onSubmit">
-              <v-text-field
-                v-model="email"
-                :readonly="loading"
-                :rules="[required]"
-                class="mb-2"
-                variant="solo"
-                placeholder="User Name"
-                height="61px"
-              ></v-text-field>
+              <v-row dense>
+                <v-col cols="12" sm="12" md="6" lg="6" xl="6">
+                  <v-text-field
+                    hide-details
+                    :readonly="loading"
+                    :rules="[required]"
+                    class="mb-2"
+                    variant="solo"
+                    placeholder="First Name"
+                    density="comfortable"
+                  ></v-text-field>
 
-              <v-text-field
-                v-model="password"
-                class=""
-                :readonly="loading"
-                variant="solo"
-                :rules="[required]"
-                placeholder="Password"
-                height="61px"
-              ></v-text-field>
+                  <v-text-field
+                    hide-details
+                    :readonly="loading"
+                    :rules="[required]"
+                    class="mb-2"
+                    variant="solo"
+                    placeholder="Email"
+                    density="comfortable"
+                  ></v-text-field>
+
+                  <v-text-field
+                    v-model="password"
+                    hide-details
+                    class=""
+                    :readonly="loading"
+                    variant="solo"
+                    :rules="[required]"
+                    placeholder="Password"
+                    density="comfortable"
+                  ></v-text-field>
+                </v-col>
+
+                <v-col cols="12" sm="12" md="6" lg="6" xl="6">
+                  <v-text-field
+                    hide-details
+                    :readonly="loading"
+                    :rules="[required]"
+                    class="mb-2"
+                    variant="solo"
+                    placeholder="Last Name"
+                    density="comfortable"
+                  ></v-text-field>
+
+                  <v-text-field
+                    hide-details
+                    :readonly="loading"
+                    :rules="[required]"
+                    class="mb-2"
+                    variant="solo"
+                    type="number"
+                    placeholder="Phone"
+                    density="comfortable"
+                  ></v-text-field>
+
+                  <v-text-field
+                    hide-details
+                    class=""
+                    :readonly="loading"
+                    variant="solo"
+                    :rules="[required]"
+                    placeholder="Confirm Password"
+                    density="comfortable"
+                  ></v-text-field>
+                </v-col>
+              </v-row>
 
               <div class="d-flex align-center justify-space-between">
                 <v-checkbox
@@ -70,16 +119,16 @@
                 block
                 light
                 color="secondary"
-                height="60"
+                height="50"
                 size="large"
                 type="submit"
                 variant="flat"
               >
-                Sign In
+                Sign Up
               </v-btn>
 
               <h6 class="text-secondary pa-3 text-center">
-                Don't have an account? <NuxtLink> Sign up </NuxtLink>
+                Don't have an account? <NuxtLink> Sign in </NuxtLink>
               </h6>
             </v-form>
           </v-card-text>
@@ -119,6 +168,10 @@ export default {
 .card__login__bg {
   height: 141px;
   background: white;
+}
+
+.v-card-item__content {
+  height: 100% !important;
 }
 
 .text_field_outlined {

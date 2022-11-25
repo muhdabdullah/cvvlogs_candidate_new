@@ -7,7 +7,13 @@
       rounded="xl"
       variant="flat"
     >
-      Login
+      <v-icon
+        size="default"
+        class="mr-1"
+        color="white"
+        icon="mdi-lock-open"
+      ></v-icon>
+      <span class="text-capitalize text-white">Login</span>
 
       <v-dialog persistent v-model="dialog" activator="parent">
         <v-card
@@ -18,25 +24,26 @@
           flat
           class="mx-auto"
         >
-          <v-card-item class="card__login__bg pa-2">
-            <div class="d-flex align-center justify-end">
-              <v-btn
-                size="29"
-                variant="flat"
-                rounded="xl"
-                class="bg-primary"
-                color="primary"
-                @click="dialog = false"
-                >x</v-btn
-              >
+          <div class="pa-2 card__login__bg d-flex justify-end">
+            <div class="d-flex align-center tw-w-full">
+              <nuxt-img
+                class="mx-auto"
+                fit="contain"
+                height="100"
+                src="./img/logo.png"
+              />
             </div>
-            <nuxt-img
-              class="mx-auto"
-              fit="contain"
-              width="283"
-              src="./img/logo.png"
-            />
-          </v-card-item>
+
+            <v-btn
+              size="29"
+              variant="flat"
+              rounded="xl"
+              class="bg-primary"
+              color="primary"
+              @click="dialog = false"
+              >x</v-btn
+            >
+          </div>
 
           <v-card-text class="pa-5">
             <v-form v-model="form" @submit.prevent="onSubmit">

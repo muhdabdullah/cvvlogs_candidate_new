@@ -1,7 +1,9 @@
-import "vuetify/styles";
-import { createVuetify, ThemeDefinition } from "vuetify";
 import * as components from "vuetify/components";
 import * as directives from "vuetify/directives";
+import "vuetify/styles";
+import { createVuetify, ThemeDefinition } from "vuetify";
+import { aliases, mdi } from 'vuetify/iconsets/mdi'
+import '@mdi/font/css/materialdesignicons.css' // Ensure you are using css-loader
 
 const myCustomLightTheme: ThemeDefinition = {
   dark: false,
@@ -28,6 +30,13 @@ export default defineNuxtPlugin((nuxtApp) => {
       themes: {
         myCustomLightTheme,
       },
+    },
+    icons: {
+      defaultSet: 'mdi',
+      aliases,
+      sets: {
+        mdi,
+      }
     },
   });
 
