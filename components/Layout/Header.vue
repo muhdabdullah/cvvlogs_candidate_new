@@ -22,14 +22,14 @@
     <v-app-bar elevation="0" color="white" class="tw-w-full">
       <v-container class="pa-0 tw-h-full">
         <div class="d-flex justify-space-between align-center tw-h-full">
-          <!-- <v-app-bar-title> -->
           <nuxt-img
+            format="webp"
+            loading="lazy"
             class="mr-10"
             fit="contain"
             width="200"
             src="./img/logo.png"
           />
-          <!-- </v-app-bar-title> -->
 
           <div class="tw-h-full">
             <v-btn

@@ -1,6 +1,6 @@
 <template>
-  <v-container fluid class="mb-6 pa-0 tw-h-full">
-    <v-row align="start" no-gutters class="tw-h-full">
+  <v-container fluid class="pa-0">
+    <v-row align="start" no-gutters>
       <v-col cols="12">
         <div class="tw-relative">
           <nuxt-img
@@ -93,6 +93,18 @@
           color="secondary"
           height="10"
         ></v-card>
+
+        <section class="mt-15">
+          <nuxt-img
+            fit="contain"
+            maxWidth="1200"
+            format="webp"
+            class=""
+            style="width: 100%"
+            src="img/home_banner.png"
+          >
+          </nuxt-img>
+        </section>
       </v-col>
     </v-row>
   </v-container>
