@@ -1,5 +1,12 @@
 <template>
   <v-footer class="d-flex flex-column pa-0">
+    <v-card
+      variant="flat"
+      rounded="0"
+      color="secondary"
+      height="10"
+      width="100%"
+    ></v-card>
     <div class="bg-footer text-white d-flex w-100 align-center px-4">
       <v-container>
         <v-row>

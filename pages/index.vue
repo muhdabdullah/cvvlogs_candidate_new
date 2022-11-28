@@ -18,11 +18,10 @@
             </h1>
 
             <v-card
-              class="mx-auto tw-opacity-95"
+              class="mx-auto tw-opacity-95 rounded__rect"
               color="primary"
               height="130"
               width="940"
-              rounded="xl"
               variant="flat"
             >
               <v-card-text class="d-flex flex-column justify-center tw-h-full">
@@ -55,7 +54,10 @@
                     rounded="xl"
                   >
                     <template v-slot:append-inner>
-                      <v-icon icon="mdi-menu"></v-icon>
+                      <v-icon
+                        color="primary"
+                        icon="mdi-map-marker-outline"
+                      ></v-icon>
                     </template>
                   </v-text-field>
 
@@ -79,7 +81,7 @@
                   </v-btn>
                 </div>
 
-                <p class="text-center ma-2">
+                <p class="text-center ma-1">
                   We will deliver 7 days a week, 365 days a year get a free
                   quote: <span class="tw-font-bold">(123) - 45 - 7890</span>
                 </p>
@@ -94,12 +96,14 @@
           height="10"
         ></v-card>
 
+        <!-- Job Application -->
+        <JobsWidget />
+
         <section class="mt-15">
           <nuxt-img
             fit="contain"
             maxWidth="1200"
             format="webp"
-            class=""
             style="width: 100%"
             src="img/home_banner.png"
           >
@@ -110,8 +114,10 @@
   </v-container>
 </template>
 
-<style lang="scss"></style>
+<style lang="scss">
+.rounded__rect {
+  border-radius: 40px;
+}
+</style>
 
-<script>
-export default {};
-</script>
+<script setup></script>

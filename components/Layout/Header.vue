@@ -22,42 +22,81 @@
     <v-app-bar elevation="0" color="white" class="tw-w-full">
       <v-container class="pa-0 tw-h-full">
         <div class="d-flex justify-space-between align-center tw-h-full">
-          <nuxt-img
-            format="webp"
-            loading="lazy"
-            class="mr-10"
-            fit="contain"
-            width="200"
-            src="./img/logo.png"
-          />
-
+          <NuxtLink to="/">
+            <nuxt-img
+              format="webp"
+              loading="lazy"
+              class="mr-10"
+              fit="contain"
+              width="200"
+              src="./img/logo.png"
+            />
+          </NuxtLink>
+          <!-- selected-class="btn__active__class" -->
           <div class="tw-h-full">
             <v-btn
               selected-class="btn__active__class"
-              color="secondary"
               variant="flat"
               height="100%"
               value="left"
               rounded="0"
+              to="/"
             >
               Home
             </v-btn>
 
-            <v-btn height="100%" rounded="0"> About Us </v-btn>
+            <v-btn
+              selected-class="btn__active__class"
+              height="100%"
+              rounded="0"
+            >
+              About Us
+            </v-btn>
 
-            <v-btn height="100%" rounded="0"> Jobs </v-btn>
+            <v-btn
+              selected-class="btn__active__class"
+              to="/jobs"
+              height="100%"
+              rounded="0"
+            >
+              Jobs
+            </v-btn>
 
-            <v-btn height="100%" rounded="0"> How It Works </v-btn>
+            <v-btn
+              selected-class="btn__active__class"
+              height="100%"
+              rounded="0"
+            >
+              How It Works
+            </v-btn>
 
-            <v-btn height="100%" rounded="0"> Packages </v-btn>
+            <v-btn
+              selected-class="btn__active__class"
+              height="100%"
+              rounded="0"
+            >
+              Packages
+            </v-btn>
 
-            <v-btn height="100%" rounded="0"> Contact Us </v-btn>
+            <v-btn
+              selected-class="btn__active__class"
+              height="100%"
+              rounded="0"
+            >
+              Contact Us
+            </v-btn>
           </div>
 
           <v-spacer></v-spacer>
 
           <div class="mx-2 tw-h-full d-flex align-center justify-center">
-            <v-btn color="red" height="35" rounded="xl" variant="flat">
+            <v-btn
+              to="/upload-resume"
+              color="red"
+              height="35"
+              rounded="xl"
+              variant="flat"
+            >
               <span class="text-capitalize">Upload Resume</span>
               <v-icon
                 size="x-large"
