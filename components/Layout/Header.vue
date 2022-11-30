@@ -114,7 +114,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 .v-toolbar__content {
   /* width: 100% !important; */
   padding-top: 0;
@@ -125,5 +125,9 @@ export default {
   background: #ff9900 !important;
   color: white !important;
   border-radius: 0;
+
+  span {
+    color: white !important;
+  }
 }
 </style>

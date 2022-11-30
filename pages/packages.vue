@@ -1,5 +1,7 @@
 <template>
-  <h1>Packages</h1>
+  <div>
+    <LayoutPageHeader text="Packages" />
+  </div>
 </template>
 
 <script>

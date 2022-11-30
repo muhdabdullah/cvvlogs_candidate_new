@@ -1,5 +1,7 @@
 <template>
-  <h1>About us</h1>
+  <div>
+    <LayoutPageHeader text="About Us" />
+  </div>
 </template>
 
 <script>
