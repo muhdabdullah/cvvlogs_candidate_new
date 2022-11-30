@@ -1,18 +1,11 @@
 <template>
-  <!-- <v-layout>
+  <v-app>
     <LayoutHeader />
-
     <v-main>
-      <slot />
+      <v-container class="pa-0" fluid>
+        <Nuxt />
+      </v-container>
     </v-main>
-  </v-layout> -->
-  <div>
-    <VApp>
-      <LayoutHeader />
-      <VMain style="height: '100%'" class="tw-h-full">
-        <slot />
-      </VMain>
-      <LayoutFooter />
-    </VApp>
-  </div>
+    <LayoutFooter />
+  </v-app>
 </template>

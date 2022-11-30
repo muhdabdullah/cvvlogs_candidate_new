@@ -5,12 +5,14 @@
         <div class="d-flex justify-space-between align-center">
           <div class="call_to_actions d-flex align-center">
             <div class="phone">
-              <v-icon color="primary" icon="mdi-phone"></v-icon>
-              <span class="ml-2">123-456-789</span>
+              <v-icon color="primary">mdi-phone</v-icon>
+              <a href="tel:123-456-789">
+                <span class="ml-2">123-456-789</span>
+              </a>
             </div>
 
             <div class="email ml-5">
-              <v-icon color="primary" icon="mdi-email"></v-icon>
+              <v-icon color="primary">mdi-email</v-icon>
               <a href="mailto:info@cvvlogs.com">
                 <span class="ml-2">info@cvvlogs.com</span>
               </a>
@@ -19,90 +21,44 @@
         </div>
       </v-container>
     </v-system-bar>
-    <v-app-bar elevation="0" color="white" class="tw-w-full">
+    <v-app-bar elevation="0" color="white">
       <v-container class="pa-0 tw-h-full">
         <div class="d-flex justify-space-between align-center tw-h-full">
           <NuxtLink to="/">
             <nuxt-img
-              format="webp"
-              loading="lazy"
               class="mr-10"
               fit="contain"
               width="200"
-              src="./img/logo.png"
+              src="/img/logo.png"
             />
           </NuxtLink>
           <!-- selected-class="btn__active__class" -->
           <div class="tw-h-full">
             <v-btn
-              selected-class="btn__active__class"
-              variant="flat"
+              v-for="(btn, index) in menuBtn"
+              :key="index"
               height="100%"
-              value="left"
-              rounded="0"
-              to="/"
+              active-class="btn__active__class"
+              plain
+              :to="btn ? btn.to : ''"
             >
-              Home
-            </v-btn>
-
-            <v-btn
-              selected-class="btn__active__class"
-              height="100%"
-              rounded="0"
-            >
-              About Us
-            </v-btn>
-
-            <v-btn
-              selected-class="btn__active__class"
-              to="/jobs"
-              height="100%"
-              rounded="0"
-            >
-              Jobs
-            </v-btn>
-
-            <v-btn
-              selected-class="btn__active__class"
-              height="100%"
-              rounded="0"
-            >
-              How It Works
-            </v-btn>
-
-            <v-btn
-              selected-class="btn__active__class"
-              height="100%"
-              rounded="0"
-            >
-              Packages
-            </v-btn>
-
-            <v-btn
-              selected-class="btn__active__class"
-              height="100%"
-              rounded="0"
-            >
-              Contact Us
+              <span v-if="btn">{{ btn.name }}</span>
             </v-btn>
           </div>
-
-          <v-spacer></v-spacer>
 
           <div class="mx-2 tw-h-full d-flex align-center justify-center">
             <v-btn
               to="/upload-resume"
               color="red"
               height="35"
-              rounded="xl"
-              variant="flat"
+              rounded
+              depressed
+              dark
             >
               <span class="text-capitalize">Upload Resume</span>
-              <v-icon
-                size="x-large"
-                class="ml-2"
-                icon="mdi-arrow-up-thin-circle-outline"
-              ></v-icon>
+              <v-icon size="large" class="ml-2">
+                mdi-arrow-up-thin-circle-outline</v-icon
+              >
             </v-btn>
 
             <AuthSignIn class="ml-2" />
@@ -112,20 +68,62 @@
         </div>
       </v-container>
     </v-app-bar>
-    <v-app-bar height="10" color="secondary"></v-app-bar>
+    <v-app-bar elevation="0" height="10" color="secondary"></v-app-bar>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      menuBtn: [
+        {
+          name: "Home",
+          to: "/",
+          class: "",
+        },
+        {
+          name: "About Us",
+          to: "/about-us",
+          class: "",
+        },
+        {
+          name: "Jobs",
+          to: "/jobs",
+          class: "",
+        },
+        {
+          name: "How It Works",
+          to: "/how-it-works",
+          class: "",
+        },
+        {
+          name: "Packages",
+          to: "/packages",
+          class: "",
+        },
+        {
+          name: "Contact Us",
+          to: "/contact-us",
+          class: "",
+        },
+        ,
+      ],
+    };
+  },
+};
 </script>
 
 <style>
-.v-toolbar {
-  width: 100% !important;
+.v-toolbar__content {
+  /* width: 100% !important; */
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 .btn__active__class {
   background: #ff9900 !important;
+  color: white !important;
+  border-radius: 0;
 }
 </style>
