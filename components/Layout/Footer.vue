@@ -11,14 +11,7 @@
       <v-container>
         <v-row>
           <v-col cols="12" md="3" lg="3" xl="3">
-            <nuxt-img
-              format="webp"
-              loading="lazy"
-              class="mr-10"
-              fit="contain"
-              width="280"
-              src="/img/logo.png"
-            />
+            <v-img class="mr-10" contain width="280" src="/img/logo.png" />
             <p class="pa-1 my-2">
               Reference site about Lorem Ipsum, giving information on its
               origins, as well Reference site about Lorem Ipsum, giving

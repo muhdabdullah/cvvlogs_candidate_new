@@ -9,11 +9,17 @@
           height="35"
           width="110"
           rounded
+          :disabled="AuthID"
           depressed
         >
-          <v-icon size="large" class="mr-1" color="white">mdi-lock-open</v-icon>
-          <span class="text-capitalize text-white">Login</span></v-btn
-        >
+          <div v-if="AuthID" class="text-capitalize text-white">Logged In</div>
+          <div v-else>
+            <v-icon size="large" class="mr-1" color="white"
+              >mdi-lock-open</v-icon
+            >
+            <span class="text-capitalize text-white">Login</span>
+          </div>
+        </v-btn>
       </template>
       <v-card
         color="primary"
@@ -25,10 +31,11 @@
       >
         <div class="pa-2 card__login__bg d-flex justify-end">
           <div class="d-flex align-center tw-w-full">
-            <nuxt-img
+            <v-img
               class="mx-auto"
-              fit="contain"
-              height="100"
+              contain
+              width="250"
+              height="80"
               src="/img/logo.png"
             />
           </div>
@@ -87,6 +94,7 @@
               size="large"
               type="submit"
               depressed
+              @click="onSubmit"
             >
               Sign In
             </v-btn>
@@ -111,15 +119,32 @@ export default {
     password: null,
     loading: false,
   }),
-
+  computed: {
+    AuthID() {
+      if (localStorage.getItem("authId")) return true;
+    },
+  },
   methods: {
     onSubmit() {
       if (!this.form) return;
 
       this.loading = true;
 
-      setTimeout(() => (this.loading = false), 2000);
+      this.$api.authService
+        .login({
+          username: this.email,
+          password: this.password,
+        })
+        .then((resp) => {
+          if (resp.data) {
+            localStorage.setItem("authId", resp.data.auth_id);
+            localStorage.setItem("userData", JSON.stringify(resp.data));
+            this.dialog = false;
+          }
+        })
+        .finally(() => (this.loading = false));
     },
+
     required(v) {
       return !!v || "Field is required";
     },

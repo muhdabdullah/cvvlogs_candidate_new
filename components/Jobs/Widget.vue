@@ -31,14 +31,15 @@
             class="d-flex align-center flex-wrap justify-space-between py-2 my-2 pa-4 tw-cursor-pointer"
           >
             <div class="d-flex flex-wrap align-center pa-1">
-              <nuxt-img
-                fit="contain"
+              <v-img
+                contain
                 width="120"
-                quality="100"
+                height="120"
+                position="left"
                 :src="job.img"
                 class="tw-min-w-32"
               >
-              </nuxt-img>
+              </v-img>
 
               <div class="d-flex flex-column align-start mx-5">
                 <h3 class="tw-text-lg tw-font-extrabold">

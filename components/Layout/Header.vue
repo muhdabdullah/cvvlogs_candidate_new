@@ -1,8 +1,41 @@
 <template>
   <div>
+    <v-navigation-drawer
+      v-if="$vuetify.breakpoint.mobile"
+      v-model="drawer"
+      :clipped="true"
+      fixed
+      app
+    >
+      <v-list>
+        <v-list-item-group
+          v-for="(item, i) in menuBtn"
+          :key="`menu-items-${i}`"
+        >
+          <v-list-item :to="item ? item.to : ''" router exact>
+            <v-list-item-content>
+              <v-list-item-title v-text="item && item.name" />
+            </v-list-item-content>
+          </v-list-item>
+        </v-list-item-group>
+      </v-list>
+
+      <AuthSignIn class="ma-2" />
+
+      <AuthRegister class="ma-2" />
+
+      <template v-if="AuthID" v-slot:append>
+        <div class="pa-2">
+          <v-btn depressed color="error" block> Logout </v-btn>
+        </div>
+      </template>
+    </v-navigation-drawer>
     <v-system-bar color="#cccccc" window>
       <v-container class="pa-0 custom_wd_container">
-        <div class="d-flex justify-space-between align-center">
+        <div
+          v-if="!$vuetify.breakpoint.mobile"
+          class="d-flex justify-space-between align-center"
+        >
           <div class="call_to_actions d-flex align-center">
             <div class="phone">
               <v-icon color="primary">mdi-phone</v-icon>
@@ -23,16 +56,22 @@
     </v-system-bar>
     <v-app-bar elevation="0" color="white">
       <v-container class="custom_wd_container pa-0 tw-h-full">
-        <div class="d-flex justify-space-between align-center tw-h-full">
+        <div
+          class="d-flex align-center tw-h-full"
+          v-if="$vuetify.breakpoint.mobile"
+        >
+          <v-app-bar-nav-icon color="primary" @click.stop="drawer = !drawer" />
+
           <NuxtLink to="/">
-            <nuxt-img
-              class="mr-10"
-              fit="contain"
-              width="200"
-              src="/img/logo.png"
-            />
+            <v-img class="mr-10" contain width="200" src="/img/logo.png" />
           </NuxtLink>
-          <!-- selected-class="btn__active__class" -->
+        </div>
+
+        <div v-else class="d-flex justify-space-between align-center tw-h-full">
+          <NuxtLink to="/">
+            <v-img class="mr-10" contain width="200" src="/img/logo.png" />
+          </NuxtLink>
+
           <div class="tw-h-full">
             <v-btn
               v-for="(btn, index) in menuBtn"
@@ -48,6 +87,7 @@
 
           <div class="mx-2 tw-h-full d-flex align-center justify-center">
             <v-btn
+              v-if="AuthID"
               to="/upload-resume"
               color="red"
               height="35"
@@ -63,7 +103,7 @@
 
             <AuthSignIn class="ml-2" />
 
-            <AuthRegister class="ml-2" />
+            <AuthRegister v-if="!AuthID" class="ml-2" />
           </div>
         </div>
       </v-container>
@@ -76,6 +116,7 @@
 export default {
   data() {
     return {
+      drawer: false,
       menuBtn: [
         {
           name: "Home",
@@ -110,6 +151,11 @@ export default {
         ,
       ],
     };
+  },
+  computed: {
+    AuthID() {
+      if (localStorage.getItem("authId")) return true;
+    },
   },
 };
 </script>

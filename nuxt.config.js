@@ -19,7 +19,7 @@ export default {
   css: ["@/assets/scss/app.css"],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [],
+  plugins: ["@/plugins/axios.js", "@/plugins/api.js"],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -33,15 +33,23 @@ export default {
     "@nuxt/image",
   ],
 
+  image: {
+    domains: [
+      "https://cvvlogs-demo.cvvlogs.com",
+      "https://cvvlogs.com",
+      "http://localhost:3000",
+    ],
+  },
+
   vuetify: {
     customVariables: ["~/assets/variables.scss"],
     theme: {
       dark: false,
       themes: {
         dark: {
-          primary: colors.blue.darken2,
+          primary: "#5d378d",
           accent: colors.grey.darken3,
-          secondary: colors.amber.darken3,
+          secondary: "#ff9900",
           info: colors.teal.lighten1,
           warning: colors.amber.base,
           error: colors.deepOrange.accent4,
@@ -66,7 +74,7 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: "/",
+    baseURL: "https://api.cvvlogs.com/cv-tube/api.v.1/user",
   },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa

@@ -24,10 +24,11 @@
       >
         <div class="pa-2 card__login__bg d-flex justify-end">
           <div class="d-flex align-center tw-w-full">
-            <nuxt-img
+            <img
               class="mx-auto"
-              fit="contain"
-              height="100"
+              contain
+              width="300"
+              height="80"
               src="/img/logo.png"
             />
           </div>

@@ -3,8 +3,7 @@
     <v-row align="start" no-gutters>
       <v-col cols="12">
         <div class="tw-relative">
-          <nuxt-img
-            fit="fill"
+          <v-img
             class="img__gray"
             style="width: 100%"
             src="img/dashboard.png"
@@ -13,11 +12,14 @@
           <div
             class="tw-absolute tw-top-0 tw-w-full tw-h-full d-flex flex-column justify-center align-center"
           >
-            <h1 class="tw-text-6xl white--text tw-font-bold px-2 py-10">
+            <h1
+              class="md:tw-text-6xl tw-text-base text-center white--text tw-font-bold px-2 py-10"
+            >
               Get Your Dream Job Today!
             </h1>
 
             <v-card
+              v-if="!$vuetify.breakpoint.xs"
               class="mx-auto tw-opacity-95 rounded__rect"
               color="primary"
               height="130"
@@ -88,14 +90,7 @@
         <JobsWidget />
 
         <section class="mt-15">
-          <nuxt-img
-            fit="contain"
-            maxWidth="1200"
-            format="webp"
-            style="width: 100%"
-            src="img/home_banner.png"
-          >
-          </nuxt-img>
+          <v-img contain style="width: 100%" src="img/home_banner.png"> </v-img>
         </section>
       </v-col>
     </v-row>
