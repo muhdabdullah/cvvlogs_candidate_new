@@ -9,3 +9,9 @@
     <LayoutFooter />
   </v-app>
 </template>
+
+<style>
+.custom_wd_container {
+  max-width: 1380px;
+}
+</style>

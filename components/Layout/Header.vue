@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-system-bar color="#cccccc" window>
-      <v-container class="pa-0">
+      <v-container class="pa-0 custom_wd_container">
         <div class="d-flex justify-space-between align-center">
           <div class="call_to_actions d-flex align-center">
             <div class="phone">
@@ -22,7 +22,7 @@
       </v-container>
     </v-system-bar>
     <v-app-bar elevation="0" color="white">
-      <v-container class="pa-0 tw-h-full">
+      <v-container class="custom_wd_container pa-0 tw-h-full">
         <div class="d-flex justify-space-between align-center tw-h-full">
           <NuxtLink to="/">
             <nuxt-img
