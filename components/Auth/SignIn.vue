@@ -9,11 +9,9 @@
           height="35"
           width="110"
           rounded
-          :disabled="AuthID"
           depressed
         >
-          <div v-if="AuthID" class="text-capitalize text-white">Logged In</div>
-          <div v-else>
+          <div>
             <v-icon size="large" class="mr-1" color="white"
               >mdi-lock-open</v-icon
             >
@@ -121,7 +119,7 @@ export default {
   }),
   computed: {
     AuthID() {
-      if (localStorage.getItem("authId")) return true;
+      if (this.$store.getters["auth/get_authId"]) return true;
     },
   },
   methods: {
@@ -137,8 +135,8 @@ export default {
         })
         .then((resp) => {
           if (resp.data) {
-            localStorage.setItem("authId", resp.data.auth_id);
-            localStorage.setItem("userData", JSON.stringify(resp.data));
+            this.$store.dispatch("auth/set_authId", resp.data);
+
             this.dialog = false;
           }
         })

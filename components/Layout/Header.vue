@@ -20,7 +20,10 @@
         </v-list-item-group>
       </v-list>
 
-      <AuthSignIn class="ma-2" />
+      <div>
+        <LayoutLoginMenu v-if="AuthID" />
+        <AuthSignIn v-else class="ma-2" />
+      </div>
 
       <AuthRegister class="ma-2" />
 
@@ -63,13 +66,25 @@
           <v-app-bar-nav-icon color="primary" @click.stop="drawer = !drawer" />
 
           <NuxtLink to="/">
-            <v-img class="mr-10" contain width="200" src="/img/logo.png" />
+            <v-img
+              class="mr-10"
+              contain
+              width="200"
+              src="/img/logo.png"
+              lazy-src="/img/logo.png"
+            />
           </NuxtLink>
         </div>
 
         <div v-else class="d-flex justify-space-between align-center tw-h-full">
           <NuxtLink to="/">
-            <v-img class="mr-10" contain width="200" src="/img/logo.png" />
+            <v-img
+              class="mr-10"
+              contain
+              width="200"
+              src="/img/logo.png"
+              lazy-src="/img/logo.png"
+            />
           </NuxtLink>
 
           <div class="tw-h-full">
@@ -101,7 +116,10 @@
               >
             </v-btn>
 
-            <AuthSignIn class="ml-2" />
+            <div>
+              <LayoutLoginMenu class="mx-2" v-if="AuthID" />
+              <AuthSignIn v-else class="ml-2" />
+            </div>
 
             <AuthRegister v-if="!AuthID" class="ml-2" />
           </div>
@@ -154,7 +172,7 @@ export default {
   },
   computed: {
     AuthID() {
-      if (localStorage.getItem("authId")) return true;
+      if (this.$store.getters["auth/get_authId"]) return true;
     },
   },
 };
