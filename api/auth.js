@@ -15,7 +15,7 @@ export default ($axios, store, ctx, router) => ({
       .$post("/login.php", params)
       .then((response) => {
         // setting token in axios request.
-        $axios.setToken(`auth_id ${response.auth_id}`);
+        $axios.setHeader("auth_id", response.data.auth_id);
         return response;
       })
       .catch((error) => {
@@ -24,19 +24,22 @@ export default ($axios, store, ctx, router) => ({
   },
 
   async logout() {
-    return ctx.$request
-      .get(`/logout.php?auth_id=${store.getters["auth/get_authId"]}`)
+    $axios.setHeader("auth_id", `${localStorage.getItem("auth_id")}`);
+    return await $axios
+      .get(`/logout.php`)
       .then((response) => {
+        // Removes default Authorization header from `common` scope (all requests)
+        store.commit("auth/remove_auth_id");
+        $axios.setHeader("auth_id", "");
+        ctx.app.router.push("/");
         return response;
       })
       .catch((error) => {
-        console.error(error);
-      })
-      .finally(() => {
-        store.commit("auth/remove_auth_id");
         // Removes default Authorization header from `common` scope (all requests)
-        $axios.setToken(false);
+        store.commit("auth/remove_auth_id");
+        $axios.setHeader("auth_id", "");
         ctx.app.router.push("/");
+        console.error(error);
       });
   },
 

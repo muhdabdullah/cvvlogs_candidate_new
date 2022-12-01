@@ -65,6 +65,7 @@
                   :readonly="loading"
                   :rules="[required]"
                   class="mb-2"
+                  type="email"
                   solo
                   placeholder="Email"
                   density="comfortable"
@@ -73,6 +74,7 @@
                 <v-text-field
                   v-model="password"
                   hide-details
+                  type="password"
                   class=""
                   :readonly="loading"
                   solo
@@ -98,6 +100,7 @@
                   :readonly="loading"
                   :rules="[required]"
                   class="mb-2"
+                  hide-spin-buttons
                   solo
                   type="number"
                   placeholder="Phone"
@@ -109,6 +112,7 @@
                   class=""
                   :readonly="loading"
                   solo
+                  type="password"
                   :rules="[required]"
                   placeholder="Confirm Password"
                   density="comfortable"

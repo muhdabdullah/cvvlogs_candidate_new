@@ -28,6 +28,9 @@ const mutations = {
   remove_auth_id(state) {
     state.auth_id = null;
     state.userData = {};
+
+    localStorage.removeItem("auth_id");
+    localStorage.removeItem("userData");
   },
 };
 
@@ -45,8 +48,6 @@ const actions = {
     commit("set_authId", payload);
   },
   remove_auth_id({ commit }, payload) {
-    localStorage.removeItem("auth_id");
-    localStorage.removeItem("userData");
     commit("remove_auth_id", payload);
   },
 };

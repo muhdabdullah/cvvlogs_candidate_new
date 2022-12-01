@@ -18,15 +18,8 @@
       </template>
       <v-list class="py-0">
         <div>
-          <v-btn
-            height="50"
-            to="/dashboard"
-            class="text-capitalize"
-            block
-            tile
-            depressed
-          >
-            Dashboard
+          <v-btn height="50" class="text-capitalize" block tile depressed>
+            Profile
           </v-btn>
           <v-divider></v-divider>
           <v-btn

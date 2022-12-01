@@ -59,13 +59,14 @@
               :rules="[required]"
               hide-details
               class="mb-2"
+              type="email"
               solo
               placeholder="User Name"
             ></v-text-field>
 
             <v-text-field
               v-model="password"
-              class=""
+              type="password"
               :readonly="loading"
               solo
               :rules="[required]"
@@ -92,7 +93,6 @@
               size="large"
               type="submit"
               depressed
-              @click="onSubmit"
             >
               Sign In
             </v-btn>
