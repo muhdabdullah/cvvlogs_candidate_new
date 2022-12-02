@@ -1,104 +1,109 @@
 <template>
   <div class="text-center">
-    <v-btn
-      color="secondary"
-      height="35"
-      width="110"
-      rounded="xl"
-      variant="flat"
-    >
-      <v-icon
-        size="default"
-        class="mr-1"
-        color="white"
-        icon="mdi-lock-open"
-      ></v-icon>
-      <span class="text-capitalize text-white">Login</span>
-
-      <v-dialog persistent v-model="dialog" activator="parent">
-        <v-card
-          color="primary"
-          width="500"
-          height="516"
-          rounded="lg"
-          flat
-          class="mx-auto"
+    <v-dialog width="500" persistent v-model="dialog">
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn
+          v-bind="attrs"
+          v-on="on"
+          color="secondary"
+          height="35"
+          width="110"
+          rounded
+          depressed
         >
-          <div class="pa-2 card__login__bg d-flex justify-end">
-            <div class="d-flex align-center tw-w-full">
-              <nuxt-img
-                class="mx-auto"
-                fit="contain"
-                height="100"
-                src="./img/logo.png"
-              />
+          <div>
+            <v-icon size="large" class="mr-1" color="white"
+              >mdi-lock-open</v-icon
+            >
+            <span class="text-capitalize text-white">Login</span>
+          </div>
+        </v-btn>
+      </template>
+      <v-card
+        color="primary"
+        width="500"
+        height="516"
+        rounded
+        flat
+        class="mx-auto"
+      >
+        <div class="pa-2 card__login__bg d-flex justify-end">
+          <div class="d-flex align-center tw-w-full">
+            <v-img
+              class="mx-auto"
+              contain
+              width="250"
+              height="80"
+              src="/img/logo.png"
+            />
+          </div>
+
+          <v-btn
+            size="29"
+            fab
+            icon
+            rounded
+            class="primary"
+            color="white"
+            small
+            @click="dialog = false"
+            >x</v-btn
+          >
+        </div>
+
+        <v-card-text class="pa-5">
+          <v-form v-model="form" @submit.prevent="onSubmit">
+            <v-text-field
+              v-model="email"
+              :readonly="loading"
+              :rules="[required]"
+              hide-details
+              class="mb-2"
+              type="email"
+              solo
+              placeholder="User Name"
+            ></v-text-field>
+
+            <v-text-field
+              v-model="password"
+              type="password"
+              :readonly="loading"
+              solo
+              :rules="[required]"
+              placeholder="Password"
+            ></v-text-field>
+
+            <div class="d-flex align-center white--text justify-space-between">
+              <v-checkbox
+                label="Remember me"
+                v-model="rememberMe"
+                color="white"
+                dark
+              ></v-checkbox>
+
+              <h5>Forgot password ?</h5>
             </div>
 
             <v-btn
-              size="29"
-              variant="flat"
-              rounded="xl"
-              class="bg-primary"
-              color="primary"
-              @click="dialog = false"
-              >x</v-btn
+              :loading="loading"
+              block
+              light
+              color="secondary"
+              height="60"
+              size="large"
+              type="submit"
+              depressed
             >
-          </div>
+              Sign In
+            </v-btn>
 
-          <v-card-text class="pa-5">
-            <v-form v-model="form" @submit.prevent="onSubmit">
-              <v-text-field
-                v-model="email"
-                :readonly="loading"
-                :rules="[required]"
-                class="mb-2"
-                variant="solo"
-                placeholder="User Name"
-                height="61px"
-              ></v-text-field>
-
-              <v-text-field
-                v-model="password"
-                class=""
-                :readonly="loading"
-                variant="solo"
-                :rules="[required]"
-                placeholder="Password"
-                height="61px"
-              ></v-text-field>
-
-              <div class="d-flex align-center justify-space-between">
-                <v-checkbox
-                  hide-details
-                  label="Remember me"
-                  v-model="rememberMe"
-                  color="white"
-                ></v-checkbox>
-
-                <NuxtLink><h5>Forgot password ?</h5></NuxtLink>
-              </div>
-
-              <v-btn
-                :loading="loading"
-                block
-                light
-                color="secondary"
-                height="60"
-                size="large"
-                type="submit"
-                variant="flat"
-              >
-                Sign In
-              </v-btn>
-
-              <h6 class="text-secondary pa-3 text-center">
-                Don't have an account? <NuxtLink> Sign up </NuxtLink>
-              </h6>
-            </v-form>
-          </v-card-text>
-        </v-card>
-      </v-dialog>
-    </v-btn>
+            <h6 class="secondary--text pa-3 text-center">
+              Don't have an account? <span class="tw-font-bold"> Sign up </span>
+            </h6>
+          </v-form>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -112,15 +117,32 @@ export default {
     password: null,
     loading: false,
   }),
-
+  computed: {
+    AuthID() {
+      if (this.$store.getters["auth/get_authId"]) return true;
+    },
+  },
   methods: {
     onSubmit() {
       if (!this.form) return;
 
       this.loading = true;
 
-      setTimeout(() => (this.loading = false), 2000);
+      this.$api.authService
+        .login({
+          username: this.email,
+          password: this.password,
+        })
+        .then((resp) => {
+          if (resp.data) {
+            this.$store.dispatch("auth/set_authId", resp.data);
+
+            this.dialog = false;
+          }
+        })
+        .finally(() => (this.loading = false));
     },
+
     required(v) {
       return !!v || "Field is required";
     },

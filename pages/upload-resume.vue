@@ -1,10 +1,10 @@
 <template>
   <v-container>
-    <v-card max-width="1200" variant="flat" class="mx-auto">
-      <v-card-text class="text-center">
+    <v-card flat max-width="1200" depressed class="mx-auto">
+      <v-card-text class="text-center black--text">
         <span class="tw-text-5xl tw-font-bold">Upload your CV/Video CV</span>
 
-        <h4 class="text-red tw-text-xl tw-font-bold text-uppercase mt-5">
+        <h4 class="red--text tw-text-xl tw-font-bold text-uppercase mt-5">
           IMPORTANT
         </h4>
         <p class="tw-text-lg tw-font-bold tw-w-2/3 mx-auto">
@@ -17,8 +17,8 @@
             width="307"
             height="50"
             color="primary"
-            rounded="xl"
-            variant="flat"
+            rounded
+            depressed
             class="mr-2"
           >
             <span class="text-capitalize"
@@ -30,8 +30,8 @@
             width="307"
             height="50"
             color="secondary"
-            rounded="xl"
-            variant="flat"
+            rounded
+            depressed
             class="mr-2"
           >
             <span class="text-capitalize text-white"
@@ -39,13 +39,7 @@
             >
           </v-btn>
 
-          <v-btn
-            width="307"
-            height="50"
-            color="red"
-            rounded="xl"
-            variant="flat"
-          >
+          <v-btn dark width="307" height="50" color="red" rounded depressed>
             <span class="text-capitalize"
               >Record Intro <span class="text-uppercase">Video</span></span
             ></v-btn

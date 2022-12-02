@@ -1,16 +1,54 @@
 <template>
   <div>
+    <v-navigation-drawer
+      v-if="$vuetify.breakpoint.mobile"
+      v-model="drawer"
+      :clipped="true"
+      fixed
+      app
+    >
+      <v-list>
+        <v-list-item-group
+          v-for="(item, i) in menuBtn"
+          :key="`menu-items-${i}`"
+        >
+          <v-list-item :to="item ? item.to : ''" router exact>
+            <v-list-item-content>
+              <v-list-item-title v-text="item && item.name" />
+            </v-list-item-content>
+          </v-list-item>
+        </v-list-item-group>
+      </v-list>
+
+      <div>
+        <LayoutLoginMenu v-if="AuthID" />
+        <AuthSignIn v-else class="ma-2" />
+      </div>
+
+      <AuthRegister class="ma-2" />
+
+      <template v-if="AuthID" v-slot:append>
+        <div class="pa-2">
+          <v-btn depressed color="error" block> Logout </v-btn>
+        </div>
+      </template>
+    </v-navigation-drawer>
     <v-system-bar color="#cccccc" window>
-      <v-container class="pa-0">
-        <div class="d-flex justify-space-between align-center">
+      <v-container class="pa-0 custom_wd_container">
+        <div
+          v-if="!$vuetify.breakpoint.mobile"
+          class="d-flex justify-space-between align-center"
+        >
           <div class="call_to_actions d-flex align-center">
             <div class="phone">
-              <v-icon color="primary" icon="mdi-phone"></v-icon>
-              <span class="ml-2">123-456-789</span>
+              <v-icon color="primary">mdi-phone</v-icon>
+              <a href="tel:123-456-789">
+                <span class="ml-2">123-456-789</span>
+              </a>
             </div>
 
             <div class="email ml-5">
-              <v-icon color="primary" icon="mdi-email"></v-icon>
+              <v-icon color="primary">mdi-email</v-icon>
               <a href="mailto:info@cvvlogs.com">
                 <span class="ml-2">info@cvvlogs.com</span>
               </a>
@@ -19,113 +57,149 @@
         </div>
       </v-container>
     </v-system-bar>
-    <v-app-bar elevation="0" color="white" class="tw-w-full">
-      <v-container class="pa-0 tw-h-full">
-        <div class="d-flex justify-space-between align-center tw-h-full">
+    <v-app-bar elevation="0" color="white">
+      <v-container class="custom_wd_container pa-0 tw-h-full">
+        <div
+          class="d-flex align-center tw-h-full"
+          v-if="$vuetify.breakpoint.mobile"
+        >
+          <v-app-bar-nav-icon color="primary" @click.stop="drawer = !drawer" />
+
           <NuxtLink to="/">
-            <nuxt-img
-              format="webp"
-              loading="lazy"
+            <v-img
               class="mr-10"
-              fit="contain"
+              contain
               width="200"
-              src="./img/logo.png"
+              src="/img/logo.png"
+              lazy-src="/img/logo.png"
             />
           </NuxtLink>
-          <!-- selected-class="btn__active__class" -->
+        </div>
+
+        <div v-else class="d-flex justify-space-between align-center tw-h-full">
+          <NuxtLink to="/">
+            <v-img
+              class="mr-10"
+              contain
+              width="200"
+              src="/img/logo.png"
+              lazy-src="/img/logo.png"
+            />
+          </NuxtLink>
+
           <div class="tw-h-full">
             <v-btn
-              selected-class="btn__active__class"
-              variant="flat"
+              v-for="(btn, index) in menuBtn"
+              :key="index"
               height="100%"
-              value="left"
-              rounded="0"
-              to="/"
+              active-class="btn__active__class"
+              plain
+              :to="btn ? btn.to : ''"
             >
-              Home
-            </v-btn>
-
-            <v-btn
-              selected-class="btn__active__class"
-              height="100%"
-              rounded="0"
-            >
-              About Us
-            </v-btn>
-
-            <v-btn
-              selected-class="btn__active__class"
-              to="/jobs"
-              height="100%"
-              rounded="0"
-            >
-              Jobs
-            </v-btn>
-
-            <v-btn
-              selected-class="btn__active__class"
-              height="100%"
-              rounded="0"
-            >
-              How It Works
-            </v-btn>
-
-            <v-btn
-              selected-class="btn__active__class"
-              height="100%"
-              rounded="0"
-            >
-              Packages
-            </v-btn>
-
-            <v-btn
-              selected-class="btn__active__class"
-              height="100%"
-              rounded="0"
-            >
-              Contact Us
+              <span v-if="btn">{{ btn.name }}</span>
             </v-btn>
           </div>
 
-          <v-spacer></v-spacer>
-
           <div class="mx-2 tw-h-full d-flex align-center justify-center">
             <v-btn
+              v-if="AuthID"
               to="/upload-resume"
               color="red"
               height="35"
-              rounded="xl"
-              variant="flat"
+              rounded
+              depressed
+              dark
             >
               <span class="text-capitalize">Upload Resume</span>
-              <v-icon
-                size="x-large"
-                class="ml-2"
-                icon="mdi-arrow-up-thin-circle-outline"
-              ></v-icon>
+              <v-icon size="large" class="ml-2">
+                mdi-arrow-up-thin-circle-outline</v-icon
+              >
             </v-btn>
 
-            <AuthSignIn class="ml-2" />
+            <div>
+              <LayoutLoginMenu class="mx-2" v-if="AuthID" />
+              <AuthSignIn v-else class="ml-2" />
+            </div>
 
-            <AuthRegister class="ml-2" />
+            <AuthRegister v-if="!AuthID" class="ml-2" />
+            <!-- <v-btn
+              v-if="!AuthID"
+              class="ml-2"
+              color="primary"
+              height="35"
+              width="110"
+              to="/register"
+              rounded
+              depressed
+            >
+              Register
+            </v-btn> -->
           </div>
         </div>
       </v-container>
     </v-app-bar>
-    <v-app-bar height="10" color="secondary"></v-app-bar>
+    <v-app-bar elevation="0" height="10" color="secondary"></v-app-bar>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      drawer: false,
+      menuBtn: [
+        {
+          name: "Home",
+          to: "/",
+          class: "",
+        },
+        {
+          name: "About Us",
+          to: "/about-us",
+          class: "",
+        },
+        {
+          name: "Jobs",
+          to: "/jobs",
+          class: "",
+        },
+        {
+          name: "How It Works",
+          to: "/how-it-works",
+          class: "",
+        },
+
+        {
+          name: "Contact Us",
+          to: "/contact-us",
+          class: "",
+        },
+        ,
+      ],
+    };
+  },
+  computed: {
+    AuthID() {
+      if (this.$store.getters["auth/get_authId"]) return true;
+    },
+  },
+};
 </script>
 
-<style>
-.v-toolbar {
-  width: 100% !important;
+<style lang="scss">
+.v-toolbar__content {
+  /* width: 100% !important; */
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 .btn__active__class {
   background: #ff9900 !important;
+  color: white !important;
+  border-radius: 0;
+
+  span {
+    color: white !important;
+  }
 }
 </style>
