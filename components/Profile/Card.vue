@@ -127,8 +127,8 @@
               class="tw-rounded-lg pa-5"
               position="center"
               cover
-              :lazy-src="userData.profile_picture"
-              :src="userData.profile_picture"
+              :lazy-src="userData.profile_picture || '/img/homeProfileImg.png'"
+              :src="userData.profile_picture || '/img/homeProfileImg.png'"
             />
           </v-col>
         </v-row>

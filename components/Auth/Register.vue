@@ -65,6 +65,7 @@
                   hide-details
                   :readonly="loading"
                   :rules="[required]"
+                  v-model="registerData.email"
                   class="mb-2"
                   type="email"
                   solo
@@ -73,7 +74,7 @@
                 ></v-text-field>
 
                 <v-text-field
-                  v-model="password"
+                  v-model="registerData.password"
                   hide-details
                   type="password"
                   class=""
@@ -103,6 +104,7 @@
                   :rules="[required]"
                   class="mb-2"
                   hide-spin-buttons
+                  v-model="registerData.number"
                   solo
                   type="number"
                   placeholder="Phone"
@@ -116,6 +118,7 @@
                   solo
                   type="password"
                   :rules="[required]"
+                  v-model="registerData.confirmPassword"
                   placeholder="Confirm Password"
                   density="comfortable"
                 ></v-text-field>
@@ -165,6 +168,7 @@ export default {
       last_name: null,
       email: null,
       password: null,
+      confirmPassword: null,
       number: null,
     },
     dialog: false,
@@ -181,10 +185,7 @@ export default {
       this.loading = true;
 
       this.$api.authService
-        .signUp({
-          username: this.email,
-          password: this.password,
-        })
+        .signUp(this.registerData)
         .then((resp) => {
           if (resp.data) {
             this.dialog = false;
