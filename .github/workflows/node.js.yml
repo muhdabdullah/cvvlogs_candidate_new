@@ -29,7 +29,6 @@ jobs:
         port: 22
         script: |
           cd /var/www/html/cvvlogs-demo/cvvlogs_candidate_new
-          npm install --only=prod
           git pull origin main
           git status
           npm run generate
