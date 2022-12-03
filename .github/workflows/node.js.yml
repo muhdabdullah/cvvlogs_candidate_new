@@ -31,6 +31,6 @@ jobs:
         script: |
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-        cd /var/www/html/cvvlogs-demo/
-        git pull origin master
+    - run: cd /var/www/html/cvvlogs-demo/
+    - run: git pull origin master
     - run: npm start generate
