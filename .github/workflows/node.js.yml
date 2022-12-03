@@ -13,6 +13,11 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        node-version: [16.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
     - name: Deploy using ssh
@@ -24,6 +29,7 @@ jobs:
         port: 22
         script: |
           cd /var/www/html/cvvlogs-demo/cvvlogs_candidate_new
+          npm install --only=prod
           git pull origin main
           git status
           npm run generate
