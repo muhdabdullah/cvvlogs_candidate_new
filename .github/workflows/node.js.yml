@@ -24,8 +24,13 @@ jobs:
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
+        host: 3.19.246.147
+        username: ubuntu
+        key: ${{ secrets.OMG_SECRET }}
+        port: 22
+        script: |
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - run: npm ci
-    - run: npm run build --if-present
-    - run: npm test
+        cd /var/www/html/cvvlogs-demo/
+        git pull origin master
+    - run: npm start generate
