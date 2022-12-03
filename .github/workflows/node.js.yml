@@ -1,36 +1,29 @@
-# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+name: Node CI
 
-name: Node.js CI
-
-on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+on: [push]
 
 jobs:
   build:
 
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [16.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
     steps:
-    - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
+    - uses: actions/checkout@v1
+    - name: Install Node.js
+      uses: actions/setup-node@v1
       with:
-        host: 3.19.246.147
-        username: ubuntu
-        key: ${{ secrets.OMG_SECRET }}
-        port: 22
-        script: |
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - run: cd /var/www/html/cvvlogs-demo/
-    - run: git pull origin master
-    - run: npm start generate
+        node-version: '10.x'
+    - name: Install npm dependencies
+      run: npm install
+    - name: Run build task
+      run: npm run build --if-present
+    - name: Deploy to Server
+      uses: easingthemes/ssh-deploy@main
+      env:
+          SSH_PRIVATE_KEY: ${{ secrets.OMG_SECRET }}
+          ARGS: "-rltgoDzvO --delete"
+          SOURCE: "dist/"
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          TARGET: ${{ secrets.REMOTE_TARGET }}
+          EXCLUDE: "/dist/, /node_modules/"
