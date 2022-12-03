@@ -23,7 +23,7 @@ jobs:
         key: ${{ secrets.OMG_SECRET }}
         port: 22
         script: |
-          cd /var/www/html/cvvlogs-demo
+          cd /var/www/html/cvvlogs-demo/cvvlogs_candidate_new
           git pull origin main
           git status
           npm install --only=prod
