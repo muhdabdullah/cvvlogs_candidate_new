@@ -4,7 +4,7 @@
     <div class="ma-16 d-flex">
       <div>
         <div class="borderVerticalLine d-flex align-center">
-          <h1 class="tw-text-5xl tw-font-bold ml-5">About UsS</h1>
+          <h1 class="tw-text-5xl tw-font-bold ml-5">About Us</h1>
         </div>
         <div>
           <p class="tw-text-lg tw-leading-8">
