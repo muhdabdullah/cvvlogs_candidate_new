@@ -26,5 +26,4 @@ jobs:
           cd /var/www/html/cvvlogs-demo/cvvlogs_candidate_new
           git pull origin main
           git status
-          npm install --only=prod
-          pm2 restart node1
+          npm run generate
