@@ -351,7 +351,7 @@
 }
 
 .borderVerticalLine {
-  border-left: 12px solid #ff9900;
+  border-left: 12px solid #4c2e8b;
   height: 71px;
 }
 
