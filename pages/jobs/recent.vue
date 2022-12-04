@@ -1,13 +1,13 @@
 <template>
   <section>
-    <LayoutMainPageHeader />
+    <!-- <LayoutMainPageHeader class="tw-z-20" /> -->
 
     <!-- Recent Jobs -->
     <JobsRecent :compactView="false" />
   </section>
 </template>
-  
-  <script>
+
+<script>
 export default {
   data() {
     return {
@@ -55,7 +55,3 @@ export default {
   },
 };
 </script>
-  
-  <style>
-</style>
-  

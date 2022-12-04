@@ -34,12 +34,7 @@
                   color="secondary"
                 >
                   <span
-                    class="
-                      tw-text-base
-                      max-sm:tw-text-sm
-                      font-weight-light
-                      text-capitalize
-                    "
+                    class="tw-text-base max-sm:tw-text-sm font-weight-light text-capitalize"
                   >
                     View All
                   </span>
@@ -56,13 +51,7 @@
                 <v-card
                   elevation="10"
                   rounded="lg"
-                  class="
-                    d-flex
-                    align-center
-                    justify-start
-                    pa-4
-                    tw-cursor-pointer
-                  "
+                  class="d-flex align-center justify-start pa-4 tw-cursor-pointer"
                 >
                   <v-img
                     max-width="50"
@@ -89,146 +78,6 @@
             />
           </section>
 
-        
-            <v-card
-              class="mx-auto"
-              rounded="xl"
-              height="622"
-              max-width="1180"
-              flat
-            >
-              <v-card-text
-                class="py-5 tw-h-full tw-overflow-auto tw-p-10 sm:tw-p-10"
-              >
-                <v-row align="center" no-gutters>
-                  <v-col>
-                    <div class="borderVerticalLine d-flex align-center">
-                      <h3
-                        class="tw-text-5xl tw-font-bold ml-5"
-                        style="color: #282828"
-                      >
-                        Recent Jobs
-                      </h3>
-                    </div>
-                  </v-col>
-
-                  <v-col align="end" class="jobTabs">
-                    <v-tabs
-                      light
-                      center-active
-                      class="d-flex justify-end tabsCustom"
-                      color="#4c2e8b"
-                    >
-                      <v-tab class="text-capitalize">Featured</v-tab>
-                      <v-tab class="text-capitalize">Remotely</v-tab>
-                      <v-tab class="text-capitalize">Part Time</v-tab>
-                      <v-tab class="text-capitalize">Full Time</v-tab>
-                    </v-tabs>
-                  </v-col>
-                </v-row>
-
-                <div class="d-flex flex-column">
-                  <v-card
-                    outlined
-                    rounded="lg"
-                    v-for="(job, index) in job_applications"
-                    :key="`job__${index}`"
-                    class="
-                      d-flex
-                      align-center
-                      flex-wrap
-                      justify-space-between
-                      py-2
-                      my-2
-                      pa-4
-                      tw-cursor-pointer
-                    "
-                  >
-                    <div class="d-flex flex-wrap align-center pa-1">
-                      <v-img
-                        contain
-                        width="120"
-                        height="120"
-                        position="left"
-                        :src="job.img"
-                        class="tw-min-w-32"
-                      />
-
-                      <div class="d-flex flex-column align-start mx-5">
-                        <h3 class="tw-text-lg tw-font-bold">
-                          {{ job.title }}
-                        </h3>
-                        <h4 class="tw-text-sm primary--text tw-font-medium">
-                          {{ job.organization }}
-                        </h4>
-                        <div
-                          class="
-                            d-flex
-                            align-center
-                            tw-text-sm tw-font-semibold
-                            my-1
-                          "
-                        >
-                          <span>{{ job.salary }}</span>
-                          <span class="mx-2">|</span>
-                          <span>
-                            {{ job.address }}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="d-flex pa-1">
-                      <div
-                        class="mr-4 mt-1 d-flex justify-center align-center"
-                        style="
-                          width: 35px;
-                          border: 1px solid #ede3e3;
-                          height: 31px;
-                          border-radius: 4px;
-                        "
-                      >
-                        <span>
-                          <v-icon aria-hidden="false" color="#4c2e8b">
-                            mdi-heart
-                          </v-icon>
-                        </span>
-                      </div>
-                      <div class="d-flex flex-column">
-                        <span class="tw-text-sm">
-                          <v-btn depressed width="120" color="secondary">
-                            <span
-                              class="text-capitalize tw-font-medium black--text"
-                              >View Jobs</span
-                            ></v-btn
-                          >
-                        </span>
-
-                        <span class="text-capitalize tw-text-sm mt-3">
-                          <v-btn depressed width="120" color="primary"
-                            ><span class="text-capitalize tw-font-light"
-                              >Apply Now</span
-                            ></v-btn
-                          >
-                        </span>
-                      </div>
-                    </div>
-                  </v-card>
-                </div>
-              </v-card-text>
-            </v-card>
-            <div class="d-flex justify-center mt-6">
-              <v-btn
-                class="tw-text-lg text-capitalize tw-font-bold"
-                width="180"
-                height="50"
-                depressed
-                color="secondary"
-                >Explore More Jobs</v-btn
-              >
-            </div>
-          </section>
-
           <!-- Recent Jobs -->
           <JobsRecent />
 
@@ -241,14 +90,7 @@
                 src="img/homeAddResume.png"
               />
               <div
-                class="
-                  d-flex
-                  justify-space-around
-                  align-center
-                  tw-absolute tw-top-0 tw-w-full tw-h-full tw-text-3xl
-                  white--text
-                  tw-font-bold
-                "
+                class="d-flex justify-space-around align-center tw-absolute tw-top-0 tw-w-full tw-h-full tw-text-3xl white--text tw-font-bold"
               >
                 <span class="tw-leading-relaxed"
                   >Get the best Teaching jobon your Email.<br />Add Resume
@@ -284,37 +126,16 @@
                 src="img/homeJoinCompanyImg.png"
               />
               <div
-                class="
-                  tw-absolute tw-top-0 tw-w-full tw-h-full
-                  d-flex
-                  flex-column
-                  justify-center
-                  align-center
-                "
+                class="tw-absolute tw-top-0 tw-w-full tw-h-full d-flex flex-column justify-center align-center"
               >
                 <h1
-                  class="
-                    md:tw-text-6xl
-                    tw-text-base
-                    text-center
-                    white--text
-                    tw-font-bold
-                    px-16
-                    py-10
-                  "
+                  class="md:tw-text-6xl tw-text-base text-center white--text tw-font-bold px-16 py-10"
                 >
                   Join Thousands of Companies <br />
                   That Rely on Us!
                 </h1>
                 <h1
-                  class="
-                    tw-text-3xl tw-max-w-6xl
-                    text-center
-                    white--text
-                    tw-font-normal
-                    px-16
-                    py-10
-                  "
+                  class="tw-text-3xl tw-max-w-6xl text-center white--text tw-font-normal px-16 py-10"
                 >
                   We offers a way to completely optimize your entire recruiting
                   process. Find better candidatess. Find better candidates,
