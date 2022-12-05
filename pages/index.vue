@@ -13,9 +13,10 @@
         </section>
 
         <div v-else>
-          <section class="mt-5">
+          <!-- Hide as per requirement -->
+          <!-- <section class="mt-5">
             <v-img contain class="" width="100%" src="img/homeCircleImg.png" />
-          </section>
+          </section> -->
 
           <section class="mt-10 container">
             <v-row align="center" no-gutters>
@@ -34,7 +35,12 @@
                   color="secondary"
                 >
                   <span
-                    class="tw-text-base max-sm:tw-text-sm font-weight-light text-capitalize"
+                    class="
+                      tw-text-base
+                      max-sm:tw-text-sm
+                      font-weight-light
+                      text-capitalize
+                    "
                   >
                     View All
                   </span>
@@ -51,7 +57,13 @@
                 <v-card
                   elevation="10"
                   rounded="lg"
-                  class="d-flex align-center justify-start pa-4 tw-cursor-pointer"
+                  class="
+                    d-flex
+                    align-center
+                    justify-start
+                    pa-4
+                    tw-cursor-pointer
+                  "
                 >
                   <v-img
                     max-width="50"
@@ -69,19 +81,12 @@
               </v-col>
             </v-row>
           </section>
-          <section class="mt-15">
-            <v-img
-              contain
-              width="100%"
-              src="img/home_banner.png"
-              lazy-src="img/home_banner.png"
-            />
-          </section>
 
           <!-- Recent Jobs -->
           <JobsRecent />
 
-          <section class="mt-15">
+          <!-- Add Resume Section - Hide as instructed. -->
+          <!-- <section class="mt-15">
             <div class="tw-relative">
               <v-img
                 class="page__div"
@@ -90,7 +95,14 @@
                 src="img/homeAddResume.png"
               />
               <div
-                class="d-flex justify-space-around align-center tw-absolute tw-top-0 tw-w-full tw-h-full tw-text-3xl white--text tw-font-bold"
+                class="
+                  d-flex
+                  justify-space-around
+                  align-center
+                  tw-absolute tw-top-0 tw-w-full tw-h-full tw-text-3xl
+                  white--text
+                  tw-font-bold
+                "
               >
                 <span class="tw-leading-relaxed"
                   >Get the best Teaching jobon your Email.<br />Add Resume
@@ -111,7 +123,7 @@
                 </span>
               </div>
             </div>
-          </section>
+          </section> -->
 
           <BlogWidget />
 
@@ -126,16 +138,37 @@
                 src="img/homeJoinCompanyImg.png"
               />
               <div
-                class="tw-absolute tw-top-0 tw-w-full tw-h-full d-flex flex-column justify-center align-center"
+                class="
+                  tw-absolute tw-top-0 tw-w-full tw-h-full
+                  d-flex
+                  flex-column
+                  justify-center
+                  align-center
+                "
               >
                 <h1
-                  class="md:tw-text-6xl tw-text-base text-center white--text tw-font-bold px-16 py-10"
+                  class="
+                    md:tw-text-6xl
+                    tw-text-base
+                    text-center
+                    white--text
+                    tw-font-bold
+                    px-16
+                    py-10
+                  "
                 >
                   Join Thousands of Companies <br />
                   That Rely on Us!
                 </h1>
                 <h1
-                  class="tw-text-3xl tw-max-w-6xl text-center white--text tw-font-normal px-16 py-10"
+                  class="
+                    tw-text-3xl tw-max-w-6xl
+                    text-center
+                    white--text
+                    tw-font-normal
+                    px-16
+                    py-10
+                  "
                 >
                   We offers a way to completely optimize your entire recruiting
                   process. Find better candidatess. Find better candidates,
@@ -154,6 +187,15 @@
                 >
               </div>
             </header>
+          </section>
+
+          <section class="mt-15">
+            <v-img
+              contain
+              width="100%"
+              src="img/notification_app.png"
+              lazy-src="img/notification_app.png"
+            />
           </section>
         </div>
       </v-col>

@@ -17,9 +17,9 @@
             mt-16
           "
         >
-          <p style="color: #f6a017" class="tw-font-bold tw-text-2xl">
+          <!-- <p class="tw-font-bold tw-text-2xl secondary--text">
             We are trusted in our community
-          </p>
+          </p> -->
           <h1
             style="font-size: 68px"
             class="
@@ -37,7 +37,8 @@
           <div>
             <v-img contain lazy-src="img/rthImg.png" src="img/rthImg.png" />
           </div>
-          <div class="d-flex">
+          <!-- Social Media Ratings -->
+          <!-- <div class="d-flex">
             <v-img
               v-for="n in 3"
               :key="n"
@@ -45,7 +46,7 @@
               :lazy-src="'img/ratting' + n + '.png'"
               :src="'img/ratting' + n + '.png'"
             />
-          </div>
+          </div> -->
         </div>
       </div>
     </section>
@@ -89,7 +90,7 @@
           </v-card>
         </div>
         <!-- </v-row> -->
-        <v-btn
+        <!-- <v-btn
           class="text-capitalize"
           color="secondary"
           height="64"
@@ -99,7 +100,7 @@
           width="224"
         >
           Registered Now</v-btn
-        >
+        > -->
       </div>
     </section>
   </div>
@@ -117,6 +118,8 @@ export default {
 
 <style lang="scss">
 .cardsTop {
-  margin-top: -200px;
+  // margin-top: -200px;
+  position: relative;
+  bottom: 370px;
 }
 </style>

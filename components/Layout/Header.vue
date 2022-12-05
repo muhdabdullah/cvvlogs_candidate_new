@@ -122,6 +122,24 @@
             </div>
 
             <AuthRegister v-if="!AuthID" class="ml-2" />
+
+            <v-btn
+              class="ml-2"
+              color="primary"
+              text
+              height="100%"
+              tile
+              target="_blank"
+              href="https://recruiter.cvvlogs.com/"
+            >
+              <div class="d-flex flex-column">
+                <span class="tw-font-bold text-capitalize">For Recruiters</span>
+                <span class="tw-text-xs text-lowercase"
+                  >(recruiter can login/register here)</span
+                >
+              </div>
+            </v-btn>
+
             <!-- <v-btn
               v-if="!AuthID"
               class="ml-2"
