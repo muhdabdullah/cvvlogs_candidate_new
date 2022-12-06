@@ -27,9 +27,17 @@
           </v-col>
         </v-row>
         <v-row dense>
-          <v-col cols="3">
+          <v-col
+            v-if="filter_data.industries.length && filter_data.state.length"
+            cols="3"
+          >
             <!-- Job Filter -->
-            <v-card outlined class="my-2" flat>
+            <v-card
+              v-if="filter_data && filter_data.industries"
+              outlined
+              class="my-2"
+              flat
+            >
               <div
                 class="
                   text-center
@@ -73,7 +81,12 @@
             </v-card>
 
             <!-- Location Filter -->
-            <v-card outlined class="my-2" flat>
+            <v-card
+              v-if="filter_data && filter_data.state"
+              outlined
+              class="my-2"
+              flat
+            >
               <div
                 class="
                   text-center
@@ -143,7 +156,13 @@
             </v-card>
           </v-col>
 
-          <v-col class="tw-overflow-auto" :class="'max__height'" :cols="9">
+          <v-col
+            class="tw-overflow-auto"
+            :class="'max__height'"
+            :cols="
+              filter_data.industries.length && filter_data.state.length ? 9 : 12
+            "
+          >
             <section>
               <div v-if="!slicedJobsArray.length">
                 <v-skeleton-loader

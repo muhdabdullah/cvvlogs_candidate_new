@@ -34,7 +34,7 @@
         </v-row>
 
         <div
-          v-for="(job, index) in job_applications"
+          v-for="(job, index) in this.$store.getters['getRecentJobs']"
           :key="`job__${index}`"
           class="d-flex flex-column"
         >
@@ -71,14 +71,14 @@
                     {{ job.title }}
                   </h3>
                   <h4 class="tw-text-sm primary--text tw-font-bold">
-                    {{ job.organization }}
+                    {{ job.rec }}
                   </h4>
                   <div class="d-flex align-center tw-text-sm tw-font-bold my-1">
-                    <span>{{ job.salary }}</span>
-                    <span class="mx-2">|</span>
-                    <span>
-                      {{ job.address }}
-                    </span>
+                    <!-- <span>{{ job.salary }}</span>
+                    <span class="mx-2">|</span> -->
+                    <span v-if="job.city"> {{ job.city }}, </span>
+                    <span v-if="job.state"> &nbsp;{{ job.state }}, </span>
+                    <span v-if="job.country"> &nbsp;{{ job.country }} </span>
                   </div>
                 </div>
               </div>

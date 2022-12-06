@@ -49,6 +49,8 @@ export default {
             "set_jobs_by_industry",
             response.data.jobs_by_industry
           );
+
+          this.$store.dispatch("setRecentJobs", response.data.recent_jobs);
         }
       });
     },
