@@ -68,14 +68,14 @@
                 "
               >
                 <div class="d-flex flex-wrap align-center pa-1 text-capitalize">
-                  <v-img
+                  <!-- <v-img
                     contain
                     width="120"
                     height="120"
                     position="left"
                     src="img/Job_app_2.png"
                     class="tw-min-w-32"
-                  />
+                  /> -->
 
                   <div class="d-flex flex-column align-start mx-5">
                     <h3
@@ -105,7 +105,7 @@
                         my-1
                       "
                     >
-                      <span>{{ job.func }}</span>
+                      <span>{{ job.func || "Developer" }}</span>
                       <span class="mx-2">|</span>
                       <span v-if="job.city"> {{ job.city }}, </span>
                       <span v-if="job.state"> &nbsp;{{ job.state }}, </span>

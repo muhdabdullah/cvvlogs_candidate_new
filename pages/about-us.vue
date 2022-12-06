@@ -11,50 +11,36 @@
           <div class="d-flex">
             <div>
               <p class="tw-text-lg tw-leading-8">
-                Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-                accusantium doloremque laudantium, totam rem aperiam, eaque ipsa
-                quae ab illo inventore veritatis et quasi architecto beatae
-                vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia
-                voluptas sit aspernatur aut odit aut fugit, sed quia
-                consequuntur magni dolores eos qui ratione. Voluptatem sequi
-                nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor
-                sit amet, consectetur, adipisci velit, sed quia non numquam eius
-                modi tempora incidunt ut labore et dolore magnam aliquam quaerat
-                voluptatem. Ut enim ad minima veniam, quis nostrum
-                exercitationem ullam corporis suscipit laboriosam, nisi ut
-                aliquid ex ea commodi consequatur? Quis autem vel eum iure
-                reprehenderit qui in ea voluptate velit esse quam nihil
-                molestiae consequatur, vel illum qui dolorem eum fugiat quo
-                voluptas nulla pariatur.
+                Welcome to cvvlogs, a new era of recruitment, Job search and
+                recruitment is often a time consuming and stressful experience,
+                to solve this issue we have developed the world’s first
+                dedicated video resume platform. In a rapidly changing
+                environment, standing out in the crowd is difficult, and so we
+                created this unique portal. cvvlogs is the first and only online
+                dedicated video resume platform where job seekers can upload a
+                video resume to showcase their personalities and communication
+                skills to get noticed by recruiters and get hired to pursue
+                their dream careers.
               </p>
               <p class="tw-text-lg tw-leading-8">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis
-                ipsum suspendisse ultrices gravida. Risus commodo viverra
-                maecenas accumsan lacus vel facilisis.
+                This unique platform allows the job seekers to show their
+                personality and strengths on camera rather than being judged by
+                a written resume.
+              </p>
+
+              <p class="tw-text-lg tw-leading-8">
+                Our platform also makes it easier for recruiters to browse
+                through our extensive video library of candidates to save time
+                and find quality applicants by viewing, shortlisting and hiring
+                them with ease and efficiency. So if you are to ready to
+                experience this new and efficient form of recruitment, then
+                please reach out to one of our team members to find out how we
+                can assist and support you.
               </p>
             </div>
             <div>
               <v-card min-width="587" height="483"></v-card>
             </div>
-          </div>
-          <div>
-            <p class="tw-text-lg tw-leading-8">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis
-              ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas
-              accumsan lacus vel facilisis.
-            </p>
-            <p class="tw-text-lg tw-leading-8">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis
-              ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas
-              accumsan lacus vel facilisis. Lorem ipsum dolor sit amet,
-              consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-              labore et dolore magna aliqua. Quis ipsum suspendisse ultrices
-              gravida. Risus commodo viverra maecenas accumsan lacus vel
-              facilisis.
-            </p>
           </div>
         </div>
       </div>
@@ -64,7 +50,14 @@
       <div class="tw-relative">
         <v-img class="page__div" width="100%" src="img/aboutUsImg.png" />
         <div
-          class="d-flex justify-space-around align-center tw-absolute tw-top-0 tw-w-full tw-h-full tw-text-3xl white--text tw-font-bold"
+          class="
+            d-flex
+            justify-space-around
+            align-center
+            tw-absolute tw-top-0 tw-w-full tw-h-full tw-text-3xl
+            white--text
+            tw-font-bold
+          "
         >
           <div
             class="text-center d-flex flex-column align-center"
@@ -120,7 +113,14 @@
             </div>
           </div>
           <div
-            class="d-flex flex-column align-end justify-end tw-text-justify pl-15"
+            class="
+              d-flex
+              flex-column
+              align-end
+              justify-end
+              tw-text-justify
+              pl-15
+            "
           >
             <p class="mt-7">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -152,29 +152,27 @@
             <v-img width="64" contain height="64" src="img/missionIcon.png" />
             <h1 class="tw-font-extrabold tw-text-5xl mt-4">Our Mission</h1>
             <p class="tw-text-lg mt-4 paraWidth">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis
-              ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas
-              accumsan lacus vel facilisis. ipsum dolor sit amet, consectetur
-              adipiscing elit, sed do eiusmod tempor
+              Our mission is to change the landscape of conventional recruitment
+              with this unique, dynamic and reliable video platform that allows
+              employers and candidates to connect globally with efficiency and
+              transparency.
             </p>
           </div>
           <div class="align-center card d-flex flex-column justify-center">
             <v-img width="64" height="64" src="img/visionIcon.png" />
             <h1 class="tw-font-extrabold tw-text-5xl mt-4">Our Vision</h1>
             <p class="tw-text-lg mt-4 paraWidth">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis
-              ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas
-              accumsan lacus vel facilisis. ipsum dolor sit amet, consectetur
-              adipiscing elit, sed do eiusmod tempor
+              Our mission is to change the landscape of conventional recruitment
+              with this unique, dynamic and reliable video platform that allows
+              employers and candidates to connect globally with efficiency and
+              transparency.
             </p>
           </div>
         </div>
       </div>
     </section>
 
-    <LayoutCustomerReview class="mb-15" />
+    <LayoutCustomerReview />
   </div>
 </template>
 

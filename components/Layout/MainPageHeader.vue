@@ -2,7 +2,7 @@
   <header>
     <div class="tw-relative">
       <v-img
-        class="img__gray"
+        class="img__gray page__header"
         style="width: 100%"
         src="img/dashboard.png"
         lazy-src="img/dashboard.png"
@@ -131,5 +131,11 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
+.page__header {
+  width: 100%;
+  height: 350px !important;
+  object-fit: cover;
+  object-position: top;
+}
 </style>

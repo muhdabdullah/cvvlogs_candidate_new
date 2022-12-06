@@ -18,73 +18,6 @@
             <v-img contain class="" width="100%" src="img/homeCircleImg.png" />
           </section> -->
 
-          <section class="mt-10 container">
-            <v-row align="center" no-gutters>
-              <v-col>
-                <h2 class="tw-text-4xl tw-font-bold" style="color: #282828">
-                  Jobs by Category
-                </h2>
-              </v-col>
-
-              <v-col align="end">
-                <v-btn
-                  to="/jobs"
-                  width="160"
-                  height="50"
-                  depressed
-                  color="secondary"
-                >
-                  <span
-                    class="
-                      tw-text-base
-                      max-sm:tw-text-sm
-                      font-weight-light
-                      text-capitalize
-                    "
-                  >
-                    View All
-                  </span>
-                </v-btn>
-              </v-col>
-            </v-row>
-            <v-row class="d-flex justify-lg-space-between">
-              <v-col
-                sm="3"
-                class=""
-                v-for="(job, index) in job_by_Industry"
-                :key="`job__${index}`"
-              >
-                <v-card
-                  elevation="10"
-                  rounded="lg"
-                  class="
-                    d-flex
-                    align-center
-                    justify-start
-                    pa-4
-                    tw-cursor-pointer
-                  "
-                >
-                  <v-img
-                    max-width="50"
-                    height="50"
-                    lazy-src="img/bankIcon.png"
-                    src="img/bankIcon.png"
-                    contain
-                    class="mr-2"
-                  />
-
-                  <h3 class="tw-text-sm tw-font-semibold">
-                    {{ job.name }} ({{ job.job_count }})
-                  </h3>
-                </v-card>
-              </v-col>
-            </v-row>
-          </section>
-
-          <!-- Recent Jobs -->
-          <JobsRecent />
-
           <!-- Add Resume Section - Hide as instructed. -->
           <!-- <section class="mt-15">
             <div class="tw-relative">
@@ -125,9 +58,107 @@
             </div>
           </section> -->
 
-          <BlogWidget />
+          <v-container class="custom_wd_container">
+            <section class="mt-10 container">
+              <v-row align="center" no-gutters>
+                <v-col>
+                  <h2 class="tw-text-4xl tw-font-bold" style="color: #282828">
+                    Jobs by Category
+                  </h2>
+                </v-col>
+
+                <v-col align="end">
+                  <v-btn
+                    to="/jobs"
+                    width="160"
+                    height="50"
+                    depressed
+                    color="secondary"
+                  >
+                    <span
+                      class="
+                        tw-text-base
+                        max-sm:tw-text-sm
+                        font-weight-light
+                        text-capitalize
+                      "
+                    >
+                      View All
+                    </span>
+                  </v-btn>
+                </v-col>
+              </v-row>
+              <v-row
+                v-if="job_by_Industry && job_by_Industry.length"
+                dense
+                class="d-flex justify-lg-space-between my-5"
+              >
+                <v-col
+                  sm="3"
+                  v-for="(job, index) in job_by_Industry"
+                  :key="`job__${index}`"
+                >
+                  <v-hover v-slot="{ hover }">
+                    <v-card
+                      :elevation="hover ? 12 : 5"
+                      :class="{ 'on-hover': hover }"
+                      color=""
+                      rounded="lg"
+                      height="60"
+                      class="
+                        gradient-btn
+                        d-flex
+                        align-center
+                        justify-start
+                        pa-4
+                        tw-cursor-pointer
+                      "
+                    >
+                      <!-- <v-img
+                    max-width="50"
+                    height="50"
+                    lazy-src="img/bankIcon.png"
+                    src="img/bankIcon.png"
+                    contain
+                    class="mr-2"
+                  /> -->
+
+                      <h3 class="tw-text-sm tw-font-semibold">
+                        {{ job.name }} ({{ job.job_count }})
+                      </h3>
+                    </v-card>
+                  </v-hover>
+                </v-col>
+              </v-row>
+
+              <v-row v-else dense class="d-flex justify-lg-space-between my-5">
+                <v-col v-for="i in 4" :key="`sekelton__${i}`">
+                  <v-skeleton-loader
+                    height="60"
+                    type="image"
+                  ></v-skeleton-loader>
+                </v-col>
+              </v-row>
+            </section>
+
+            <!-- Recent Jobs -->
+            <JobsRecent />
+
+            <BlogWidget />
+          </v-container>
 
           <LayoutCustomerReview />
+
+          <v-container class="custom_wd_container">
+            <section class="mt-15">
+              <v-img
+                contain
+                width="100%"
+                src="img/notification_app.png"
+                lazy-src="img/notification_app.png"
+              />
+            </section>
+          </v-container>
 
           <section class="mt-15">
             <header class="tw-relative">
@@ -188,15 +219,6 @@
               </div>
             </header>
           </section>
-
-          <section class="mt-15">
-            <v-img
-              contain
-              width="100%"
-              src="img/notification_app.png"
-              lazy-src="img/notification_app.png"
-            />
-          </section>
         </div>
       </v-col>
     </v-row>
@@ -234,24 +256,7 @@
 export default {
   data() {
     return {
-      job_by_Industry: [
-        {
-          img: "img/bankIcon.png",
-          title: "Banking",
-        },
-        {
-          img: "img/telemarketing.png",
-          title: "Telemarketing",
-        },
-        {
-          img: "img/education.png",
-          title: "Education",
-        },
-        {
-          img: "img/architect.png",
-          title: "Construction",
-        },
-      ],
+      job_by_Industry: [],
       job_applications: [
         {
           img: "img/Job_app_1.png",
@@ -300,3 +305,18 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+$primary: #5d378d;
+.v-card {
+  transition: opacity 0.4s ease-in-out;
+}
+
+.on-hover {
+  border: 3px solid $primary;
+}
+
+.v-card:not(.on-hover) {
+  // opacity: 0.6;
+}
+</style>
