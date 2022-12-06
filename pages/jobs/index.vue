@@ -12,7 +12,7 @@
             </div>
           </v-col>
 
-          <v-col align="end" class="jobTabs">
+          <v-col align="right" class="jobTabs">
             <v-tabs
               light
               center-active
@@ -28,7 +28,8 @@
         </v-row>
         <v-row dense>
           <v-col cols="3">
-            <v-card class="my-2" flat>
+            <!-- Job Filter -->
+            <v-card outlined class="my-2" flat>
               <div
                 class="
                   text-center
@@ -41,9 +42,102 @@
                 Job Title
               </div>
               <v-card-text>
-                <div class="d-flex justify-space-between align-center">
-                  <v-checkbox :label="`Accounts`"></v-checkbox>
-                  <span>15</span>
+                <div
+                  v-for="(job, index) in filter_data.slicedIndustry"
+                  :key="index"
+                  class="d-flex align-center justify-space-between"
+                >
+                  <v-checkbox
+                    :label="job.name"
+                    hide-details
+                    color="primary"
+                    class="my-1 black--text"
+                  ></v-checkbox>
+                </div>
+                <v-btn
+                  v-if="
+                    !(
+                      filter_data.industries.length ===
+                      filter_data.slicedIndustry.length
+                    )
+                  "
+                  @click.prevent="explore_more_filter('industry')"
+                  text
+                  color="primary"
+                  block
+                  ><span class="text-capitalize tw-text-xl tw-font-bold"
+                    >Explore More</span
+                  ></v-btn
+                >
+              </v-card-text>
+            </v-card>
+
+            <!-- Location Filter -->
+            <v-card outlined class="my-2" flat>
+              <div
+                class="
+                  text-center
+                  secondary
+                  pa-3
+                  white--text
+                  tw-text-xl tw-font-semibold
+                "
+              >
+                Location
+              </div>
+              <v-card-text>
+                <div
+                  v-for="(location, index) in filter_data.slicedLocation"
+                  :key="index"
+                  class="d-flex align-center justify-space-between"
+                >
+                  <v-checkbox
+                    :label="location.state_name"
+                    hide-details
+                    color="primary"
+                    class="my-1 black--text"
+                  ></v-checkbox>
+                </div>
+                <v-btn
+                  v-if="
+                    !(
+                      filter_data.state.length ===
+                      filter_data.slicedLocation.length
+                    )
+                  "
+                  @click.prevent="explore_more_filter('location')"
+                  text
+                  color="primary"
+                  block
+                  ><span class="text-capitalize tw-text-xl tw-font-bold"
+                    >Explore More</span
+                  ></v-btn
+                >
+              </v-card-text>
+            </v-card>
+
+            <!-- Salary Filter -->
+            <v-card outlined class="my-2" flat>
+              <div
+                class="
+                  text-center
+                  secondary
+                  pa-3
+                  white--text
+                  tw-text-xl tw-font-semibold
+                "
+              >
+                Salary
+              </div>
+              <v-card-text>
+                <v-range-slider
+                  :max="salary_range.max"
+                  :min="salary_range.min"
+                  v-model="salary_range.value"
+                  hide-details
+                ></v-range-slider>
+                <div class="tw-font-medium tw-text-lg black--text">
+                  {{ salary_range.min }}$ - {{ salary_range.max }}$
                 </div>
               </v-card-text>
             </v-card>
@@ -51,11 +145,22 @@
 
           <v-col class="tw-overflow-auto" :class="'max__height'" :cols="9">
             <section>
+              <div v-if="!slicedJobsArray.length">
+                <v-skeleton-loader
+                  v-for="i in 3"
+                  :key="i"
+                  height="100"
+                  type="card"
+                  class="py-2 my-2 pa-4"
+                ></v-skeleton-loader>
+              </div>
+
               <v-card
+                v-else
                 outlined
                 rounded="lg"
                 v-for="(job, index) in slicedJobsArray"
-                :key="`job__${index}`"
+                :key="`job__${index}__${job.id}`"
                 class="
                   d-flex
                   align-center
@@ -175,6 +280,21 @@
 export default {
   data() {
     return {
+      exploreMoreOptions: {
+        industryLength: 5,
+        locationLength: 5,
+      },
+      filter_data: {
+        state: [],
+        industries: [],
+        slicedIndustry: [],
+        slicedLocation: [],
+      },
+      salary_range: {
+        min: 100,
+        max: 1000,
+        value: [20, 400],
+      },
       slicedJobsArray: [],
       jobs_length: 5,
       recentJobs: [],
@@ -210,15 +330,44 @@ export default {
     };
   },
   created() {
-    if (this.AuthID) this.get_job_data();
-    else this.get_offline_dashboard();
+    if (this.AuthID) {
+      this.get_job_data();
+
+      // Get Filter Data
+      this.search_data_get();
+    } else this.get_offline_dashboard();
   },
   computed: {
     AuthID() {
       if (this.$store.getters["auth/get_authId"]) return true;
     },
+    job_categories() {
+      if (this.$store.getters["get_jobs_by_industry"]) {
+        return this.$store.getters["get_jobs_by_industry"];
+      }
+      return [];
+    },
   },
   methods: {
+    search_data_get() {
+      this.$api.jobService.search_data_get().then((response) => {
+        this.filter_data = {
+          ...response.data,
+          slicedIndustry: [
+            ...response.data.industries.slice(
+              0,
+              this.exploreMoreOptions.industryLength
+            ),
+          ],
+          slicedLocation: [
+            ...response.data.state.slice(
+              0,
+              this.exploreMoreOptions.locationLength
+            ),
+          ],
+        };
+      });
+    },
     get_offline_dashboard() {
       this.$api.jobService.get_offline_dashboard().then((response) => {
         this.recentJobs = [...response.data.recent_jobs];
@@ -231,14 +380,36 @@ export default {
         this.slicedJobsArray = [...this.recentJobs.slice(0, this.jobs_length)];
       });
     },
+    explore_more_filter(filter_name) {
+      if (filter_name == "industry") {
+        this.exploreMoreOptions.industryLength += 3;
+        this.filter_data.slicedIndustry = [
+          ...this.filter_data.industries.slice(
+            0,
+            this.exploreMoreOptions.industryLength
+          ),
+        ];
+      } else if (filter_name == "location") {
+        this.exploreMoreOptions.locationLength += 3;
+        this.filter_data.slicedLocation = [
+          ...this.filter_data.state.slice(
+            0,
+            this.exploreMoreOptions.locationLength
+          ),
+        ];
+      }
+    },
     exploreMore() {
       this.jobs_length = this.jobs_length + 5;
-
       this.slicedJobsArray = [...this.recentJobs.slice(0, this.jobs_length)];
     },
   },
 };
 </script>
 
-<style>
+<style lang="scss" >
+.v-label.theme--light {
+  color: black;
+  font-size: 0.9rem;
+}
 </style>

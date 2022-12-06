@@ -42,4 +42,15 @@ export default ($axios, store, ctx, router) => ({
         throw error;
       });
   },
+
+  async search_data_get() {
+    return ctx.$request
+      .get("/search_data_get.php")
+      .then((response) => {
+        return response;
+      })
+      .catch((error) => {
+        throw error;
+      });
+  },
 });

@@ -171,8 +171,6 @@
         </div>
       </div>
     </section>
-
-    <LayoutCustomerReview />
   </div>
 </template>
 

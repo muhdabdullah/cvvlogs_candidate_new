@@ -10,7 +10,7 @@
           </div>
         </v-col>
 
-        <v-col align="end" class="jobTabs">
+        <v-col align="right" class="jobTabs">
           <v-tabs
             light
             center-active
@@ -28,13 +28,7 @@
         <v-col v-if="!compactView" cols="3">
           <v-card class="my-2" flat>
             <div
-              class="
-                text-center
-                secondary
-                pa-3
-                white--text
-                tw-text-xl tw-font-semibold
-              "
+              class="text-center secondary pa-3 white--text tw-text-xl tw-font-semibold"
             >
               Job Title
             </div>
@@ -62,16 +56,7 @@
                 :class="{ 'on-hover': hover }"
                 outlined
                 rounded="lg"
-                class="
-                  d-flex
-                  align-center
-                  flex-wrap
-                  justify-space-between
-                  py-2
-                  my-2
-                  pa-4
-                  tw-cursor-pointer
-                "
+                class="d-flex align-center flex-wrap justify-space-between py-2 my-2 pa-4 tw-cursor-pointer"
               >
                 <div class="d-flex flex-wrap align-center pa-1 text-capitalize">
                   <!-- <v-img
@@ -85,31 +70,17 @@
 
                   <div class="d-flex flex-column align-start mx-5">
                     <h3
-                      class="
-                        tw-text-lg
-                        text-capitalize
-                        tw-max-w-xs tw-truncate tw-font-bold
-                      "
+                      class="tw-text-lg text-capitalize tw-max-w-xs tw-truncate tw-font-bold"
                     >
                       {{ job.title }}
                     </h3>
                     <h4
-                      class="
-                        tw-text-sm
-                        text-capitalize
-                        primary--text
-                        tw-font-medium
-                      "
+                      class="tw-text-sm text-capitalize primary--text tw-font-medium"
                     >
                       {{ job.rec }}
                     </h4>
                     <div
-                      class="
-                        d-flex
-                        align-center
-                        tw-text-sm tw-font-semibold
-                        my-1
-                      "
+                      class="d-flex align-center tw-text-sm tw-font-semibold my-1"
                     >
                       <span>{{ 125 }}</span>
                       <span class="mx-2">|</span>

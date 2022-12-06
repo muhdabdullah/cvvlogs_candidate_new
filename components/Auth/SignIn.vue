@@ -136,7 +136,7 @@ export default {
         .then((resp) => {
           if (resp.data) {
             this.$store.dispatch("auth/set_authId", resp.data);
-
+            if (this.$route.path != "/") this.$router.push("/");
             this.dialog = false;
           }
         })

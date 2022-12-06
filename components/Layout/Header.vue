@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- Mobile Menu -->
     <v-navigation-drawer
       v-if="$vuetify.breakpoint.mobile"
       v-model="drawer"
@@ -20,12 +21,27 @@
         </v-list-item-group>
       </v-list>
 
-      <div>
+      <div class="d-flex align-center flex-wrap">
         <LayoutLoginMenu v-if="AuthID" />
         <AuthSignIn v-else class="ma-2" />
-      </div>
 
-      <AuthRegister class="ma-2" />
+        <AuthRegister class="ma-2" />
+      </div>
+      <v-btn
+        class="ml-2 text-center"
+        color="primary"
+        depressed
+        tile
+        target="_blank"
+        href="https://recruiter.cvvlogs.com/"
+      >
+        <div class="d-flex flex-column">
+          <span class="tw-font-bold text-capitalize">For Recruiters</span>
+          <!-- <span class="tw-text-xs text-lowercase"
+      >(recruiter can login/register here)</span
+    > -->
+        </div>
+      </v-btn>
 
       <template v-if="AuthID" v-slot:append>
         <div class="pa-2">
@@ -76,6 +92,7 @@
           </NuxtLink>
         </div>
 
+        <!-- Desktop Menu -->
         <div v-else class="d-flex justify-space-between align-center tw-h-full">
           <NuxtLink to="/">
             <v-img
@@ -90,6 +107,7 @@
           <div class="tw-h-full">
             <v-btn
               v-for="(btn, index) in menuBtn"
+              small
               :key="index"
               height="100%"
               active-class="btn__active__class"

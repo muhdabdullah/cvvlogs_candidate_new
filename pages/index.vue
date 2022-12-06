@@ -6,7 +6,7 @@
 
         <section v-if="AuthID" class="dash__sec">
           <!-- Profile Card -->
-          <ProfileCard class="tw-relative tw-bottom-32 tw-z-30" />
+          <ProfileCard class="tw-relative tw-bottom-10 tw-z-30" />
 
           <!-- Job Application -->
           <JobsWidget />
@@ -62,12 +62,17 @@
             <section class="mt-10 container">
               <v-row align="center" no-gutters>
                 <v-col>
-                  <h2 class="tw-text-4xl tw-font-bold" style="color: #282828">
-                    Jobs by Category
-                  </h2>
+                  <div class="borderVerticalLine d-flex align-center">
+                    <h3
+                      class="tw-text-5xl tw-font-bold ml-5"
+                      style="color: #282828"
+                    >
+                      Jobs by Category
+                    </h3>
+                  </div>
                 </v-col>
 
-                <v-col align="end">
+                <v-col align="right">
                   <v-btn
                     to="/jobs"
                     width="160"

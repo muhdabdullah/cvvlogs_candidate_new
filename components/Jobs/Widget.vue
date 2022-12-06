@@ -16,7 +16,7 @@
             </h2>
           </v-col>
 
-          <v-col align="end">
+          <v-col align="right">
             <v-btn to="/jobs" text>
               <span
                 class="
@@ -33,25 +33,30 @@
           </v-col>
         </v-row>
 
-        <div class="d-flex flex-column">
-          <v-card
-            elevation="5"
-            rounded="xl"
-            v-for="(job, index) in job_applications"
-            :key="`job__${index}`"
-            class="
-              d-flex
-              align-center
-              flex-wrap
-              justify-space-between
-              py-2
-              my-2
-              pa-4
-              tw-cursor-pointer
-            "
-          >
-            <div class="d-flex flex-wrap align-center pa-1">
-              <v-img
+        <div
+          v-for="(job, index) in job_applications"
+          :key="`job__${index}`"
+          class="d-flex flex-column"
+        >
+          <v-hover v-slot="{ hover }">
+            <v-card
+              outlined
+              :elevation="hover ? 2 : 0"
+              :class="{ 'on-hover': hover }"
+              rounded="xl"
+              class="
+                d-flex
+                align-center
+                flex-wrap
+                justify-space-between
+                py-2
+                my-2
+                pa-4
+                tw-cursor-pointer
+              "
+            >
+              <div class="d-flex flex-wrap align-center pa-1">
+                <!-- <v-img
                 contain
                 width="120"
                 height="120"
@@ -59,37 +64,38 @@
                 :src="job.img"
                 class="tw-min-w-32"
               >
-              </v-img>
+              </v-img> -->
 
-              <div class="d-flex flex-column align-start mx-5">
-                <h3 class="tw-text-lg tw-font-extrabold">
-                  {{ job.title }}
-                </h3>
-                <h4 class="tw-text-sm primary--text tw-font-bold">
-                  {{ job.organization }}
-                </h4>
-                <div class="d-flex align-center tw-text-sm tw-font-bold my-1">
-                  <span>{{ job.salary }}</span>
-                  <span class="mx-2">|</span>
-                  <span>
-                    {{ job.address }}
-                  </span>
+                <div class="d-flex flex-column align-start mx-5">
+                  <h3 class="tw-text-lg tw-font-extrabold">
+                    {{ job.title }}
+                  </h3>
+                  <h4 class="tw-text-sm primary--text tw-font-bold">
+                    {{ job.organization }}
+                  </h4>
+                  <div class="d-flex align-center tw-text-sm tw-font-bold my-1">
+                    <span>{{ job.salary }}</span>
+                    <span class="mx-2">|</span>
+                    <span>
+                      {{ job.address }}
+                    </span>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div class="d-flex align-center justify-center pa-1">
-              <span class="grey--text tw-text-sm">
-                <v-icon size="small">mdi-calendar-month</v-icon>
-                {{ job.date }}
-              </span>
+              <div class="d-flex align-center justify-center pa-1">
+                <span class="grey--text tw-text-sm">
+                  <v-icon size="small">mdi-calendar-month</v-icon>
+                  {{ job.date }}
+                </span>
 
-              <span class="text-capitalize grey--text tw-text-sm ml-2">
-                <v-icon size="small">mdi-calculator</v-icon>
-                {{ job.status }}
-              </span>
-            </div>
-          </v-card>
+                <span class="text-capitalize grey--text tw-text-sm ml-2">
+                  <v-icon size="small">mdi-calculator</v-icon>
+                  {{ job.status }}
+                </span>
+              </div>
+            </v-card>
+          </v-hover>
         </div>
       </v-card-text>
     </v-card>
@@ -133,3 +139,10 @@ export default {
   },
 };
 </script>
+
+
+<style lang="scss" scoped>
+.v-card {
+  transition: opacity 0.4s ease-in-out;
+}
+</style>

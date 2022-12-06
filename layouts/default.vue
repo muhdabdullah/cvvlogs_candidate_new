@@ -58,7 +58,7 @@ export default {
 
 <style>
 .custom_wd_container {
-  max-width: 1380px;
+  max-width: 1250px;
 }
 
 /* Scroll bars */
