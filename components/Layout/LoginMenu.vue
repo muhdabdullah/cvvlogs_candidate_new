@@ -21,6 +21,12 @@
           <v-btn height="50" class="text-capitalize" block tile depressed>
             Profile
           </v-btn>
+          <v-btn height="50" class="text-capitalize" block tile depressed>
+            Disable Account
+          </v-btn>
+          <v-btn height="50" class="text-capitalize" block tile depressed>
+            Delete Account
+          </v-btn>
           <v-divider></v-divider>
           <v-btn
             @click="$api.authService.logout()"

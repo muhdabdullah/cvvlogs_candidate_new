@@ -200,6 +200,11 @@ export default {
           class: "",
         },
         {
+          name: "Messages",
+          to: "/messages",
+          class: "",
+        },
+        {
           name: "About Us",
           to: "/about-us",
           class: "",
