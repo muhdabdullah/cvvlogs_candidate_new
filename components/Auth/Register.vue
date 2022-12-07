@@ -8,6 +8,7 @@
           color="primary"
           height="35"
           width="110"
+          small
           rounded
           depressed
         >

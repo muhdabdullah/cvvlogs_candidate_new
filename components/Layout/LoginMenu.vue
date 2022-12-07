@@ -7,6 +7,7 @@
           height="35"
           rounded
           depressed
+          small
           v-bind="attrs"
           v-on="on"
         >

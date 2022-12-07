@@ -1,7 +1,7 @@
 export default function ({ $axios, redirect, $toast, store }) {
   // $axios.setToken(`x-access-token ${localStorage.getItem("token")}`);
   $axios.onRequest((config) => {
-    window.$nuxt.$loading.start();
+    // window.$nuxt.$loading.start();
     config.headers.common["auth_id"] = `${localStorage.getItem("auth_id")}`;
     return config;
   });

@@ -4,8 +4,8 @@
       <v-img
         class="img__gray page__header"
         style="width: 100%"
-        src="img/dashboard.png"
-        lazy-src="img/dashboard.png"
+        src="/img/dashboard.png"
+        lazy-src="/img/dashboard.png"
       />
 
       <div

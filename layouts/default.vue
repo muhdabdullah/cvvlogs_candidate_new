@@ -15,6 +15,7 @@ export default {
   name: "default_layout",
   mounted() {
     this.jobsByIndustry();
+    this.get_job_data();
     if (localStorage.getItem("auth_id")) {
       let obj = {
         auth_id: localStorage.getItem("auth_id"),
@@ -42,6 +43,11 @@ export default {
     },
   },
   methods: {
+    get_job_data() {
+      this.$api.jobService.get_job_exclude().then((response) => {
+        this.$store.dispatch("setAllJobs", response.data.job);
+      });
+    },
     jobsByIndustry() {
       this.$api.jobService.get_offline_dashboard().then((response) => {
         if (response.data) {
@@ -49,7 +55,7 @@ export default {
             "set_jobs_by_industry",
             response.data.jobs_by_industry
           );
-
+          this.$store.dispatch("setDashboardData", response.data);
           this.$store.dispatch("setRecentJobs", response.data.recent_jobs);
         }
       });

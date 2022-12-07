@@ -25,7 +25,7 @@
         </v-col>
       </v-row>
       <v-row dense>
-        <v-col v-if="!compactView" cols="3">
+        <!-- <v-col v-if="!compactView" cols="3">
           <v-card class="my-2" flat>
             <div
               class="
@@ -45,12 +45,12 @@
               </div>
             </v-card-text>
           </v-card>
-        </v-col>
+        </v-col> -->
 
         <v-col
           class="tw-overflow-auto pa-4"
           :class="compactView ? '' : 'max__height'"
-          :cols="compactView ? 12 : 9"
+          :cols="12"
         >
           <section
             v-for="(job, index) in slicedJobsArray"
@@ -136,9 +136,14 @@
                   </div>
                   <div class="d-flex flex-column">
                     <span class="tw-text-sm">
-                      <v-btn depressed width="120" color="secondary">
+                      <v-btn
+                        @click="viewJob"
+                        depressed
+                        width="120"
+                        color="secondary"
+                      >
                         <span class="text-capitalize tw-font-medium black--text"
-                          >View Jobs</span
+                          >View Job</span
                         ></v-btn
                       >
                     </span>
@@ -226,8 +231,22 @@ export default {
   created() {
     this.get_job_data();
   },
-  computed: {},
+  computed: {
+    AuthID() {
+      if (this.$store.getters["auth/get_authId"]) return true;
+    },
+  },
   methods: {
+    viewJob() {
+      if (this.AuthID) {
+        this.$router.push({
+          name: "jobs-id",
+          params: {
+            id: job.id,
+          },
+        });
+      }
+    },
     get_job_data() {
       this.$api.jobService.get_offline_dashboard().then((response) => {
         this.recentJobs = [...response.data.recent_jobs];

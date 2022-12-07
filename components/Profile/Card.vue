@@ -52,18 +52,25 @@
                   </div>
                 </div>
                 <div class="profile__progress_bar">
-                  <h2
+                  <div
                     class="
-                      text-left
-                      pa-2
+                      d-flex
+                      justify-space-between
+                      align-center
                       tw-text-base
-                      pl-1
                       black--text
                       tw-font-semibold
                     "
                   >
-                    Profile Status
-                  </h2>
+                    <h2 class="text-left pa-2 pl-1">Profile Status</h2>
+
+                    <div class="profile__viewed">
+                      <v-chip small class="px-2">
+                        <span class="mx-2">{{ dashboardData.views || 0 }}</span
+                        ><v-icon> mdi-eye </v-icon>
+                      </v-chip>
+                    </div>
+                  </div>
                   <v-progress-linear
                     :value="userData.profile_percentage"
                     color="success "
@@ -99,6 +106,30 @@
                   >
                     Edit Profile <v-icon class="ml-1" small>mdi-pencil</v-icon>
                   </v-btn>
+                </div>
+
+                <div class="d-flex justify-end">
+                  <v-progress-circular
+                    :rotate="360"
+                    :size="180"
+                    :width="15"
+                    :value="75"
+                    color="secondary"
+                  >
+                    <div
+                      class="
+                        d-flex
+                        flex-column
+                        align-center
+                        text-center
+                        tw-text-base tw-font-semibold
+                        black--text
+                      "
+                    >
+                      <span>75%</span>
+                      <h2 class="">Progress</h2>
+                    </div>
+                  </v-progress-circular>
                 </div>
 
                 <div
@@ -142,6 +173,9 @@ export default {
   computed: {
     userData() {
       return this.$store.getters["auth/get_userData"];
+    },
+    dashboardData() {
+      return this.$store.getters["getDashboardData"];
     },
   },
 };

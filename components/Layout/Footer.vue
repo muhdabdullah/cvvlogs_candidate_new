@@ -66,14 +66,16 @@
             "
           >
             <div class="tw-h-14">
-              <v-img
-                v-if="links.heading.logo"
-                class="mr-10"
-                contain
-                width="180"
-                height="50"
-                src="/img/logo.png"
-              />
+              <NuxtLink v-if="links.heading.logo" to="/">
+                <v-img
+                  class="mr-10"
+                  contain
+                  width="180"
+                  height="50"
+                  src="/img/logo.png"
+                />
+              </NuxtLink>
+
               <h1
                 v-else
                 class="tw-text-base tw-font-bold tw-h-full d-flex align-center"

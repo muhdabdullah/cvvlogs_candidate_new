@@ -9,6 +9,7 @@
           height="35"
           width="110"
           rounded
+          small
           depressed
         >
           <div>

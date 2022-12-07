@@ -96,9 +96,9 @@
         <div v-else class="d-flex justify-space-between align-center tw-h-full">
           <NuxtLink to="/">
             <v-img
-              class="mr-10"
+              class="mr-5"
               contain
-              width="200"
+              width="150"
               src="/img/logo.png"
               lazy-src="/img/logo.png"
             />
@@ -114,7 +114,7 @@
               plain
               :to="btn ? btn.to : ''"
             >
-              <span v-if="btn">{{ btn.name }}</span>
+              <span class="text-truncate" v-if="btn">{{ btn.name }}</span>
             </v-btn>
           </div>
 
@@ -125,6 +125,7 @@
               color="red"
               height="35"
               rounded
+              small
               depressed
               dark
             >
@@ -146,14 +147,16 @@
               color="primary"
               text
               height="100%"
+              max-width="200"
               tile
+              small
               target="_blank"
               href="https://recruiter.cvvlogs.com/"
             >
               <div class="d-flex flex-column">
                 <span class="tw-font-bold text-capitalize">For Recruiters</span>
                 <span class="tw-text-xs text-lowercase"
-                  >(recruiter can login/register here)</span
+                  >(login/register here)</span
                 >
               </div>
             </v-btn>
@@ -191,7 +194,7 @@ export default {
         },
         {
           name: "Jobs",
-          to: "/jobs",
+          to: "/jobs/all",
           class: "",
         },
         {
