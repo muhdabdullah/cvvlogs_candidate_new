@@ -13,7 +13,7 @@
           "
         >
           Using our proprietary video resume format and superior analytics, we
-          will help you fint the perfect match. From caretakers to
+          will help you find the perfect match. From caretakers to
           professionals, you can rely on our advanced technology to help you
           connect with employers and business in the shortest possible time.
         </p>

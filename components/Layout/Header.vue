@@ -190,11 +190,6 @@ export default {
           class: "",
         },
         {
-          name: "About Us",
-          to: "/about-us",
-          class: "",
-        },
-        {
           name: "Jobs",
           to: "/jobs",
           class: "",
@@ -204,7 +199,11 @@ export default {
           to: "/how-it-works",
           class: "",
         },
-
+        {
+          name: "About Us",
+          to: "/about-us",
+          class: "",
+        },
         {
           name: "Contact Us",
           to: "/contact-us",
