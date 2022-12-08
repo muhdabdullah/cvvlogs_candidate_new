@@ -83,7 +83,7 @@
             </div>
           </v-card>
 
-          <div class="job__description pa-5">
+          <div v-if="Job" class="job__description pa-5">
             <h1 class="tw-text-4xl tw-font-bold my-5">Job Description</h1>
 
             <div v-html="Job.job_desc"></div>
@@ -96,14 +96,22 @@
   
   <script>
 export default {
-  async asyncData({ params, $api }) {
-    const id = params.id; // When calling /abc the slug will be "abc"
+  created() {
+    if (!this.$store.getters["auth/get_authId"]) {
+      this.$router.push("/");
+      return false;
+    }
+  },
+  async asyncData({ params, $api, store, app }) {
+    if (store.getters["auth/get_authId"]) {
+      const id = params.id;
 
-    const Job = await $api.jobService.get_Job_by_Id(id).then((response) => {
-      return response.data.result;
-    });
+      const Job = await $api.jobService.get_Job_by_Id(id).then((response) => {
+        return response.data.result;
+      });
 
-    return { Job };
+      return { Job };
+    }
   },
 };
 </script>
