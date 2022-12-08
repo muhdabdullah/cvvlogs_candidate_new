@@ -76,20 +76,56 @@
                 />
               </NuxtLink>
 
-              <h1
-                v-else
-                class="tw-text-base tw-font-bold tw-h-full d-flex align-center"
-              >
-                {{ links.heading.label }}
-              </h1>
+              <NuxtLink v-else :to="links.heading.to ? links.heading.to : ''">
+                <h1
+                  class="
+                    tw-text-base tw-font-bold tw-h-full
+                    d-flex
+                    align-center
+                  "
+                >
+                  {{ links.heading.label }}
+                </h1>
+              </NuxtLink>
             </div>
-            <NuxtLink :to="links.text1.to || '/'" class="tw-text-xs">{{
-              links.text1.label
-            }}</NuxtLink>
 
-            <NuxtLink :to="links.text2.to" class="tw-text-xs">{{
-              links.text2.label
-            }}</NuxtLink>
+            <div v-if="links.text1 && links.text1.href">
+              <NuxtLink
+                to="/"
+                :href="links.text1.href"
+                :target="links.text1.target"
+                class="tw-text-xs"
+              >
+                {{ links.text1.label }}
+              </NuxtLink>
+            </div>
+
+            <NuxtLink
+              v-else-if="links.text1 && links.text1.to"
+              :to="links.text1.to"
+              class="tw-text-xs"
+            >
+              {{ links.text1.label }}
+            </NuxtLink>
+
+            <div class="py-3" v-if="links.text2 && links.text2.href">
+              <NuxtLink
+                to="/"
+                :href="links.text2.href"
+                :target="links.text2.target"
+                class="tw-text-xs"
+              >
+                {{ links.text2.label }}
+              </NuxtLink>
+            </div>
+
+            <NuxtLink
+              v-else-if="links.text2 && links.text2.to"
+              :to="links.text2.to"
+              class="tw-text-xs"
+            >
+              {{ links.text2.label }}
+            </NuxtLink>
 
             <NuxtLink
               v-if="links.text3"
@@ -114,16 +150,16 @@
                 contain
                 width="128"
                 height="38"
-                src="img/googlePlayIcon.svg"
-                lazy-src="img/googlePlatIcon.svg"
+                src="/img/googlePlayIcon.svg"
+                lazy-src="/img/googlePlatIcon.svg"
               />
 
               <v-img
                 contain
                 width="128"
                 height="38"
-                src="img/appleIcon.svg"
-                lazy-src="img/appleIcon.svg"
+                src="/img/appleIcon.svg"
+                lazy-src="/img/appleIcon.svg"
               />
             </div>
             <div>
@@ -208,15 +244,23 @@ export default {
           text1: { label: "Login", to: "/" },
           text2: { label: "Register", to: "/" },
           text3: { label: "Search", to: "/" },
-          text4: { label: "Browse Jobs", to: "/" },
+          text4: { label: "Browse Jobs", to: "/jobs/all" },
         },
         {
           heading: { label: "Recruiters" },
-          text1: { label: "Register", to: "/" },
-          text2: { label: "Login", to: "/" },
+          text1: {
+            label: "Register",
+            href: "https://recruiter.cvvlogs.com/register",
+            target: "_blank",
+          },
+          text2: {
+            label: "Login",
+            href: "https://recruiter.cvvlogs.com/login",
+            target: "_blank",
+          },
         },
         {
-          heading: { label: "Contact Us" },
+          heading: { label: "Contact Us", to: "/contact-us" },
           text1: { label: "info@cvvlogscom", to: "/" },
           text2: { label: "Feed back", to: "/" },
         },

@@ -104,18 +104,18 @@
             />
           </NuxtLink>
 
-          <div class="tw-h-full">
-            <v-btn
-              v-for="(btn, index) in menuBtn"
-              small
-              :key="index"
-              height="100%"
-              active-class="btn__active__class"
-              plain
-              :to="btn ? btn.to : ''"
-            >
-              <span class="text-truncate" v-if="btn">{{ btn.name }}</span>
-            </v-btn>
+          <div class="tw-h-full d-flex align-center">
+            <div v-for="(btn, index) in menuBtn" :key="index" class="tw-h-full">
+              <v-btn
+                small
+                height="100%"
+                active-class="btn__active__class"
+                plain
+                :to="btn ? btn.to : ''"
+              >
+                <span class="text-truncate" v-if="btn">{{ btn.name }}</span>
+              </v-btn>
+            </div>
           </div>
 
           <div class="mx-2 tw-h-full d-flex align-center justify-center">
@@ -202,24 +202,35 @@ export default {
           to: "/how-it-works",
           class: "",
         },
-        {
-          name: "Messages",
-          to: "/messages",
-          class: "",
-        },
+
         {
           name: "About Us",
           to: "/about-us",
           class: "",
         },
-        {
-          name: "Contact Us",
-          to: "/contact-us",
-          class: "",
-        },
+        // {
+        //   name: "Contact Us",
+        //   to: "/contact-us",
+        //   class: "",
+        // },
         ,
       ],
     };
+  },
+  created() {},
+  watch: {
+    AuthID(val) {
+      // Add / Remove buttons to show when token.
+      if (val) {
+        this.menuBtn.splice(3, 0, {
+          name: "Messages",
+          to: "/messages",
+          class: "",
+        });
+      } else {
+        this.menuBtn.splice(3, 1);
+      }
+    },
   },
   computed: {
     AuthID() {

@@ -1,22 +1,23 @@
 export default function ({ $axios, redirect, $toast, store }) {
-  // $axios.setToken(`x-access-token ${localStorage.getItem("token")}`);
   $axios.onRequest((config) => {
-    // window.$nuxt.$loading.start();
-    config.headers.common["auth_id"] = `${localStorage.getItem("auth_id")}`;
-    return config;
+    if (localStorage.getItem("auth_id")) {
+      config.headers.common["auth_id"] = `${localStorage.getItem("auth_id")}`;
+      return config;
+    }
   });
-  // $axios.onError((error) => {
-  //   window.$nuxt.$loading.finish();
-  //   if (
-  //     (error && error.response && error.response.status === 401) ||
-  //     error.response.data.message == "Unauthorized"
-  //   ) {
-  //     // store.commit('authenticate', false);
-  //     localStorage.removeItem("token");
-  //     $axios.setToken(false);
-  //     //   redirect("/signIn");
-  //   }
-  // });
+  $axios.onError((error) => {
+    // console.log("err", error.response);
+    // window.$nuxt.$loading.finish();
+    // if (
+    //   (error && error.response && error.response.status === 401) ||
+    //   error.response.data.message == "Unauthorized"
+    // ) {
+    //   // store.commit('authenticate', false);
+    //   localStorage.removeItem("token");
+    //   $axios.setToken(false);
+    //   //   redirect("/signIn");
+    // }
+  });
   // $axios.onResponseError((error) => {
   //   window.$nuxt.$loading.finish();
   //   if (error && error.response && error.response.errors) {

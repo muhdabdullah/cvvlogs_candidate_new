@@ -12,3 +12,7 @@
     #ff9900
   ) !important;
 } */
+
+.default_font {
+  font-family: "Poppins", sans-serif !important;
+}

@@ -2,39 +2,6 @@
   <v-container>
     <v-card class="mx-auto" rounded="xl" height="622" max-width="1180" flat>
       <v-card-text class="py-5 tw-h-full tw-overflow-auto tw-p-10 sm:tw-p-10">
-        <v-row align="center" no-gutters>
-          <v-col>
-            <h2
-              class="
-                max-sm:tw-text-sm
-                text-capitalize
-                black--text
-                pa-2
-                tw-text-3xl tw-font-bold
-              "
-            >
-              Jobs
-            </h2>
-          </v-col>
-
-          <v-col align="right">
-            <v-btn to="/jobs/all" text>
-              <span
-                class="
-                  tw-text-xl
-                  max-sm:tw-text-sm
-                  tw-font-semibold
-                  text-capitalize
-                  primary--text
-                "
-              >
-                View All
-              </span>
-            </v-btn>
-          </v-col>
-        </v-row>
-        <v-divider></v-divider>
-
         <!-- <div
           v-for="(job, index) in this.$store.getters['getRecentJobs']"
           :key="`job__${index}`"
@@ -101,7 +68,7 @@
 
         <v-card class="mx-auto" max-width="1170" flat>
           <v-card-title>
-            <h1 class="tw-text-3xl tw-font-bold text--primary">Recent</h1>
+            <LayoutTitle title="Recent Jobs" route="/jobs/recent" />
           </v-card-title>
           <v-card-text>
             <v-row dense>
@@ -110,7 +77,7 @@
                 md="4"
                 lg="4"
                 xl="4"
-                v-for="(job, index) in this.$store.getters['getRecentJobs']"
+                v-for="(job, index) in recentJobs"
                 :key="`all__jobs__${index}`"
               >
                 <v-card
@@ -129,7 +96,10 @@
                     <h3 class="tw-text-md tw-font-semibold black--text">
                       {{ job.title }}
                     </h3>
-                    <h4 class="tw-text-sm primary--text tw-font-medium">
+                    <h4
+                      v-if="Helper.show_recruiter(job.rec)"
+                      class="tw-text-sm primary--text tw-font-medium"
+                    >
                       {{ job.rec }}
                     </h4>
                     <h6>
@@ -158,7 +128,7 @@
 
         <v-card class="mx-auto" max-width="1170" flat>
           <v-card-title>
-            <h1 class="tw-text-3xl tw-font-bold text--primary">All</h1>
+            <LayoutTitle title="All Jobs" route="/jobs/all" />
           </v-card-title>
           <v-card-text>
             <v-row dense>
@@ -170,56 +140,7 @@
                 v-for="(job, index) in all_Jobs"
                 :key="`all__jobs__${index}`"
               >
-                <v-card
-                  @click="
-                    $router.push({
-                      name: 'jobs-id',
-                      params: {
-                        id: job.id,
-                      },
-                    })
-                  "
-                  max-width="400"
-                  height="120"
-                  outlined
-                >
-                  <v-card-text class="tw-h-full">
-                    <h3
-                      class="
-                        tw-text-md tw-text-truncate
-                        text-capitalize
-                        tw-font-semibold
-                        black--text
-                      "
-                    >
-                      {{ job.job_title }}
-                    </h3>
-                    <h4 class="tw-text-sm primary--text tw-font-medium">
-                      {{ job.rec }}
-                    </h4>
-                    <h6>
-                      <div
-                        class="
-                          d-flex
-                          align-center
-                          tw-text-xs tw-font-normal
-                          my-1
-                        "
-                      >
-                        <v-icon small class="mr-1">mdi-map-marker</v-icon>
-                        <span class="tw-text-truncate" v-if="job.city">
-                          {{ job.city }},
-                        </span>
-                        <span class="tw-text-truncate" v-if="job.state">
-                          &nbsp;{{ job.state }},
-                        </span>
-                        <span class="tw-text-truncate" v-if="job.country">
-                          &nbsp;{{ job.country }}
-                        </span>
-                      </div>
-                    </h6>
-                  </v-card-text>
-                </v-card>
+                <JobsCard :jobDetail="all_Jobs" />
               </v-col>
             </v-row>
           </v-card-text>
@@ -230,6 +151,8 @@
 </template>
 
 <script>
+import helperFunc from "@/utils/helper";
+
 export default {
   data() {
     return {
@@ -265,6 +188,13 @@ export default {
     };
   },
   computed: {
+    Helper() {
+      return helperFunc;
+    },
+    recentJobs() {
+      let data = [...this.$store.getters["getRecentJobs"]].splice(0, 6);
+      return data;
+    },
     all_Jobs() {
       let data = [...this.$store.getters["getAllJobs"]].splice(0, 6);
       return data;

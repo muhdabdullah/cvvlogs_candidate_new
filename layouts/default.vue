@@ -2,7 +2,7 @@
   <v-app>
     <LayoutHeader />
     <v-main>
-      <v-container class="pa-0" fluid>
+      <v-container class="pa-0 tw-h-full" fluid>
         <Nuxt />
       </v-container>
     </v-main>
@@ -13,10 +13,12 @@
 <script>
 export default {
   name: "default_layout",
-  mounted() {
+  created() {
     this.jobsByIndustry();
-    this.get_job_data();
+
     if (localStorage.getItem("auth_id")) {
+      this.get_job_data();
+
       let obj = {
         auth_id: localStorage.getItem("auth_id"),
       };
@@ -35,13 +37,7 @@ export default {
       this.$store.dispatch("auth/set_authId", obj);
     }
   },
-  computed: {
-    authPage() {
-      console.log("route", this.$route);
-      if (this.$route) {
-      }
-    },
-  },
+  computed: {},
   methods: {
     get_job_data() {
       this.$api.jobService.get_job_exclude().then((response) => {
@@ -78,7 +74,7 @@ export default {
 
 ::-webkit-scrollbar {
   height: 8px;
-  width: 8px;
+  width: 6px;
   background-color: #f5f5f5;
 }
 
