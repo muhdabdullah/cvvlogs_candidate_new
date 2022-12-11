@@ -93,12 +93,23 @@
                   outlined
                 >
                   <v-card-text>
-                    <h3 class="tw-text-md tw-font-semibold black--text">
+                    <h3
+                      class="
+                        text-truncate
+                        tw-text-md tw-font-semibold
+                        black--text
+                      "
+                    >
                       {{ job.title }}
                     </h3>
                     <h4
                       v-if="Helper.show_recruiter(job.rec)"
-                      class="tw-text-sm primary--text tw-font-medium"
+                      class="
+                        text-truncate text-capitalize
+                        tw-text-sm
+                        primary--text
+                        tw-font-medium
+                      "
                     >
                       {{ job.rec }}
                     </h4>
@@ -134,13 +145,65 @@
             <v-row dense>
               <v-col
                 cols="12"
-                md="4"
-                lg="4"
-                xl="4"
+                md="3"
+                lg="3"
+                xl="3"
                 v-for="(job, index) in all_Jobs"
                 :key="`all__jobs__${index}`"
               >
-                <JobsCard :jobDetail="all_Jobs" />
+                <v-card
+                  @click="
+                    $router.push({
+                      name: 'jobs-id',
+                      params: {
+                        id: job.id,
+                      },
+                    })
+                  "
+                  max-width="300"
+                  outlined
+                >
+                  <v-card-text>
+                    <h3
+                      class="
+                        text-capitalize text-truncate
+                        tw-text-md tw-font-semibold
+                        black--text
+                      "
+                    >
+                      {{ job.job_title }}
+                    </h3>
+                    <h4
+                      v-if="Helper.show_recruiter(job.rec)"
+                      class="
+                        text-capitalize text-truncate
+                        tw-text-sm
+                        primary--text
+                        tw-font-medium
+                      "
+                    >
+                      {{ job.rec }}
+                    </h4>
+                    <h6>
+                      <div
+                        class="
+                          d-flex
+                          align-center
+                          tw-text-xs tw-font-normal
+                          my-1
+                          text-truncate
+                        "
+                      >
+                        <v-icon small class="mr-1">mdi-map-marker</v-icon>
+                        <span v-if="job.city"> {{ job.city }}, </span>
+                        <span v-if="job.state"> &nbsp;{{ job.state }}, </span>
+                        <span v-if="job.country">
+                          &nbsp;{{ job.country }}
+                        </span>
+                      </div>
+                    </h6>
+                  </v-card-text>
+                </v-card>
               </v-col>
             </v-row>
           </v-card-text>
@@ -192,11 +255,11 @@ export default {
       return helperFunc;
     },
     recentJobs() {
-      let data = [...this.$store.getters["getRecentJobs"]].splice(0, 6);
+      let data = [...this.$store.getters["getRecentJobs"]].splice(0, 8);
       return data;
     },
     all_Jobs() {
-      let data = [...this.$store.getters["getAllJobs"]].splice(0, 6);
+      let data = [...this.$store.getters["getAllJobs"]].splice(0, 8);
       return data;
     },
   },

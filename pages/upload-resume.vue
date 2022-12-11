@@ -13,31 +13,9 @@
           number, email address in your video resume.
         </p>
         <div class="d-flex align-center justify-center flex-wrap mt-10 my-5">
-          <v-btn
-            width="307"
-            height="50"
-            color="primary"
-            rounded
-            depressed
-            class="mr-2"
-          >
-            <span class="text-capitalize"
-              >Upload <span class="text-uppercase">CV</span></span
-            >
-          </v-btn>
+          <UploadCvDoc />
 
-          <v-btn
-            width="307"
-            height="50"
-            color="secondary"
-            rounded
-            depressed
-            class="mr-2"
-          >
-            <span class="text-capitalize text-white"
-              >Upload Video <span class="text-uppercase">CV</span></span
-            >
-          </v-btn>
+          <UploadVideoCv />
 
           <v-btn dark width="307" height="50" color="red" rounded depressed>
             <span class="text-capitalize"

@@ -61,6 +61,10 @@
 
               <div class="d-flex flex-column pa-1">
                 <div class="text-right">
+                  <v-btn height="42" depressed color="secondary" width="120">
+                    Apply
+                  </v-btn>
+
                   <v-icon
                     style="border: 1px solid #ede3e3; border-radius: 4px"
                     class="ma-2 pa-2"
@@ -82,7 +86,7 @@
                 </div>
               </div>
             </v-card>
-            <v-card height="50" class="my-5" rounded="lg" color="info" flat>
+            <v-card height="50" class="my-5" rounded="lg" color="primary" flat>
               <v-card-text
                 class="
                   pa-2
@@ -113,6 +117,52 @@
                     </div>
                   </template>
                   <span>Experience</span>
+                </v-tooltip>
+
+                <v-tooltip bottom color="gray">
+                  <template v-slot:activator="{ on, attrs }">
+                    <div
+                      v-bind="attrs"
+                      v-on="on"
+                      class="
+                        d-flex
+                        align-center
+                        justify-center
+                        tw-cursor-pointer
+                      "
+                    >
+                      <v-icon color="white" class="mx-2" dark
+                        >mdi-bag-checked</v-icon
+                      >
+                      <h4 class="tw-text-lg tw-font-medium">
+                        {{ Job.functional_area }}
+                      </h4>
+                    </div>
+                  </template>
+                  <span>Career level</span>
+                </v-tooltip>
+
+                <v-tooltip bottom color="gray">
+                  <template v-slot:activator="{ on, attrs }">
+                    <div
+                      v-bind="attrs"
+                      v-on="on"
+                      class="
+                        d-flex
+                        align-center
+                        justify-center
+                        tw-cursor-pointer
+                      "
+                    >
+                      <v-icon color="white" class="mx-2" dark
+                        >mdi-bag-checked</v-icon
+                      >
+                      <h4 class="tw-text-lg tw-font-medium">
+                        {{ Job.job_type }}
+                      </h4>
+                    </div>
+                  </template>
+                  <span>Job Type</span>
                 </v-tooltip>
 
                 <v-tooltip bottom color="gray">
@@ -177,6 +227,7 @@
               v-if="Job.job_desc"
               v-html="Job.job_desc"
             ></div>
+
             <div v-else>
               <h1 class="tw-text-xl text-center grey--text tw-font-medium my-5">
                 No job description.
@@ -189,6 +240,17 @@
               No job description!
             </h1>
           </div>
+
+          <v-btn
+            v-if="Job"
+            class="my-5 mb-10"
+            block
+            height="42"
+            color="secondary"
+            width="120"
+          >
+            Apply
+          </v-btn>
         </section>
       </v-col>
     </v-row>
@@ -225,5 +287,11 @@ export default {
 <style lang="scss" >
 .min__height {
   min-height: 800px !important;
+}
+</style>
+
+<style lang="scss" >
+h4 {
+  text-transform: capitalize;
 }
 </style>

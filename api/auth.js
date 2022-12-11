@@ -30,6 +30,8 @@ export default ($axios, store, ctx, router) => ({
       .then((response) => {
         // Removes default Authorization header from `common` scope (all requests)
         store.commit("auth/remove_auth_id");
+
+        store.dispatch("resetJobsData");
         $axios.setHeader("auth_id", "");
         ctx.app.router.push("/");
         return response;

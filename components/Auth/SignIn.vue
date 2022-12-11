@@ -134,9 +134,34 @@ export default {
           username: this.email,
           password: this.password,
         })
-        .then((resp) => {
+        .then(async (resp) => {
           if (resp.data) {
-            this.$store.dispatch("auth/set_authId", resp.data);
+            await this.$store.dispatch("resetJobsData");
+            await this.$store.dispatch("auth/set_authId", resp.data);
+
+            // Get new Auth Data
+            await this.$api.jobService
+              .get_offline_dashboard()
+              .then((response) => {
+                if (response.data) {
+                  this.$store.dispatch(
+                    "set_jobs_by_industry",
+                    response.data.jobs_by_industry
+                  );
+                  this.$store.dispatch("setDashboardData", response.data);
+                  this.$store.dispatch(
+                    "setRecentJobs",
+                    response.data.recent_jobs
+                  );
+
+                  this.$api.jobService.get_job_exclude().then((response) => {
+                    this.$store.dispatch("setAllJobs", response.data.job);
+                  });
+                }
+
+                return [...response?.data?.jobs_by_industry];
+              });
+
             if (this.$route.path != "/") this.$router.push("/");
             this.dialog = false;
           }

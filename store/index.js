@@ -37,6 +37,13 @@ const mutations = {
   setDashboardData(state, payload) {
     state.dashboardData = payload;
   },
+  resetJobsData(state) {
+    state.jobs_by_industry = [];
+    state.recentJobs = [];
+    state.allJobs = [];
+    state.dashboardData = null;
+    state.profileViews = 0;
+  },
 };
 
 const actions = {
@@ -51,6 +58,9 @@ const actions = {
   },
   setRecentJobs({ commit }, payload) {
     commit("setRecentJobs", payload);
+  },
+  resetJobsData({ commit }, payload) {
+    commit("resetJobsData", payload);
   },
 };
 

@@ -2,11 +2,11 @@
   <v-container fluid class="pa-0">
     <v-row align="start" no-gutters>
       <v-col cols="12">
-        <LayoutMainPageHeader class="tw-z-20" />
+        <LayoutMainPageHeader class="tw-z-30" />
 
         <section v-if="AuthID" class="dash__sec">
           <!-- Profile Card -->
-          <ProfileCard class="tw-relative tw-bottom-10 tw-z-30" />
+          <ProfileCard class="tw-relative tw-bottom-10 tw-z-10" />
 
           <!-- Job Application -->
           <JobsWidget />
@@ -93,6 +93,7 @@
                   </v-btn>
                 </v-col>
               </v-row>
+
               <v-row
                 v-if="job_by_Industry && job_by_Industry.length"
                 dense
@@ -259,42 +260,31 @@
 
 <script>
 export default {
+  async asyncData({ $api, store }) {
+    const job_by_Industry = await $api.jobService
+      .get_offline_dashboard()
+      .then((response) => {
+        if (response.data) {
+          store.dispatch(
+            "set_jobs_by_industry",
+            response.data.jobs_by_industry
+          );
+          store.dispatch("setDashboardData", response.data);
+          store.dispatch("setRecentJobs", response.data.recent_jobs);
+        }
+
+        return [...response?.data?.jobs_by_industry];
+      });
+
+    return { job_by_Industry };
+  },
   data() {
     return {
       job_by_Industry: [],
-      job_applications: [
-        {
-          img: "img/Job_app_1.png",
-          title: "Matematics Tutors",
-          organization: "Multination Organization Pvt.(Ltd).",
-          salary: "$12K - 15K",
-          address: "Virginia, USA, PO # 001003",
-          status: "received",
-          date: "Nov 06, 2020",
-        },
-        {
-          img: "img/Job_app_2.png",
-          title: "Web Developer",
-          organization: "Online, Online Teaching jobs",
-          salary: "$12K - 15K",
-          address: "Virginia, USA, PO # 001003",
-          status: "received",
-          date: "Nov 06, 2020",
-        },
-        {
-          img: "img/Job_app_3.png",
-          title: "Accounts Teacher Required",
-          organization: "Multination Organization Pvt.(Ltd).",
-          salary: "$12K - 15K",
-          address: "Virginia, USA, PO # 001003",
-          status: "received",
-          date: "Nov 06, 2020",
-        },
-      ],
     };
   },
-  created() {
-    this.get_home_data();
+  mounted() {
+    // this.get_home_data();
   },
   computed: {
     AuthID() {
@@ -302,11 +292,19 @@ export default {
     },
   },
   methods: {
-    get_home_data() {
-      this.$api.jobService.get_offline_dashboard().then((response) => {
-        this.job_by_Industry = [...response.data.jobs_by_industry];
-      });
-    },
+    // get_home_data() {
+    //   this.$api.jobService.get_offline_dashboard().then((response) => {
+    //     this.job_by_Industry = [...response.data.jobs_by_industry];
+    //     if (response.data) {
+    //       this.$store.dispatch(
+    //         "set_jobs_by_industry",
+    //         response.data.jobs_by_industry
+    //       );
+    //       this.$store.dispatch("setDashboardData", response.data);
+    //       this.$store.dispatch("setRecentJobs", response.data.recent_jobs);
+    //     }
+    //   });
+    // },
   },
 };
 </script>
