@@ -146,13 +146,23 @@ export default {
       }
     },
     async deleteVideo() {
-      await this.$api.documnetService
-        .deleteUserVideo(this.videoPreviewUrl?.video_id)
-        .then(async (response) => {
-          if (response.status == 200) {
-            this.videoPreviewUrl = null;
-            this.close();
-          }
+      this.$swal
+        .fire({
+          text: "Are you sure you want to delete?",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "Yes",
+        })
+        .then(async (result) => {
+          /* Read more about isConfirmed, isDenied below */
+          await this.$api.documnetService
+            .deleteUserVideo(this.videoPreviewUrl?.video_id)
+            .then(async (response) => {
+              if (response.status == 200) {
+                this.videoPreviewUrl = null;
+                this.close();
+              }
+            });
         });
     },
     async save() {

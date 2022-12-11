@@ -69,7 +69,13 @@ export default {
     "@nuxtjs/axios",
     // https://go.nuxtjs.dev/pwa
     "@nuxtjs/pwa",
+    "vue-sweetalert2/nuxt",
   ],
+
+  sweetalert: {
+    confirmButtonColor: "#5d378d",
+    cancelButtonColor: "#ff7674",
+  },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
