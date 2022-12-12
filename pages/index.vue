@@ -6,7 +6,10 @@
 
         <section v-if="AuthID" class="dash__sec">
           <!-- Profile Card -->
-          <ProfileCard class="tw-relative tw-bottom-10 tw-z-10" />
+          <ProfileCard
+            :userData="dashboardData && dashboardData.profile"
+            class="tw-relative tw-bottom-10 tw-z-10"
+          />
 
           <!-- Job Application -->
           <JobsWidget />
@@ -231,32 +234,6 @@
   </v-container>
 </template>
 
-<style lang="scss">
-.rounded__rect {
-  border-radius: 40px !important;
-}
-
-.img__gray {
-  filter: grayscale(60%);
-  filter: brightness(50%);
-}
-
-.borderVerticalLine {
-  border-left: 12px solid #4c2e8b;
-  height: 71px;
-}
-
-.jobTabs .v-item-group {
-  border: 1px solid #ede3e3;
-  border-radius: 8px;
-}
-
-.tabsCustom .v-tab--active {
-  background: #4c2e8b !important;
-  color: #fff !important;
-  border-radius: 4px;
-}
-</style>
 
 <script>
 export default {
@@ -287,6 +264,9 @@ export default {
     // this.get_home_data();
   },
   computed: {
+    dashboardData() {
+      return this.$store.getters["getDashboardData"];
+    },
     AuthID() {
       if (this.$store.getters["auth/get_authId"]) return true;
     },
@@ -323,3 +303,31 @@ $primary: #5d378d;
   // opacity: 0.6;
 }
 </style>
+
+<style lang="scss">
+.rounded__rect {
+  border-radius: 40px !important;
+}
+
+.img__gray {
+  filter: grayscale(60%);
+  filter: brightness(50%);
+}
+
+.borderVerticalLine {
+  border-left: 12px solid #4c2e8b;
+  height: 71px;
+}
+
+.jobTabs .v-item-group {
+  border: 1px solid #ede3e3;
+  border-radius: 8px;
+}
+
+.tabsCustom .v-tab--active {
+  background: #4c2e8b !important;
+  color: #fff !important;
+  border-radius: 4px;
+}
+</style>
+

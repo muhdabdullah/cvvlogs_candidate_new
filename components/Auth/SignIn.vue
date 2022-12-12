@@ -82,7 +82,7 @@
                 dark
               ></v-checkbox>
 
-              <h5>Forgot password ?</h5>
+              <AuthForgotPassword />
             </div>
 
             <v-btn

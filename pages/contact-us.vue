@@ -2,18 +2,11 @@
   <div>
     <LayoutPageHeader text="Contact Us" />
     <v-container class="my-5">
-      <!-- <div class="ma-16 d-flex justify-center">
-        <div class="d-flex justify-center flex-column">
-          <div class="borderVerticalLine d-flex align-center">
-            <h1 class="tw-text-5xl tw-font-bold ml-5">Contact Us</h1>
-          </div>
-        </div>
-      </div> -->
       <v-row>
         <v-col
           class="d-flex justify-space-around"
-          v-for="card in cards"
-          :key="card"
+          v-for="(card, index) in cards"
+          :key="`card__${index}`"
         >
           <div
             class="cardCustom d-flex flex-column justify-center align-center"
@@ -22,8 +15,9 @@
               <v-img width="33" height="45" contain :src="card.icon" />
             </div>
             <p class="tw-text-xl tw-font-semibold mt-6">{{ card.heading }}</p>
-            <p class="tw-text-base tw-text-gray-500 mb-1">{{ card.text1 }}</p>
-            <p class="tw-text-base tw-text-gray-500">{{ card.text2 }}</p>
+            <p class="tw-text-base text-center tw-text-gray-500 mb-1">
+              {{ card.text1 }}
+            </p>
           </div>
         </v-col>
       </v-row>
@@ -58,8 +52,8 @@
               class="d-flex flex-column justify-center"
             >
               <div class="ma-9 tw-w-2/3 fileCustomMargin">
-                <h1 class="tw-text-5xl tw-font-semibold">Get In Touch</h1>
-                <p
+                <h1 class="tw-text-5xl tw-font-semibold my-5">Get In Touch</h1>
+                <!-- <p
                   class="
                     tw-text-sm tw-text-yellow-500 tw-font-normal
                     mt-5
@@ -68,7 +62,7 @@
                 >
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed d
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed d
-                </p>
+                </p> -->
                 <v-form
                   ref="form"
                   v-model="formHasErrors"
@@ -141,19 +135,19 @@ export default {
         {
           icon: "img/callIcon.png",
           heading: "Contact Us",
-          text1: "+123 456 789 0",
+          text1: "1 (866) 955-9001",
           text2: "+123 456 789 0",
         },
         {
           icon: "img/emailIcon.png",
           heading: "Email",
-          text1: "jbdesks@example.com",
+          text1: "info@cvvlogs.com",
           text2: "support@example.com",
         },
         {
           icon: "img/locationIcon.png",
           heading: "Location",
-          text1: "Reference site about",
+          text1: "200 Booth Rd. Suite A Ormond Beach, FL 32174",
           text2: "Lorem ispum, giving infromation",
         },
       ],

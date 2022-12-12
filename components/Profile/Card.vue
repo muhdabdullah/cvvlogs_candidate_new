@@ -43,12 +43,33 @@
                       py-2
                     "
                   >
-                    <p>{{ userData.proffession }}</p>
-                    <p>Digitonics Labs Pvt Ltd.</p>
+                    <p>{{ (userData && userData.proffession) || "-" }}</p>
+                    <p>{{ (userData && userData.curr_rec) || "-" }}</p>
                     <p>
-                      <span>{{ userData.city }}</span> -
-                      <span>{{ userData.country }}</span>
+                      <span>{{ (userData && userData.city) || "-" }}</span> -
+                      <span>{{ (userData && userData.country) || "-" }}</span>
                     </p>
+                  </div>
+
+                  <div
+                    class="
+                      mt-3
+                      profile__positions
+                      tw-font-medium
+                      black--text
+                      no__margib__b
+                      py-2
+                    "
+                  >
+                    <div class="d-flex align-center text-lowercase">
+                      <v-icon small class="mr-2">mdi-email</v-icon>
+                      <span>{{ (userData && userData.email) || "-" }}</span>
+                    </div>
+
+                    <div class="d-flex align-center">
+                      <v-icon small class="mr-2">mdi-phone</v-icon>
+                      <span>{{ (userData && userData.num) || "-" }}</span>
+                    </div>
                   </div>
                 </div>
                 <div class="profile__progress_bar">
@@ -65,7 +86,7 @@
                     <h2 class="text-left pa-2 pl-1">Profile Status</h2>
 
                     <div class="profile__viewed">
-                      <v-chip small class="px-2">
+                      <v-chip small class="px-2 tw-cursor-pointer">
                         <span class="mx-2">{{
                           (dashboardData && dashboardData.views) || 0
                         }}</span
@@ -74,15 +95,31 @@
                     </div>
                   </div>
                   <v-progress-linear
-                    :value="userData.profile_percentage"
-                    color="success "
+                    :value="
+                      dashboardData &&
+                      dashboardData.profile &&
+                      dashboardData.profile.percentage
+                    "
+                    :color="
+                      dashboardData &&
+                      dashboardData.profile &&
+                      dashboardData.profile.percentage == 100
+                        ? 'success'
+                        : 'primary'
+                    "
                     rounded
                     height="12"
                   ></v-progress-linear>
                   <h4 class="text-right black--text tw-font-semibold">
-                    {{ userData.profile_percentage }}%
                     {{
-                      userData.profile_percentage == 100
+                      dashboardData &&
+                      dashboardData.profile &&
+                      dashboardData.profile.percentage
+                    }}%
+                    {{
+                      dashboardData &&
+                      dashboardData.profile &&
+                      dashboardData.profile.percentage == 100
                         ? "Completed!"
                         : "Complete"
                     }}
@@ -101,8 +138,10 @@
               >
                 <div class="edit__profile__btn d-flex align-center justify-end">
                   <v-btn
+                    v-if="!editProfileMode"
                     class="tw-text-lg text-capitalize tw-font-bold"
                     depressed
+                    to="/profile"
                     text
                     color="grey"
                   >
@@ -111,7 +150,7 @@
                 </div>
 
                 <div
-                  v-if="userData.profile_percentage != 100"
+                  v-if="userData && userData.profile_percentage != 100"
                   class="complete__profile__btn"
                 >
                   <v-btn
@@ -136,8 +175,14 @@
               class="tw-rounded-lg pa-5"
               position="center"
               cover
-              :lazy-src="userData.profile_picture || '/img/homeProfileImg.png'"
-              :src="userData.profile_picture || '/img/homeProfileImg.png'"
+              :lazy-src="
+                (userData && userData.profile_picture) ||
+                '/img/homeProfileImg.png'
+              "
+              :src="
+                (userData && userData.profile_picture) ||
+                '/img/homeProfileImg.png'
+              "
             />
           </v-col>
         </v-row>
@@ -148,10 +193,19 @@
 
 <script>
 export default {
-  computed: {
-    userData() {
-      return this.$store.getters["auth/get_userData"];
+  props: {
+    editProfileMode: {
+      type: Boolean,
+      defult: false,
     },
+    userData: {
+      type: Object,
+    },
+  },
+  computed: {
+    // userData() {
+    //   return this.$store.getters["auth/get_userData"];
+    // },
     dashboardData() {
       return this.$store.getters["getDashboardData"];
     },

@@ -126,7 +126,7 @@
               </v-col>
             </v-row>
 
-            <div class="d-flex align-center white--text justify-space-between">
+            <!-- <div class="d-flex align-center white--text justify-space-between">
               <v-checkbox
                 label="Remember me"
                 v-model="rememberMe"
@@ -135,11 +135,12 @@
               ></v-checkbox>
 
               <h5>Forgot password ?</h5>
-            </div>
+            </div> -->
 
             <v-btn
               :loading="loading"
               block
+              class="my-5"
               light
               color="secondary"
               height="50"

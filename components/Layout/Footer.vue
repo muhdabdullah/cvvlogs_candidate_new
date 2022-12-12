@@ -124,13 +124,14 @@
               :to="links.text2.to"
               class="tw-text-xs"
             >
-              {{ links.text2.label }}
+            {{ links.text2.label }}
             </NuxtLink>
 
             <NuxtLink
               v-if="links.text3"
               :to="links.text3.to"
               class="tw-text-xs"
+              
               >{{ links.text3.label }}</NuxtLink
             >
 
@@ -145,9 +146,8 @@
         <v-col align-content="center">
           <div>
             <h1 class="tw-text-base tw-font-bold">Download our app</h1>
-            <div class="d-flex align-center mr-1 my-2">
-              <v-img
-                contain
+            <div :class="`d-flex mr-1 my-2 ${$vuetify.breakpoint.mobile ? 'flex-column' : ''}`">
+              <v-img  
                 width="128"
                 height="38"
                 src="/img/googlePlayIcon.svg"
@@ -155,11 +155,11 @@
               />
 
               <v-img
-                contain
                 width="128"
                 height="38"
                 src="/img/appleIcon.svg"
                 lazy-src="/img/appleIcon.svg"
+                :class="$vuetify.breakpoint.mobile ? 'mt-2' : 'ml-4'"
               />
             </div>
             <div>
@@ -235,8 +235,8 @@ export default {
             label: "Home",
             to: "/",
           },
-          text2: { label: "Privacy Policy", to: "/" },
-          text3: { label: "Terms & Conditions", to: "/" },
+          text2: { label: "Privacy Policy", to: "/privacy-policy" },
+          text3: { label: "Terms & Conditions", to: "/termsAndCondition" },
           text4: { label: "Tips & Recommendations", to: "/" },
         },
         {

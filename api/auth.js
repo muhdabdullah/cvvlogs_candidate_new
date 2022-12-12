@@ -45,7 +45,7 @@ export default ($axios, store, ctx, router) => ({
       });
   },
 
-  async get_baseJobs() {
+  async getProfile() {
     return ctx.$request
       .get("/profile.php")
       .then((response) => {

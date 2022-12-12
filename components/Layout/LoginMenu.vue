@@ -19,7 +19,15 @@
       </template>
       <v-list class="py-0">
         <div>
-          <v-btn height="50" class="text-capitalize" block tile depressed>
+          <v-btn
+            to="/profile"
+            nuxt
+            height="50"
+            class="text-capitalize"
+            block
+            tile
+            depressed
+          >
             Profile
           </v-btn>
           <v-btn height="50" class="text-capitalize" block tile depressed>
