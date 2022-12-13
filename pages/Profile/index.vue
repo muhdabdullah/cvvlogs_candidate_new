@@ -3,7 +3,7 @@
     <!-- Profile Card -->
     <ProfileCard
       class="mt-16 mb-5"
-      :userData="userData.profile"
+      :userData="userData && userData.profile"
       :editProfileMode="true"
     />
 
@@ -38,74 +38,83 @@
         </div>
 
         <div v-if="personalEdits" class="personal__details__form pa-5">
-          <v-form>
+          <v-form v-if="personalDetails">
             <v-text-field
-              dense
-              placeholder="First Name"
-              v-model="userData.profile.name"
+              label="First Name"
+              v-model="personalDetails.first_name"
               outlined
             ></v-text-field>
 
-            <v-text-field dense placeholder="Last Name" outlined></v-text-field>
+            <v-text-field
+              v-model="personalDetails.last_name"
+              label="Last Name"
+              outlined
+            ></v-text-field>
 
             <v-text-field
-              dense
-              v-model="userData.profile.email"
+              v-model="personalDetails.email"
               placeholder="Email"
               outlined
               type="email"
             ></v-text-field>
 
             <v-select
-              v-model="userData.profile.country"
+              v-model="personalDetails.country"
               label="Country"
+              :items="countries"
+              item-text="country_name"
+              item-value="country_id"
               outlined
-              dense
             >
             </v-select>
 
             <v-select
-              v-model="userData.profile.state"
+              v-model="personalDetails.state"
               label="State / Province"
               outlined
-              dense
             >
             </v-select>
-            <v-select
-              v-model="userData.profile.city"
-              label="City"
-              outlined
-              dense
-            >
+            <v-select v-model="personalDetails.city" label="City" outlined>
             </v-select>
             <v-select
-              v-model="userData.profile.gender"
+              v-model="personalDetails.gender"
               :items="genders"
               label="Gender"
               outlined
-              dense
             >
             </v-select>
+
             <v-select
-              v-model="userData.profile.nationality"
+              v-model="personalDetails.nationality"
+              :items="nationalities"
               label="Nationality"
+              item-text="nat_name"
+              return-object
               outlined
-              dense
+              multiple
+              chips
             >
             </v-select>
             <v-select
-              v-model="userData.profile.marital_status"
+              v-model="personalDetails.marital_status"
               label="Maritial Status"
+              item-text="m_name"
+              item-value="id"
+              :items="maritalStatus"
               outlined
-              dense
             >
             </v-select>
             <v-select
               hide-details
-              v-model="userData.profile.languages"
+              v-model="personalDetails.languages"
+              :items="languages"
               label="Language (max 3 language)"
               outlined
-              dense
+              item-text="l_name"
+              return-object
+              multiple
+              clearable
+              chips
             >
             </v-select>
           </v-form>
@@ -478,10 +487,105 @@
         </div>
       </v-card-text>
     </v-card>
+
+    <v-card
+      class="mx-auto tw-opacity-95 my-5 mb-10"
+      elevation="20"
+      rounded="lg"
+      color="white"
+      max-width="1170"
+    >
+      <v-card-text class="pa-3 tw-h-full">
+        <div
+          class="d-flex align-center justify-space-between px-4 py-2 tw-h-full"
+        >
+          <h1 class="tw-text-xl tw-font-semibold black--text">Skills</h1>
+          <div class="edit__profile__btn d-flex align-center justify-end">
+            <v-btn
+              class="tw-text-lg text-capitalize tw-font-bold"
+              depressed
+              text
+              :color="skillEdit ? 'error' : 'primary'"
+              @click="skillEdit = !skillEdit"
+            >
+              {{ skillEdit ? "Cancel" : "Edits" }}
+              <v-icon class="ml-1" small>{{
+                skillEdit ? "mdi-close" : "mdi-pencil"
+              }}</v-icon>
+            </v-btn>
+          </div>
+        </div>
+
+        <div v-if="skillEdit" class="personal__details pa-5">
+          <v-autocomplete
+            outlined
+            clearable
+            item-text="label"
+            item-value="id"
+            :items="skills"
+            @input="addToSkills"
+            label="Choose your skills"
+            return-object
+          >
+          </v-autocomplete>
+
+          <div class="personal__details pa-5 pt-0">
+            <v-divider class="mb-5"></v-divider>
+
+            <div class="d-flex align-center" v-if="skillLoader">
+              <v-skeleton-loader
+                v-for="n in 3"
+                :key="n"
+                class="mr-1"
+                type="button"
+              ></v-skeleton-loader>
+            </div>
+
+            <div v-else class="d-flex align-center">
+              <v-chip
+                v-for="(skill, index) in selectedSkills"
+                :key="`skill-${index}`"
+                class="mr-2"
+                @click.prevent="selectedSkills.splice(index, 1)"
+              >
+                {{ skill.name }}
+                <v-icon small class="ml-2">mdi-close</v-icon>
+              </v-chip>
+            </div>
+          </div>
+
+          <v-btn
+            height="50"
+            depressed
+            width="200"
+            :disabled="skillLoader"
+            class="text-capitalize my-3"
+            color="secondary"
+            @click="saveSkills"
+          >
+            Save Changes
+          </v-btn>
+        </div>
+
+        <div v-else class="personal__details py-5 px-0 pt-0">
+          <v-divider class="mb-5"></v-divider>
+          <div class="d-flex align-center">
+            <v-chip
+              v-for="(skill, index) in userData.skills"
+              :key="`skill-${index}`"
+              class="mr-2"
+            >
+              {{ skill.sk_name }}
+            </v-chip>
+          </div>
+        </div>
+      </v-card-text>
+    </v-card>
   </div>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   async asyncData({ $api, store }) {
     const userData = await $api.authService.getProfile().then((response) => {
@@ -498,7 +602,102 @@ export default {
       personalEdits: false,
       professionalEdits: false,
       qualificationDetails: false,
+      skillEdit: false,
+      skills: [],
+      personalDetails: [],
+      selectedSkills: [],
+      skillLoader: false,
+      dataLoader: false,
+      userData: null,
+      countries: [],
     };
+  },
+  computed: {
+    ...mapGetters("utils", ["languages", "maritalStatus", "nationalities"]),
+  },
+  watch: {
+    skillEdit(val) {
+      if (val) {
+        this.getSkills();
+      }
+    },
+    personalEdits(val) {
+      if (val) {
+        this.getPersonalDetails();
+      }
+    },
+  },
+  methods: {
+    async getProfileData() {
+      await this.$api.authService.getProfile().then((response) => {
+        if (response.data) {
+          this.userData = response.data;
+        }
+      });
+    },
+    addToSkills(skill) {
+      this.selectedSkills.push({
+        id: skill.id,
+        name: skill.name,
+      });
+    },
+    async getPersonalDetails() {
+      if (this.personalDetails?.length) return this.personalDetails;
+
+      // Get Counties data
+      if (!this.countries.length) {
+        await this.$api.utilsService.getCountryList().then((response) => {
+          this.countries = response.data;
+        });
+      }
+
+      // this.skillLoader = true;
+      await this.$api.utilsService.personal_details().then(async (response) => {
+        if (response.data) {
+          this.personalDetails = response.data?.stored_values;
+
+          this.$store.dispatch("utils/set_languages", response.data?.languages);
+          this.$store.dispatch(
+            "utils/set_nationalities",
+            response.data?.nationality
+          );
+          this.$store.dispatch(
+            "utils/set_maritalStatus",
+            response.data?.marital_statuses
+          );
+        }
+      });
+      // .finally(() => (this.skillLoader = false));
+    },
+    async getSkills() {
+      if (this.skills?.length) return this.skills;
+
+      this.skillLoader = true;
+      await this.$api.utilsService
+        .getSkills()
+        .then((response) => {
+          if (response.data) {
+            this.skills = response.data?.skills;
+            this.selectedSkills = response.data?.stored_values;
+          }
+        })
+        .finally(() => (this.skillLoader = false));
+    },
+    async saveSkills() {
+      let final_selected_skills = this.selectedSkills.map((el) => el.id);
+      this.skillLoader = true;
+      await this.$api.utilsService
+        .addSkills({
+          skills: final_selected_skills,
+        })
+        .then((response) => {
+          if (response.data) {
+            this.skillEdit = false;
+            this.getProfileData();
+          }
+        })
+        .finally(() => (this.skillLoader = false));
+    },
   },
 };
 </script>

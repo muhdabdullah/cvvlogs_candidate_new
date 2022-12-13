@@ -44,7 +44,9 @@
                     "
                   >
                     <p>{{ (userData && userData.proffession) || "-" }}</p>
-                    <p>{{ (userData && userData.curr_rec) || "-" }}</p>
+                    <p v-if="userData && userData.curr_rec">
+                      {{ userData.curr_rec || "-" }}
+                    </p>
                     <p>
                       <span>{{ (userData && userData.city) || "-" }}</span> -
                       <span>{{ (userData && userData.country) || "-" }}</span>
@@ -68,7 +70,9 @@
 
                     <div class="d-flex align-center">
                       <v-icon small class="mr-2">mdi-phone</v-icon>
-                      <span>{{ (userData && userData.num) || "-" }}</span>
+                      <span>{{
+                        (userData && userData.num) || userData.number || "-"
+                      }}</span>
                     </div>
                   </div>
                 </div>
@@ -151,17 +155,44 @@
 
                 <div
                   v-if="userData && userData.profile_percentage != 100"
-                  class="complete__profile__btn"
+                  class="
+                    complete__profile__btn
+                    d-flex
+                    align-center
+                    justify-space-between
+                  "
                 >
                   <v-btn
                     class="tw-text-lg text-capitalize tw-font-bold"
                     max-width="224"
-                    block
-                    height="64"
+                    height="60"
                     depressed
                     :color="'secondary'"
                   >
-                    Complete Your Profile
+                    Complete <br />
+                    Your Profile
+                  </v-btn>
+
+                  <v-btn
+                    class="tw-text-lg text-capitalize tw-font-bold"
+                    max-width="224"
+                    height="60"
+                    depressed
+                    to="/profile/viewed"
+                    :color="'secondary'"
+                  >
+                    Profile Viewed
+                  </v-btn>
+
+                  <v-btn
+                    class="tw-text-lg text-capitalize tw-font-bold"
+                    max-width="224"
+                    height="60"
+                    depressed
+                    to="/cv-shortlisted"
+                    :color="'secondary'"
+                  >
+                    Progress
                   </v-btn>
                 </div>
               </div>
@@ -177,10 +208,12 @@
               cover
               :lazy-src="
                 (userData && userData.profile_picture) ||
+                userData.dp ||
                 '/img/homeProfileImg.png'
               "
               :src="
                 (userData && userData.profile_picture) ||
+                userData.dp ||
                 '/img/homeProfileImg.png'
               "
             />
@@ -202,6 +235,7 @@ export default {
       type: Object,
     },
   },
+  mounted() {},
   computed: {
     // userData() {
     //   return this.$store.getters["auth/get_userData"];

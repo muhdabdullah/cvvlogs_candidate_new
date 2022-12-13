@@ -7,7 +7,7 @@
         <section v-if="AuthID" class="dash__sec">
           <!-- Profile Card -->
           <ProfileCard
-            :userData="dashboardData && dashboardData.profile"
+            :userData="authData"
             class="tw-relative tw-bottom-10 tw-z-10"
           />
 
@@ -266,6 +266,9 @@ export default {
   computed: {
     dashboardData() {
       return this.$store.getters["getDashboardData"];
+    },
+    authData() {
+      return this.$store.getters["auth/get_userData"];
     },
     AuthID() {
       if (this.$store.getters["auth/get_authId"]) return true;
