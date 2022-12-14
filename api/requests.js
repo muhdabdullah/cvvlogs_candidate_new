@@ -6,7 +6,7 @@ export default ($axios) => ({
         return response;
       })
       .catch((error) => {
-        throw error;
+        // throw error;
       });
   },
 
@@ -17,7 +17,7 @@ export default ($axios) => ({
         return response;
       })
       .catch((error) => {
-        throw error;
+        // throw error;
       });
   },
 
@@ -29,7 +29,7 @@ export default ($axios) => ({
       })
       .catch((error) => {
         console.log("error", error);
-        throw error;
+        // throw error;
       });
   },
 

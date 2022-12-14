@@ -38,18 +38,22 @@
         </div>
 
         <div v-if="personalEdits" class="personal__details__form pa-5">
-          <v-form v-if="personalDetails">
-            <v-text-field
-              label="First Name"
-              v-model="personalDetails.first_name"
-              outlined
-            ></v-text-field>
+          <v-form ref="form" v-if="personalDetails">
+            <div class="d-flex align-center">
+              <v-text-field
+                label="First Name"
+                class="mr-2"
+                v-model="personalDetails.first_name"
+                outlined
+              ></v-text-field>
 
-            <v-text-field
-              v-model="personalDetails.last_name"
-              label="Last Name"
-              outlined
-            ></v-text-field>
+              <v-text-field
+                v-model="personalDetails.last_name"
+                label="Last Name"
+                class="ml-2"
+                outlined
+              ></v-text-field>
+            </div>
 
             <v-text-field
               v-model="personalDetails.email"
@@ -62,48 +66,69 @@
               v-model="personalDetails.country"
               label="Country"
               :items="countries"
-              item-text="country_name"
-              item-value="country_id"
+              :item-text="'country_name' || 'co_name'"
+              :item-value="'country_id' || 'id'"
               outlined
             >
             </v-select>
 
-            <v-select
-              v-model="personalDetails.state"
-              label="State / Province"
-              outlined
-            >
-            </v-select>
-            <v-select v-model="personalDetails.city" label="City" outlined>
-            </v-select>
-            <v-select
-              v-model="personalDetails.gender"
-              :items="genders"
-              label="Gender"
-              outlined
-            >
-            </v-select>
+            <div class="d-flex align-center">
+              <v-select
+                v-model="personalDetails.state"
+                :items="stateList"
+                label="State / Province"
+                class="mr-2"
+                outlined
+                item-text="state_name"
+                item-value="id"
+              >
+              </v-select>
+              <v-select
+                class="ml-2"
+                v-model="personalDetails.city"
+                :items="citiesList"
+                label="City"
+                :item-text="'city_name'"
+                :item-value="'city_id'"
+                outlined
+              >
+              </v-select>
+            </div>
 
-            <v-select
-              v-model="personalDetails.nationality"
-              :items="nationalities"
-              label="Nationality"
-              item-text="nat_name"
-              return-object
-              outlined
-              multiple
-              chips
-            >
-            </v-select>
-            <v-select
-              v-model="personalDetails.marital_status"
-              label="Maritial Status"
-              item-text="m_name"
-              item-value="id"
-              :items="maritalStatus"
-              outlined
-            >
-            </v-select>
+            <div class="d-flex align-center">
+              <v-select
+                v-model="personalDetails.nationality"
+                :items="nationalities"
+                label="Nationality"
+                item-text="nat_name"
+                class="mr-2"
+                outlined
+              >
+              </v-select>
+
+              <v-select
+                v-model="personalDetails.gender"
+                :items="genders"
+                item-text="name"
+                ite-value="id"
+                label="Gender"
+                outlined
+                class="ml-2"
+              >
+              </v-select>
+
+              <v-select
+                v-model="personalDetails.marital_status"
+                label="Maritial Status"
+                item-text="m_name"
+                item-value="id"
+                :items="maritalStatus"
+                outlined
+                class="ml-2"
+              >
+              </v-select>
+            </div>
+
             <v-select
               hide-details
               v-model="personalDetails.languages"
@@ -111,19 +136,29 @@
               label="Language (max 3 language)"
               outlined
               item-text="l_name"
-              return-object
               multiple
               clearable
               chips
             >
             </v-select>
           </v-form>
+
+          <div v-else class="d-flex my-5 align-center justify-center">
+            <v-progress-circular
+              indeterminate
+              :size="70"
+              color="secondary"
+            ></v-progress-circular>
+          </div>
+
           <v-btn
             height="50"
             depressed
             width="200"
             class="text-capitalize my-3"
+            :loading="profileLoader"
             color="secondary"
+            @click="saveProfile"
           >
             Save Changes
           </v-btn>
@@ -131,7 +166,7 @@
 
         <div v-else class="personal__details pa-5 pt-0">
           <v-divider class="mb-5"></v-divider>
-          <v-row no-gutters>
+          <v-row v-if="userData && userData.profile" no-gutters>
             <v-col cols="12" md="6" lg="6" xl="6">
               <div class="pt-0">
                 <h4>Full Name</h4>
@@ -211,45 +246,67 @@
         </div>
 
         <div v-if="professionalEdits" class="personal__details pa-5">
-          <v-form>
-            <v-text-field
+          <v-form
+            v-if="proffessionalDetails && proffessionalDetails.stored_values"
+          >
+            <v-select
               dense
-              v-model="userData.proffession.exp_level"
               placeholder="Total Work Experience"
               outlined
-            ></v-text-field>
+              item-text="exp_name"
+              item-value="id"
+              v-model="proffessionalDetails.stored_values.exp_level"
+              :items="proffessionalDetails.experience_level"
+            ></v-select>
 
             <v-select
-              v-model="userData.proffession.industry"
+              :items="proffessionalDetails.industry"
+              v-model="proffessionalDetails.stored_values.industry"
+              item-text="cat_name"
+              item-value="cat_id"
               label="Current Industry"
               outlined
               dense
             >
             </v-select>
             <v-select
-              v-model="userData.proffession.functional_area"
+              v-model="proffessionalDetails.stored_values.functional_area"
               label="Current Career"
+              :items="proffessionalDetails.functional_area"
+              item-text="func_name"
+              item-value="id"
               outlined
               dense
             >
             </v-select>
-            <v-select label="Current Job Level" outlined dense> </v-select>
+            <!-- <v-select label="Current Job Level" outlined dense> 
+
+            </v-select> -->
             <v-select
-              v-model="userData.proffession.wrk_lvl"
+              v-model="proffessionalDetails.stored_values.wrk_lvl"
+              :items="proffessionalDetails.work_level"
+              item-text="work_level"
+              item-value="id"
               label="Current Type"
               outlined
               dense
             >
             </v-select>
             <v-select
-              v-model="userData.proffession.salary"
+              v-model="proffessionalDetails.stored_values.salary"
+              :items="proffessionalDetails.salary_per_annum"
+              item-text="sal_name"
+              item-value="sal_name"
               label="Annual Salary"
               outlined
               dense
             >
             </v-select>
             <v-select
-              v-model="userData.proffession.availability"
+              v-model="proffessionalDetails.stored_values.availability"
+              :items="proffessionalDetails.availablity"
+              item-text="ava_name"
+              item-value="id"
               hide-details
               label="Notice Period"
               outlined
@@ -262,7 +319,7 @@
                 Current Designation or Title (For recruiters to find you)
               </h3>
               <v-text-field
-                v-model="userData.proffession.cur_title"
+                v-model="proffessionalDetails.stored_values.curr_title"
                 dense
                 placeholder="Project Manager"
                 outlined
@@ -275,13 +332,13 @@
               </h3>
               <div class="d-flex">
                 <v-checkbox
-                  v-model="userData.proffession.employed_status"
+                  v-model="proffessionalDetails.stored_values.employed_status"
                   class="mr-2"
                   value="1"
                   label="Yes"
                 ></v-checkbox>
                 <v-checkbox
-                  v-model="userData.proffession.employed_status"
+                  v-model="proffessionalDetails.stored_values.employed_status"
                   class="ml-2"
                   value="0"
                   label="No"
@@ -289,12 +346,23 @@
               </div>
             </div>
           </v-form>
+
+          <div v-else class="d-flex my-5 align-center justify-center">
+            <v-progress-circular
+              indeterminate
+              :size="70"
+              color="secondary"
+            ></v-progress-circular>
+          </div>
+
           <v-btn
             height="50"
             depressed
             width="200"
             class="text-capitalize my-3"
+            :loading="professionalLoader"
             color="secondary"
+            @click.prevent="saveProfessional"
           >
             Save Changes
           </v-btn>
@@ -343,7 +411,7 @@
 
               <div>
                 <h4>Current Designation</h4>
-                <h6>{{ userData.proffession.cur_title || "-" }}</h6>
+                <h6>{{ userData.proffession.curr_title || "-" }}</h6>
               </div>
             </v-col>
           </v-row>
@@ -598,18 +666,26 @@ export default {
   },
   data() {
     return {
-      genders: ["Male", "Female"],
+      genders: [
+        { id: 1, name: "Male" },
+        { id: 2, name: "Female" },
+      ],
       personalEdits: false,
       professionalEdits: false,
       qualificationDetails: false,
       skillEdit: false,
       skills: [],
       personalDetails: [],
+      proffessionalDetails: [],
       selectedSkills: [],
       skillLoader: false,
+      profileLoader: false,
+      professionalLoader: false,
       dataLoader: false,
       userData: null,
       countries: [],
+      stateList: [],
+      citiesList: [],
     };
   },
   computed: {
@@ -626,14 +702,25 @@ export default {
         this.getPersonalDetails();
       }
     },
+    professionalEdits(val) {
+      if (val) {
+        this.getProfessionalDetail();
+      }
+    },
   },
   methods: {
     async getProfileData() {
-      await this.$api.authService.getProfile().then((response) => {
-        if (response.data) {
-          this.userData = response.data;
-        }
-      });
+      this.dataLoader = true;
+      await this.$api.authService
+        .getProfile()
+        .then((response) => {
+          if (response.data) {
+            this.userData = response.data;
+          }
+        })
+        .finally(() => {
+          this.dataLoader = false;
+        });
     },
     addToSkills(skill) {
       this.selectedSkills.push({
@@ -641,20 +728,86 @@ export default {
         name: skill.name,
       });
     },
-    async getPersonalDetails() {
-      if (this.personalDetails?.length) return this.personalDetails;
+    async getState(country_id) {
+      await this.$api.utilsService
+        .getStateList(country_id)
+        .then(async (response) => {
+          if (response.data) {
+            this.stateList = response.data?.state_list;
 
+            let findState = this.stateList.find(
+              (el) => el.state_id == this.personalDetails?.state?.id
+            );
+
+            if (findState) {
+              await this.getCity({
+                country_id: this.personalDetails?.country?.id,
+                state_id: this.personalDetails?.state?.id,
+              });
+
+              this.personalDetails = {
+                ...this.personalDetails,
+                state: findState,
+              };
+            }
+          }
+        });
+    },
+    async getCity(obj) {
+      await this.$api.utilsService.getCityList(obj).then(async (response) => {
+        if (response.data) {
+          this.citiesList = response.data?.city_list;
+
+          let findCity = this.citiesList.find(
+            (el) => el.city_id == this.personalDetails?.city?.id
+          );
+
+          if (findCity) {
+            this.personalDetails = {
+              ...this.personalDetails,
+              city: findCity,
+            };
+          }
+        }
+      });
+    },
+    async getProfessionalDetail() {
+      await this.$api.utilsService.getProfessionalDetail().then((response) => {
+        if (response.data) {
+          this.proffessionalDetails = response.data;
+        }
+      });
+    },
+    async getPersonalDetails() {
       // Get Counties data
       if (!this.countries.length) {
         await this.$api.utilsService.getCountryList().then((response) => {
-          this.countries = response.data;
+          this.countries = response?.data?.country;
         });
       }
 
       // this.skillLoader = true;
       await this.$api.utilsService.personal_details().then(async (response) => {
         if (response.data) {
-          this.personalDetails = response.data?.stored_values;
+          this.personalDetails = {
+            ...response.data?.stored_values,
+          };
+
+          let findCountry = this.countries.find(
+            (el) => el.country_id == this.personalDetails?.country?.id
+          );
+
+          if (findCountry) {
+            await this.getState({ country_id: findCountry?.country_id });
+          }
+
+          this.personalDetails = {
+            ...this.personalDetails,
+            country: findCountry,
+            gender: this.genders.find(
+              (el) => el.id == this.personalDetails.gender
+            ),
+          };
 
           this.$store.dispatch("utils/set_languages", response.data?.languages);
           this.$store.dispatch(
@@ -697,6 +850,71 @@ export default {
           }
         })
         .finally(() => (this.skillLoader = false));
+    },
+    async saveProfile() {
+      this.profileLoader = true;
+
+      delete this.personalDetails.email;
+      delete this.personalDetails.num;
+      delete this.personalDetails.num_code;
+
+      //let formData = new FormData();
+      // for (const key in this.personalDetails) {
+      //   if (Object.hasOwnProperty.call(this.personalDetails, key)) {
+      //     const element = this.personalDetails[key];
+      //     formData.append(key, element);
+      //   }
+      // }
+
+      await this.$api.utilsService
+        .saveProfileDetail(this.personalDetails)
+        .then((response) => {
+          if (response.data) {
+            this.personalEdits = false;
+            this.getProfileData();
+          }
+        })
+        .finally(() => (this.profileLoader = false));
+    },
+    async saveProfessional() {
+      if (this.proffessionalDetails?.stored_values) {
+        this.professionalLoader = true;
+        // ...
+        this.proffessionalDetails.stored_values = {
+          ...this.proffessionalDetails.stored_values,
+          availability:
+            this.proffessionalDetails.stored_values?.availability?.id ||
+            this.proffessionalDetails.stored_values?.availability,
+          employer_city:
+            this.proffessionalDetails.stored_values?.employer_city?.id ||
+            this.proffessionalDetails.stored_values?.employer_city,
+          exp_level:
+            this.proffessionalDetails.stored_values?.exp_level?.id ||
+            this.proffessionalDetails.stored_values?.exp_level,
+          functional_area:
+            this.proffessionalDetails.stored_values?.functional_area?.id ||
+            this.proffessionalDetails.stored_values?.functional_area,
+          industry:
+            this.proffessionalDetails.stored_values?.industry?.cat_id ||
+            this.proffessionalDetails.stored_values?.industry,
+          wrk_lvl:
+            this.proffessionalDetails.stored_values?.wrk_lvl?.id ||
+            this.proffessionalDetails.stored_values?.wrk_lvl,
+          employer_city:
+            this.proffessionalDetails.stored_values?.employer_city?.id ||
+            this.proffessionalDetails.stored_values?.employer_city,
+        };
+
+        await this.$api.utilsService
+          .saveProfessionalDetail(this.proffessionalDetails.stored_values)
+          .then((response) => {
+            if (response.data) {
+              this.professionalEdits = false;
+              this.getProfileData();
+            }
+          })
+          .finally(() => (this.professionalLoader = false));
+      }
     },
   },
 };

@@ -33,9 +33,21 @@ export default ($axios, store, ctx, router) => ({
 
   async getCityList(params) {
     return ctx.$request
-      .post(`/fetch_state_list.php`, params)
+      .post(`/fetch_city_list.php`, params)
       .then((response) => {
         return response;
       });
+  },
+
+  async saveProfileDetail(params) {
+    return ctx.$request.post("/add_profile.php", params);
+  },
+
+  async getProfessionalDetail() {
+    return ctx.$request.get("/edit_professional_detail.php");
+  },
+
+  async saveProfessionalDetail(params) {
+    return ctx.$request.post("/add_proffessional_detail.php", params);
   },
 });
