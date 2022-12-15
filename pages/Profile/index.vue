@@ -370,7 +370,7 @@
 
         <div v-else class="personal__details pa-5 pt-0">
           <v-divider class="mb-5"></v-divider>
-          <v-row no-gutters>
+          <v-row v-if="userData && userData.proffession" no-gutters>
             <v-col cols="12" md="6" lg="6" xl="6">
               <div class="pt-0">
                 <h4>Total Work Experience</h4>
@@ -438,68 +438,97 @@
               class="tw-text-lg text-capitalize tw-font-bold"
               depressed
               text
-              :color="qualificationDetails ? 'error' : 'primary'"
-              @click="qualificationDetails = !qualificationDetails"
+              :color="qualificationEdits ? 'error' : 'primary'"
+              @click="qualificationEdits = !qualificationEdits"
             >
-              {{ qualificationDetails ? "Cancel" : "Edits" }}
+              {{ qualificationEdits ? "Cancel" : "Edits" }}
               <v-icon class="ml-1" small>{{
-                qualificationDetails ? "mdi-close" : "mdi-pencil"
+                qualificationEdits ? "mdi-close" : "mdi-pencil"
               }}</v-icon>
             </v-btn>
           </div>
         </div>
 
-        <div v-if="qualificationDetails" class="personal__details pa-5">
-          <v-form>
+        <div v-if="qualificationEdits" class="personal__details pa-5">
+          <v-form
+            v-if="qualificationDetails && qualificationDetails.stored_values"
+          >
             <v-select
-              v-model="userData.education.qualification"
+              v-model="qualificationDetails.stored_values.qualification"
+              :items="qualificationDetails.course_vise_education"
+              item-text="qual_name"
+              item-value="qual_id"
+              return-object
               label="Qualification"
               outlined
               dense
             >
             </v-select>
             <v-select
-              v-model="userData.education.course"
+              :items="[]"
+              v-model="qualificationDetails.stored_values.course"
               label="Course Type"
               outlined
               dense
             >
             </v-select>
             <v-select
-              v-model="userData.education.spec"
+              :items="get_specifice_course('course')"
+              item-text="name"
+              item-value="id"
+              return-object
               label="Course Specialization"
               outlined
               dense
             >
             </v-select>
-            <v-text-field
-              v-model="userData.education.institute_location"
+            <v-select
+              v-model="qualificationDetails.stored_values.institute_location"
+              :items="qualificationDetails.location"
+              item-text="loc_name"
+              item-value="id"
+              return-object
               dense
               placeholder="Institute Location"
               outlined
-            ></v-text-field>
-            <v-select
+            ></v-select>
+            <v-text-field
               label="Institute Name"
-              v-model="userData.education.institute_name"
+              v-model="qualificationDetails.stored_values.institute_name"
               outlined
               dense
             >
-            </v-select>
+            </v-text-field>
             <v-select
+              v-model="qualificationDetails.stored_values.year"
+              :items="qualificationDetails.years"
+              item-text="year"
+              item-value="id"
+              return-object
               hide-details
-              v-model="userData.education.year"
               label="Course Completion Year"
               outlined
               dense
             >
             </v-select>
           </v-form>
+
+          <div v-else class="d-flex my-5 align-center justify-center">
+            <v-progress-circular
+              indeterminate
+              :size="70"
+              color="secondary"
+            ></v-progress-circular>
+          </div>
+
           <v-btn
             height="50"
             depressed
             width="200"
             class="text-capitalize my-3"
             color="secondary"
+            @click="saveQualification"
+            :loading="qualificationLoader"
           >
             Save Changes
           </v-btn>
@@ -507,7 +536,7 @@
 
         <div v-else class="personal__details pa-5 pt-0">
           <v-divider class="mb-5"></v-divider>
-          <v-row no-gutters>
+          <v-row v-if="userData && userData.education" no-gutters>
             <v-col cols="12" md="6" lg="6" xl="6">
               <div class="pt-0">
                 <h4>Qualification</h4>
@@ -523,11 +552,6 @@
                 <h4>Course Specialization</h4>
                 <h6>{{ userData.education.course_spec }}</h6>
               </div>
-
-              <div>
-                <h4>Institute Location</h4>
-                <h6>{{ userData.education.institute_location }}</h6>
-              </div>
             </v-col>
 
             <v-col cols="12" md="6" lg="6" xl="6">
@@ -539,6 +563,11 @@
               <div>
                 <h4>Course Completion Year</h4>
                 <h6>{{ userData.education.year }}</h6>
+              </div>
+
+              <div>
+                <h4>Institute Location</h4>
+                <h6>{{ userData.education.institute_location }}</h6>
               </div>
 
               <!-- <div>
@@ -657,7 +686,7 @@ import { mapGetters } from "vuex";
 export default {
   async asyncData({ $api, store }) {
     const userData = await $api.authService.getProfile().then((response) => {
-      if (response.data) {
+      if (response?.data) {
         return response.data;
       }
     });
@@ -672,15 +701,17 @@ export default {
       ],
       personalEdits: false,
       professionalEdits: false,
-      qualificationDetails: false,
+      qualificationEdits: false,
       skillEdit: false,
       skills: [],
       personalDetails: [],
       proffessionalDetails: [],
+      qualificationDetails: [],
       selectedSkills: [],
       skillLoader: false,
       profileLoader: false,
       professionalLoader: false,
+      qualificationLoader: false,
       dataLoader: false,
       userData: null,
       countries: [],
@@ -707,14 +738,38 @@ export default {
         this.getProfessionalDetail();
       }
     },
+    qualificationEdits(val) {
+      if (val) {
+        this.getQualificationDetails();
+      }
+    },
   },
   methods: {
+    get_specifice_course(type) {
+      let qual_id;
+      if (
+        type == "course" &&
+        this.qualificationDetails &&
+        this.qualificationDetails.course_vise_education
+      ) {
+        qual_id = this.qualificationDetails.course_vise_education.find(
+          (el) =>
+            el.qual_id ==
+            this.qualificationDetails.stored_values.qualification.qual_id
+        );
+        console.log("workingTP", qual_id);
+        return qual_id?.qual_courses;
+      } else if (type == "specs" && qual_id) {
+      }
+
+      return [];
+    },
     async getProfileData() {
       this.dataLoader = true;
       await this.$api.authService
         .getProfile()
         .then((response) => {
-          if (response.data) {
+          if (response?.data) {
             this.userData = response.data;
           }
         })
@@ -732,7 +787,7 @@ export default {
       await this.$api.utilsService
         .getStateList(country_id)
         .then(async (response) => {
-          if (response.data) {
+          if (response?.data) {
             this.stateList = response.data?.state_list;
 
             let findState = this.stateList.find(
@@ -755,7 +810,7 @@ export default {
     },
     async getCity(obj) {
       await this.$api.utilsService.getCityList(obj).then(async (response) => {
-        if (response.data) {
+        if (response?.data) {
           this.citiesList = response.data?.city_list;
 
           let findCity = this.citiesList.find(
@@ -773,7 +828,7 @@ export default {
     },
     async getProfessionalDetail() {
       await this.$api.utilsService.getProfessionalDetail().then((response) => {
-        if (response.data) {
+        if (response?.data) {
           this.proffessionalDetails = response.data;
         }
       });
@@ -788,7 +843,7 @@ export default {
 
       // this.skillLoader = true;
       await this.$api.utilsService.personal_details().then(async (response) => {
-        if (response.data) {
+        if (response?.data) {
           this.personalDetails = {
             ...response.data?.stored_values,
           };
@@ -812,15 +867,24 @@ export default {
           this.$store.dispatch("utils/set_languages", response.data?.languages);
           this.$store.dispatch(
             "utils/set_nationalities",
-            response.data?.nationality
+            response?.data?.nationality
           );
           this.$store.dispatch(
             "utils/set_maritalStatus",
-            response.data?.marital_statuses
+            response?.data?.marital_statuses
           );
         }
       });
       // .finally(() => (this.skillLoader = false));
+    },
+    async getQualificationDetails() {
+      await this.$api.utilsService
+        .add_qualification_get()
+        .then(async (response) => {
+          if (response?.data) {
+            this.qualificationDetails = response.data;
+          }
+        });
     },
     async getSkills() {
       if (this.skills?.length) return this.skills;
@@ -829,7 +893,7 @@ export default {
       await this.$api.utilsService
         .getSkills()
         .then((response) => {
-          if (response.data) {
+          if (response?.data) {
             this.skills = response.data?.skills;
             this.selectedSkills = response.data?.stored_values;
           }
@@ -844,7 +908,7 @@ export default {
           skills: final_selected_skills,
         })
         .then((response) => {
-          if (response.data) {
+          if (response?.data) {
             this.skillEdit = false;
             this.getProfileData();
           }
@@ -869,12 +933,23 @@ export default {
       await this.$api.utilsService
         .saveProfileDetail(this.personalDetails)
         .then((response) => {
-          if (response.data) {
+          if (response?.data) {
             this.personalEdits = false;
             this.getProfileData();
           }
         })
         .finally(() => (this.profileLoader = false));
+    },
+    async saveQualification() {
+      this.qualificationLoader = true;
+      await this.$api.utilsService
+        .save_qualification_post(this.qualificationDetails)
+        .then((response) => {
+          this.qualificationEdits = false;
+        })
+        .finally(() => {
+          this.qualificationLoader = false;
+        });
     },
     async saveProfessional() {
       if (this.proffessionalDetails?.stored_values) {
@@ -908,7 +983,7 @@ export default {
         await this.$api.utilsService
           .saveProfessionalDetail(this.proffessionalDetails.stored_values)
           .then((response) => {
-            if (response.data) {
+            if (response?.data) {
               this.professionalEdits = false;
               this.getProfileData();
             }

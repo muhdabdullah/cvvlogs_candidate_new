@@ -47,16 +47,35 @@
                   tw-text-xl tw-font-semibold
                 "
               >
-                Job Title
+                Job Industry
               </div>
               <v-card-text class="tw-overflow-auto tw-max-h-64">
                 <div
-                  v-for="(job, index) in filter_data.industries"
+                  v-for="(job, index) in job_categories"
                   :key="index"
                   class="d-flex align-center justify-space-between"
                 >
+                  <div v-if="job && job.id == 104">
+                    <v-expansion-panels flat>
+                      <v-expansion-panel>
+                        <v-expansion-panel-header class="d-flex pa-2">{{
+                          job.name
+                        }}</v-expansion-panel-header>
+                        <v-expansion-panel-content>
+                          <v-checkbox
+                            :label="`${'Child'}`"
+                            hide-details
+                            color="primary"
+                            class="my-1 black--text"
+                          ></v-checkbox>
+                        </v-expansion-panel-content>
+                      </v-expansion-panel>
+                    </v-expansion-panels>
+                  </div>
+
                   <v-checkbox
-                    :label="job.name"
+                    v-else
+                    :label="`${job.name} (${job.job_count})`"
                     hide-details
                     color="primary"
                     class="my-1 black--text"

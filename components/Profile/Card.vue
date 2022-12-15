@@ -154,27 +154,27 @@
                 </div>
 
                 <div
-                  v-if="userData && userData.profile_percentage != 100"
                   class="
                     complete__profile__btn
                     d-flex
                     align-center
-                    justify-space-between
+                    justify-center
                   "
                 >
                   <v-btn
-                    class="tw-text-lg text-capitalize tw-font-bold"
-                    max-width="224"
+                    class="tw-text-lg mx-1 text-capitalize tw-font-bold"
+                    width="224"
                     height="60"
                     depressed
                     :color="'secondary'"
+                    v-if="userData && userData.profile_percentage <= 100"
                   >
                     Complete <br />
                     Your Profile
                   </v-btn>
 
                   <v-btn
-                    class="tw-text-lg text-capitalize tw-font-bold"
+                    class="tw-text-lg mx-1 text-capitalize tw-font-bold"
                     max-width="224"
                     height="60"
                     depressed

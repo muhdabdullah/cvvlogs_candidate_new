@@ -36,6 +36,20 @@
                     "
                   >
                     {{ Job.job_title }}
+                    <v-btn
+                      v-if="
+                        Job.company_name == 'Recruitwell' &&
+                        Job &&
+                        Job.externalId
+                      "
+                      target="_blank"
+                      :href="`https://www.recruitwell.com/providers/jobs/${6244}`"
+                      icon
+                      fab
+                      small
+                    >
+                      <v-icon>mdi-open-in-new</v-icon>
+                    </v-btn>
                   </h3>
                   <h4
                     class="
@@ -50,8 +64,12 @@
                   <div
                     class="d-flex align-center tw-text-sm tw-font-semibold my-1"
                   >
-                    <span>{{ Job.salary_min }} - {{ Job.salary_max }}</span>
-                    <span class="mx-2">|</span>
+                    <span v-if="Job.company_name != 'Recruitwell'"
+                      >{{ Job.salary_min }} - {{ Job.salary_max }}</span
+                    >
+                    <span v-if="Job.company_name != 'Recruitwell'" class="mx-2"
+                      >|</span
+                    >
                     <span v-if="Job.city"> {{ Job.city }}, </span>
                     <span v-if="Job.state"> &nbsp;{{ Job.state }}, </span>
                     <span v-if="Job.country"> &nbsp;{{ Job.country }} </span>
@@ -98,7 +116,7 @@
                   flex-wrap
                 "
               >
-                <v-tooltip bottom color="gray">
+                <v-tooltip v-if="Job.exp" bottom color="gray">
                   <template v-slot:activator="{ on, attrs }">
                     <div
                       v-bind="attrs"
@@ -119,7 +137,7 @@
                   <span>Experience</span>
                 </v-tooltip>
 
-                <v-tooltip bottom color="gray">
+                <v-tooltip v-if="Job.functional_area" bottom color="gray">
                   <template v-slot:activator="{ on, attrs }">
                     <div
                       v-bind="attrs"
@@ -142,7 +160,7 @@
                   <span>Career level</span>
                 </v-tooltip>
 
-                <v-tooltip bottom color="gray">
+                <v-tooltip v-if="Job.job_type" bottom color="gray">
                   <template v-slot:activator="{ on, attrs }">
                     <div
                       v-bind="attrs"
@@ -165,7 +183,7 @@
                   <span>Job Type</span>
                 </v-tooltip>
 
-                <v-tooltip bottom color="gray">
+                <v-tooltip v-if="Job.industry" bottom color="gray">
                   <template v-slot:activator="{ on, attrs }">
                     <div
                       v-bind="attrs"
@@ -179,14 +197,14 @@
                     >
                       <v-icon class="mx-2" dark>mdi-domain</v-icon>
                       <h4 class="tw-text-lg tw-font-medium">
-                        {{ Job.industry || "-" }}
+                        {{ Job.industry }}
                       </h4>
                     </div>
                   </template>
                   <span>Industry</span>
                 </v-tooltip>
 
-                <v-tooltip bottom color="gray">
+                <v-tooltip v-if="Job.vacancy" bottom color="gray">
                   <template v-slot:activator="{ on, attrs }">
                     <div
                       v-bind="attrs"

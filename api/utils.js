@@ -50,4 +50,12 @@ export default ($axios, store, ctx, router) => ({
   async saveProfessionalDetail(params) {
     return ctx.$request.post("/add_proffessional_detail.php", params);
   },
+
+  async save_qualification_post(data) {
+    return ctx.$request.post("/add_qualification_post.php", data);
+  },
+
+  async add_qualification_get() {
+    return ctx.$request.get("/add_qualification_get.php");
+  },
 });
