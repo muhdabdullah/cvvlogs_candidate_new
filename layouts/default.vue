@@ -7,6 +7,7 @@
       </v-container>
     </v-main>
     <LayoutFooter />
+    <LayoutSnackbar />
   </v-app>
 </template>
 

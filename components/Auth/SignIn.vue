@@ -137,7 +137,19 @@ export default {
         .then(async (resp) => {
           if (resp.data) {
             await this.$store.dispatch("resetJobsData");
-            await this.$store.dispatch("auth/set_authId", resp.data);
+
+            if (resp?.status == 200 && resp?.data) {
+              await this.$store.dispatch("auth/set_authId", resp.data);
+            }
+
+            if (resp?.status == 404) {
+              console.log("🚀 ~ file: SignIn.vue:170 ~ onSubmit ~ error", resp);
+              this.$notifier.showMessage({
+                content: resp.message,
+                color: "error",
+              });
+              return;
+            }
 
             // Get new Auth Data
             await this.$api.jobService
@@ -154,9 +166,11 @@ export default {
                     response.data.recent_jobs
                   );
 
-                  this.$api.jobService.get_job_exclude().then((response) => {
-                    this.$store.dispatch("setAllJobs", response.data.job);
-                  });
+                  if (this.AuthID) {
+                    this.$api.jobService.get_job_exclude().then((response) => {
+                      this.$store.dispatch("setAllJobs", response?.data?.job);
+                    });
+                  }
                 }
 
                 return [...response?.data?.jobs_by_industry];
@@ -165,6 +179,12 @@ export default {
             if (this.$route.path != "/") this.$router.push("/");
             this.dialog = false;
           }
+        })
+        .catch((error) => {
+          this.$notifier.showMessage({
+            content: "Hello, snackbar",
+            color: "error",
+          });
         })
         .finally(() => (this.loading = false));
     },

@@ -62,6 +62,7 @@ export default {
   data() {
     return {
       dialog: false,
+      form: null,
     };
   },
 };
