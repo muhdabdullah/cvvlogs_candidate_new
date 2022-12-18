@@ -58,4 +58,30 @@ export default ($axios, store, ctx, router) => ({
   async add_qualification_get() {
     return ctx.$request.get("/add_qualification_get.php");
   },
+  
+  async get_profile_viewers() {
+    return ctx.$request.get("/profile_viewers.php");
+  },
+
+  async get_Profile_by_Id(id) {
+    return ctx.$request
+      .get(`/company_info_web.php?id=${id}`)
+      .then((response) => {
+        return response;
+      })
+      .catch((error) => {
+        throw error;
+      });
+  },
+  async get_user_progress(id) {
+    return ctx.$request
+      .get(`/progress.php`)
+      .then((response) => {
+        return response;
+      })
+      .catch((error) => {
+        throw error;
+      });
+  },
+  
 });
