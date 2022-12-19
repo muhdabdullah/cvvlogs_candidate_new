@@ -53,4 +53,8 @@ export default ($axios, store, ctx, router) => ({
         throw error;
       });
   },
+
+  async apply_job(params) {
+    return ctx.$request.post("/apply_job.php", params);
+  },
 });

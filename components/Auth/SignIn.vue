@@ -181,10 +181,10 @@ export default {
           }
         })
         .catch((error) => {
-          this.$notifier.showMessage({
-            content: "Hello, snackbar",
-            color: "error",
-          });
+          // this.$notifier.showMessage({
+          //   content: "Hello, snackbar",
+          //   color: "error",
+          // });
         })
         .finally(() => (this.loading = false));
     },

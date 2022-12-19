@@ -30,10 +30,24 @@
           >
             Profile
           </v-btn>
-          <v-btn height="50" class="text-capitalize" block tile depressed>
+          <v-btn
+            to="/otp"
+            height="50"
+            class="text-capitalize"
+            block
+            tile
+            depressed
+          >
             Disable Account
           </v-btn>
-          <v-btn height="50" class="text-capitalize" block tile depressed>
+          <v-btn
+            to="/otp"
+            height="50"
+            class="text-capitalize"
+            block
+            tile
+            depressed
+          >
             Delete Account
           </v-btn>
           <v-divider></v-divider>

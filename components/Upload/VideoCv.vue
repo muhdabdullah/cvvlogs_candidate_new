@@ -1,6 +1,6 @@
 <template>
   <v-dialog persistent v-model="dialog" max-width="640px">
-    <template v-slot:activator="{ on, attrs }">
+    <template v-if="!applyJob" v-slot:activator="{ on, attrs }">
       <v-btn
         v-bind="attrs"
         v-on="on"
@@ -20,8 +20,8 @@
 
     <v-card outlined>
       <section id="video__cv__container">
-        <video controls width="100%" height="300" autoplay>
-          <source id="video__source" :src="''" type="video/mp4" />
+        <video id="video__source" controls width="100%" height="300" autoplay>
+          <source :src="''" type="video/mp4" />
         </video>
       </section>
 
@@ -44,7 +44,7 @@
 
           <div class="d-flex align-center justify-center">
             <v-btn
-              v-if="videoPreviewUrl"
+              v-if="videoPreviewUrl && !jobId"
               dark
               outlined
               min-width="300"
@@ -55,6 +55,20 @@
               @click="deleteVideo"
             >
               Delete Video
+            </v-btn>
+
+            <v-btn
+              v-else-if="applyJob && jobId"
+              depressed
+              min-width="300"
+              height="50"
+              rounded
+              :disabled="dataLoading"
+              :loading="buttonLoader"
+              color="secondary"
+              @click="applyForJob"
+            >
+              Apply
             </v-btn>
 
             <v-btn
@@ -91,11 +105,28 @@
   <script>
 export default {
   name: "upload-video-cv",
-
+  props: {
+    jobId: {
+      type: Number,
+    },
+    applyJob: {
+      type: Boolean,
+      default: false,
+    },
+    initDialog: {
+      type: Boolean,
+      default: false,
+    },
+  },
   watch: {
     dialog(val) {
       if (val) {
         this.getUserVideo();
+      }
+    },
+    initDialog(val) {
+      if (val) {
+        this.dialog = val;
       }
     },
   },
@@ -114,6 +145,27 @@ export default {
     };
   },
   methods: {
+    async applyForJob() {
+      this.buttonLoader = true;
+      await this.$api.jobService
+        .apply_job({
+          job_id: this.jobId,
+          videos: this.videoPreviewUrl?.video_id,
+        })
+        .then((response) => {
+          if (response?.status == 200) {
+            this.dialog = false;
+            this.$emit("closeDialog");
+            this.$emit("reload");
+          }
+
+          this.$notifier.showMessage({
+            content: response?.message,
+            color: response?.status == 200 ? "success" : "error",
+          });
+        })
+        .finally(() => (this.buttonLoader = false));
+    },
     async getUserVideo() {
       this.dataLoading = true;
       await this.$api.documnetService
@@ -131,17 +183,19 @@ export default {
         });
     },
     close() {
+      this.$emit("closeDialog");
       this.dialog = false;
       this.fileData = null;
       this.videoPreviewUrl = null;
-      document.querySelector("video").src = "";
+      document.getElementById("video__source").src = "";
     },
     selectVideo(video, type) {
       if (video) {
         if (type == "video") {
-          document.querySelector("video").src = URL.createObjectURL(video);
+          document.getElementById("video__source").src =
+            URL.createObjectURL(video);
         } else {
-          document.querySelector("video").src = video;
+          document.getElementById("video__source").src = video;
         }
       }
     },
@@ -160,6 +214,7 @@ export default {
             .then(async (response) => {
               if (response.status == 200) {
                 this.videoPreviewUrl = null;
+                this.$emit("reload");
                 this.close();
               }
             });
@@ -175,13 +230,9 @@ export default {
         .uploadCvVideo(formData)
         .then((response) => {
           if (response.status == 200) {
+            this.$emit("reload");
             this.getUserVideo();
           }
-
-          console.log(
-            "🚀 ~ file: VideoCv.vue:152 ~ .then ~ response",
-            response
-          );
         })
         .finally(() => (this.buttonLoader = false));
     },

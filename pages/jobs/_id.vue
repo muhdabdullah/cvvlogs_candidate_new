@@ -35,7 +35,7 @@
                       tw-max-w-4xl tw-truncate tw-font-bold
                     "
                   >
-                    {{ Job.job_title }}
+                    {{ Job && Job.job_title }}
                     <v-btn
                       v-if="
                         Job.company_name == 'Recruitwell' &&
@@ -79,7 +79,13 @@
 
               <div class="d-flex flex-column pa-1">
                 <div class="text-right">
-                  <v-btn height="42" depressed color="secondary" width="120">
+                  <v-btn
+                    @click="uploadCvDialog = true"
+                    height="42"
+                    depressed
+                    color="secondary"
+                    width="120"
+                  >
                     Apply
                   </v-btn>
 
@@ -266,12 +272,20 @@
             height="42"
             color="secondary"
             width="120"
+            @click="uploadCvDialog = true"
           >
             Apply
           </v-btn>
         </section>
       </v-col>
     </v-row>
+
+    <UploadVideoCv
+      :applyJob="true"
+      :jobId="Job?.id"
+      :initDialog="uploadCvDialog"
+      @closeDialog="uploadCvDialog = false"
+    />
   </v-container>
 </template>
   
@@ -297,6 +311,7 @@ export default {
   data() {
     return {
       Job: null,
+      uploadCvDialog: false,
     };
   },
 };
