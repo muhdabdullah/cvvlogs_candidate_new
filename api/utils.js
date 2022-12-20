@@ -58,6 +58,7 @@ export default ($axios, store, ctx, router) => ({
   async add_qualification_get() {
     return ctx.$request.get("/add_qualification_get.php");
   },
+
   async get_profile_viewers() {
     return ctx.$request.get("/profile_viewers.php");
   },
@@ -84,6 +85,7 @@ export default ($axios, store, ctx, router) => ({
   },
 
   // OTP
+
   async confirm_disable(data) {
     return ctx.$request.post("/confirm_disable.php", data);
   },

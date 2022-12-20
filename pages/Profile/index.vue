@@ -23,7 +23,8 @@
           v-model="userData.profile.sharing_profile_url"
           hide-details
           dense
-          solo
+          outlined
+          readonly
           background-color="white"
         >
         </v-text-field>
@@ -58,7 +59,16 @@
               :color="uploadCvDialog ? 'error' : 'primary'"
               @click="uploadCvDialog = !uploadCvDialog"
             >
-              {{ uploadCvDialog ? "Cancel" : "Edits" }}
+              {{
+                uploadCvDialog
+                  ? "Cancel"
+                  : userData &&
+                    userData.videos &&
+                    userData.videos[0] &&
+                    userData.videos[0].vid_url
+                  ? "Edit Video"
+                  : "Upload Video"
+              }}
               <v-icon class="ml-1" small>{{
                 uploadCvDialog ? "mdi-close" : "mdi-pencil"
               }}</v-icon>
@@ -70,8 +80,14 @@
           <v-divider class="mb-5"></v-divider>
           <v-row no-gutters>
             <v-col cols="12" sm="12" md="6" lg="6" xl="6">
-              <section id="video__cv__container">
+              <section id="video__cv__container" class="tw-h-full">
                 <video
+                  v-if="
+                    userData &&
+                    userData.videos &&
+                    userData.videos[0] &&
+                    userData.videos[0].vid_url
+                  "
                   id="profile__video__cv"
                   class="tw-border-2 tw-rounded-lg tw-border-slate-600"
                   controls
@@ -90,6 +106,9 @@
                     type="video/mp4"
                   />
                 </video>
+                <div class="d-flex align-center tw-h-full" v-else>
+                  <h4 class="mx-auto red--text ma-1">No Video CV uploaded.</h4>
+                </div>
               </section>
             </v-col>
 
@@ -133,7 +152,18 @@
                   Download CV <v-icon class="ml-2">mdi-cloud-download</v-icon>
                 </v-btn>
               </v-card>
-              <h4 class="mx-auto red--text ma-1">No CV uploaded.</h4>
+              <h4
+                v-if="
+                  !(
+                    userData &&
+                    userData.profile &&
+                    userData.profile.uploaded_cv_file_url
+                  )
+                "
+                class="mx-auto red--text ma-1"
+              >
+                No CV uploaded.
+              </h4>
             </v-col>
           </v-row>
         </div>
@@ -939,11 +969,14 @@ export default {
               this.userData &&
               this.userData.videos &&
               this.userData.videos[0] &&
-              this.userData.videos[0].vid_url
+              this.userData.videos[0].vid_url &&
+              document.getElementById("profile__video__cv")
             ) {
               document.getElementById("profile__video__cv").src =
                 this.userData.videos[0].vid_url;
-            } else document.getElementById("profile__video__cv").src = "";
+            } else if (document.getElementById("profile__video__cv")) {
+              document.getElementById("profile__video__cv").src = "";
+            }
           }
         })
         .finally(() => {

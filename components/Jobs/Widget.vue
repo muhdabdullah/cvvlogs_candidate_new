@@ -71,7 +71,7 @@
             <LayoutTitle title="Recent Jobs" route="/jobs/recent" />
           </v-card-title>
           <v-card-text>
-            <v-row dense>
+            <v-row v-if="recentJobs && recentJobs.length" dense>
               <v-col
                 cols="12"
                 md="4"
@@ -134,6 +134,16 @@
                 </v-card>
               </v-col>
             </v-row>
+
+            <v-row v-else>
+              <v-col v-for="i in 4" :key="i" cols="12" md="3" lg="3" xl="3">
+                <v-skeleton-loader
+                  width="265"
+                  height="78"
+                  type="image"
+                ></v-skeleton-loader>
+              </v-col>
+            </v-row>
           </v-card-text>
         </v-card>
 
@@ -142,7 +152,7 @@
             <LayoutTitle title="All Jobs" route="/jobs/all" />
           </v-card-title>
           <v-card-text>
-            <v-row dense>
+            <v-row v-if="all_Jobs && all_Jobs.length" dense>
               <v-col
                 cols="12"
                 md="3"
@@ -204,6 +214,16 @@
                     </h6>
                   </v-card-text>
                 </v-card>
+              </v-col>
+            </v-row>
+
+            <v-row v-else>
+              <v-col v-for="i in 4" :key="i" cols="12" md="3" lg="3" xl="3">
+                <v-skeleton-loader
+                  width="265"
+                  height="78"
+                  type="image"
+                ></v-skeleton-loader>
               </v-col>
             </v-row>
           </v-card-text>

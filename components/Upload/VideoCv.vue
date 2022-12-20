@@ -31,7 +31,7 @@
             v-if="!videoPreviewUrl"
             chips
             prepend-icon="mdi-movie-play"
-            accept=".mp4, .mp3, .mkv, .webm"
+            accept=".mp4, .mp3, .mkv, .webm, .mov, .avi"
             outlined
             color="success accent-4"
             v-model="fileData"
@@ -231,6 +231,7 @@ export default {
         .then((response) => {
           if (response.status == 200) {
             this.$emit("reload");
+            this.close();
             this.getUserVideo();
           }
         })

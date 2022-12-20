@@ -167,7 +167,11 @@
                     height="60"
                     depressed
                     :color="'secondary'"
-                    v-if="userData && userData.profile_percentage < 100"
+                    v-if="
+                      dashboardData &&
+                      dashboardData.profile &&
+                      dashboardData.profile.percentage < 100
+                    "
                   >
                     Complete <br />
                     Your Profile

@@ -38,17 +38,17 @@
                     {{ Job && Job.job_title }}
                     <v-btn
                       v-if="
-                        Job.company_name == 'Recruitwell' &&
                         Job &&
-                        Job.externalId
+                        Job.external_job_type == 'recruitwell' &&
+                        Job.external_id
                       "
                       target="_blank"
-                      :href="`https://www.recruitwell.com/providers/jobs/${6244}`"
+                      :href="`https://www.recruitwell.com/providers/jobs/${Job.external_id}`"
                       icon
                       fab
-                      small
+                      x-small
                     >
-                      <v-icon>mdi-open-in-new</v-icon>
+                      <v-icon color="primary">mdi-open-in-new</v-icon>
                     </v-btn>
                   </h3>
                   <h4
@@ -64,12 +64,10 @@
                   <div
                     class="d-flex align-center tw-text-sm tw-font-semibold my-1"
                   >
-                    <span v-if="Job.company_name != 'Recruitwell'"
+                    <span v-if="!Job.external_id"
                       >{{ Job.salary_min }} - {{ Job.salary_max }}</span
                     >
-                    <span v-if="Job.company_name != 'Recruitwell'" class="mx-2"
-                      >|</span
-                    >
+                    <span v-if="!Job.external_id" class="mx-2">|</span>
                     <span v-if="Job.city"> {{ Job.city }}, </span>
                     <span v-if="Job.state"> &nbsp;{{ Job.state }}, </span>
                     <span v-if="Job.country"> &nbsp;{{ Job.country }} </span>
