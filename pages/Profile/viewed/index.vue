@@ -4,8 +4,10 @@
       <v-col cols="2"></v-col>
       <v-col cols="8">
         <div>
-          <h1 class="tw-text-5xl tw-font-bold primary--text">Profile Viewed</h1>
-          <p class="font-weight-bold mt-2 primary--text">
+          <h1 class="tw-text-5xl tw-font-bold" style="color: #865ddd">
+            Profile Viewed
+          </h1>
+          <p class="font-weight-bold mt-2" style="color: rgb(1, 31, 149)">
             List of Recruiters who have visited your Profile
           </p>
         </div>
@@ -15,18 +17,17 @@
           elevation="20"
           color="white"
           max-width="1170"
+          v-for="pvData in profileViews.viewers"
+          :key="id"
         >
           <v-card-text class="ma-4 tw-h-full d-flex flex-column justify-center">
-            <h1 class="tw-text-2xl tw-font-bold ml-10 primary--text">
+            <h1 class="tw-text-2xl tw-font-bold ml-10" style="color: #865ddd">
               List of Recruiters
             </h1>
-
-            <div
-              v-for="pvData in profileViews.viewers"
-              :key="pvData.id"
-              class="d-flex mx-10 my-3 _cursor"
-              @click="viewProfile(pvData.id)"
-            >
+            <!-- <p class="tw-text-black ml-10 ma-0 tw-text-base">
+            List of recruiters viewed your profile will appear here
+          </p> -->
+            <div class="d-flex ml-15 mt-8 _cursor" @click="viewProfile(pvData.id)">
               <div class="imgBox d-flex justify-center align-center">
                 <v-img
                   height="110px"
@@ -37,10 +38,8 @@
                   :src="pvData.img"
                 />
               </div>
-              <div class="d-flex flex-column justify-center ml-8 black--text">
-                <h1 class="black--text tw-text-2xl tw-font-semibold">
-                  {{ pvData.name }}
-                </h1>
+              <div class="d-flex flex-column justify-center ml-8">
+                <h1 class="fontColor tw-font-semibold">{{ pvData.name }}</h1>
                 <p class="tw-text-sm mt-2">{{ pvData.tagline }}</p>
               </div>
             </div>

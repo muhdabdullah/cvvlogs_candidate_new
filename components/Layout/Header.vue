@@ -107,7 +107,6 @@
           <div class="tw-h-full d-flex align-center">
             <div v-for="(btn, index) in menuBtn" :key="index" class="tw-h-full">
               <v-btn
-                tile
                 small
                 height="100%"
                 active-class="btn__active__class"

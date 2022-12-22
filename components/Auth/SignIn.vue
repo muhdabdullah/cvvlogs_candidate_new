@@ -140,10 +140,10 @@ export default {
 
             if (resp?.status == 200 && resp?.data) {
               await this.$store.dispatch("auth/set_authId", resp.data);
-              if (this.$route != "/") this.$router.push("/");
             }
 
             if (resp?.status == 404) {
+              console.log("🚀 ~ file: SignIn.vue:170 ~ onSubmit ~ error", resp);
               this.$notifier.showMessage({
                 content: resp.message,
                 color: "error",
@@ -181,10 +181,10 @@ export default {
           }
         })
         .catch((error) => {
-          // this.$notifier.showMessage({
-          //   content: "Hello, snackbar",
-          //   color: "error",
-          // });
+          this.$notifier.showMessage({
+            content: "Hello, snackbar",
+            color: "error",
+          });
         })
         .finally(() => (this.loading = false));
     },

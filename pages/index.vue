@@ -104,7 +104,7 @@
               >
                 <v-col
                   sm="3"
-                  v-for="(job, index) in jobs_y_industry_sliced"
+                  v-for="(job, index) in job_by_Industry"
                   :key="`job__${index}`"
                 >
                   <v-hover v-slot="{ hover }">
@@ -241,7 +241,7 @@ export default {
     const job_by_Industry = await $api.jobService
       .get_offline_dashboard()
       .then((response) => {
-        if (response?.data) {
+        if (response.data) {
           store.dispatch(
             "set_jobs_by_industry",
             response.data.jobs_by_industry
@@ -264,17 +264,6 @@ export default {
     // this.get_home_data();
   },
   computed: {
-    jobs_y_industry_sliced() {
-      let arr = [...this.job_by_Industry];
-      if (arr?.length) {
-        arr.sort((a, b) => {
-          // Sort array in descending order.
-          return b.job_count - a.job_count;
-        });
-      }
-      return arr;
-      //return [...this.job_by_Industry.slice(0, 8)];
-    },
     dashboardData() {
       return this.$store.getters["getDashboardData"];
     },
