@@ -124,14 +124,13 @@
               :to="links.text2.to"
               class="tw-text-xs"
             >
-            {{ links.text2.label }}
+              {{ links.text2.label }}
             </NuxtLink>
 
             <NuxtLink
               v-if="links.text3"
               :to="links.text3.to"
               class="tw-text-xs"
-              
               >{{ links.text3.label }}</NuxtLink
             >
 
@@ -146,21 +145,37 @@
         <v-col align-content="center">
           <div>
             <h1 class="tw-text-base tw-font-bold">Download our app</h1>
-            <div :class="`d-flex mr-1 my-2 ${$vuetify.breakpoint.mobile ? 'flex-column' : ''}`">
-              <v-img  
-                width="128"
-                height="38"
-                src="/img/googlePlayIcon.svg"
-                lazy-src="/img/googlePlatIcon.svg"
-              />
+            <div
+              :class="`d-flex mr-1 my-2 ${
+                $vuetify.breakpoint.mobile ? 'flex-column' : ''
+              }`"
+            >
+              <NuxtLink
+                href="https://play.google.com/store/apps/details?id=com.cvvlogs.candidate"
+                to="/"
+                target="_blank"
+              >
+                <v-img
+                  width="128"
+                  height="38"
+                  src="img/googlePlayIcon.svg"
+                  lazy-src="img/googlePlatIcon.svg"
+                />
+              </NuxtLink>
 
-              <v-img
-                width="128"
-                height="38"
-                src="/img/appleIcon.svg"
-                lazy-src="/img/appleIcon.svg"
-                :class="$vuetify.breakpoint.mobile ? 'mt-2' : 'ml-4'"
-              />
+              <NuxtLink
+                href="https://apps.apple.com/us/app/cvvlogs/id1584693199"
+                to="/"
+                target="_blank"
+              >
+                <v-img
+                  width="128"
+                  height="38"
+                  src="img/appleIcon.svg"
+                  lazy-src="img/appleIcon.svg"
+                  :class="$vuetify.breakpoint.mobile ? 'mt-2' : 'ml-4'"
+                />
+              </NuxtLink>
             </div>
             <div>
               <h3 class="font-weight-bold mt-5">Follow Us On</h3>

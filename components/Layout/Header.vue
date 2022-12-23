@@ -107,6 +107,7 @@
           <div class="tw-h-full d-flex align-center">
             <div v-for="(btn, index) in menuBtn" :key="index" class="tw-h-full">
               <v-btn
+                tile
                 small
                 height="100%"
                 active-class="btn__active__class"
@@ -114,6 +115,19 @@
                 :to="btn ? btn.to : ''"
               >
                 <span class="text-truncate" v-if="btn">{{ btn.name }}</span>
+              </v-btn>
+            </div>
+
+            <div v-if="AuthID" class="tw-h-full">
+              <v-btn
+                tile
+                small
+                height="100%"
+                active-class="btn__active__class"
+                plain
+                :to="'/messages'"
+              >
+                <span class="text-truncate">Messages</span>
               </v-btn>
             </div>
           </div>
@@ -208,30 +222,17 @@ export default {
           to: "/about-us",
           class: "",
         },
+
         // {
         //   name: "Contact Us",
         //   to: "/contact-us",
         //   class: "",
         // },
-        ,
       ],
     };
   },
-  created() {},
-  watch: {
-    AuthID(val) {
-      // Add / Remove buttons to show when token.
-      if (val) {
-        this.menuBtn.splice(3, 0, {
-          name: "Messages",
-          to: "/messages",
-          class: "",
-        });
-      } else {
-        this.menuBtn.splice(3, 1);
-      }
-    },
-  },
+  mounted() {},
+  watch: {},
   computed: {
     AuthID() {
       if (this.$store.getters["auth/get_authId"]) return true;

@@ -30,10 +30,24 @@
           >
             Profile
           </v-btn>
-          <v-btn height="50" class="text-capitalize" block tile depressed>
+          <v-btn
+            to="/otp/disable-account"
+            height="50"
+            class="text-capitalize"
+            block
+            tile
+            depressed
+          >
             Disable Account
           </v-btn>
-          <v-btn height="50" class="text-capitalize" block tile depressed>
+          <v-btn
+            to="/otp/delete-account"
+            height="50"
+            class="text-capitalize"
+            block
+            tile
+            depressed
+          >
             Delete Account
           </v-btn>
           <v-divider></v-divider>
@@ -56,13 +70,17 @@
 
 <script>
 export default {
-  data: () => ({
-    items: [
-      { title: "Click Me" },
-      { title: "Click Me" },
-      { title: "Click Me" },
-      { title: "Click Me 2" },
-    ],
-  }),
+  data: () => ({}),
+  methods: {
+    sendOTP(name) {
+      this.$router.push({
+        name: "otp",
+        query: { act: name },
+        params: {
+          label: name,
+        },
+      });
+    },
+  },
 };
 </script>

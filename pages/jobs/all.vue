@@ -27,10 +27,7 @@
           </v-col>
         </v-row>
         <v-row dense>
-          <v-col
-            v-if="filter_data.industries.length && filter_data.state.length"
-            cols="3"
-          >
+          <v-col v-if="filter_data.industries.length" cols="3">
             <!-- Job Filter -->
             <v-card
               v-if="filter_data && filter_data.industries"
@@ -55,13 +52,16 @@
                   :key="index"
                   class="d-flex align-center justify-space-between"
                 >
-                  <div v-if="job && job.id == 104" class="tw-w-full">
+                  <div
+                    v-if="job && job.children && job.children.length"
+                    class="tw-w-full"
+                  >
                     <v-expansion-panels flat>
                       <v-expansion-panel>
                         <v-expansion-panel-header class="d-flex pa-0">
                           <div class="d-flex align-center">
                             <v-checkbox
-                              :label="`${job.name} (${job.job_count})`"
+                              :label="`${job.name} (${job.children.length})`"
                               hide-details
                               color="primary"
                               class="my-1 black--text"
@@ -70,7 +70,13 @@
                         </v-expansion-panel-header>
                         <v-expansion-panel-content>
                           <v-checkbox
-                            :label="`${'Child'}`"
+                            v-for="(job_child, job_child_index) in job.children"
+                            :key="job_child_index"
+                            :label="`${job_child.name} ${
+                              job_child.job_count
+                                ? `${job_child.job_count}`
+                                : ''
+                            }`"
                             hide-details
                             color="primary"
                             class="my-1 black--text"
@@ -108,7 +114,9 @@
 
             <!-- Location Filter -->
             <v-card
-              v-if="filter_data && filter_data.state"
+              v-if="
+                filter_data && filter_data.state && filter_data.state.length
+              "
               outlined
               class="my-2"
               flat
@@ -185,9 +193,7 @@
           <v-col
             class="tw-overflow-auto"
             :class="'max__height'"
-            :cols="
-              filter_data.industries.length && filter_data.state.length ? 9 : 12
-            "
+            :cols="filter_data && filter_data.industries.length ? 9 : 12"
           >
             <section>
               <div v-if="!slicedJobsArray.length">
@@ -324,6 +330,10 @@ export default {
       this.$api.jobService.get_offline_dashboard().then((response) => {
         this.recentJobs = [...response.data.recent_jobs];
         this.slicedJobsArray = [...this.recentJobs.slice(0, this.jobs_length)];
+        this.filter_data = {
+          ...this.filter_data,
+          industries: response.data.jobs_by_industry,
+        };
       });
     },
     get_job_data() {

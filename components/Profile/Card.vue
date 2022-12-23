@@ -71,7 +71,9 @@
                     <div class="d-flex align-center">
                       <v-icon small class="mr-2">mdi-phone</v-icon>
                       <span>{{
-                        (userData && userData.num) || userData.number || "-"
+                        (userData && userData.num) ||
+                        (userData && userData.number) ||
+                        "-"
                       }}</span>
                     </div>
                   </div>
@@ -167,7 +169,11 @@
                     height="60"
                     depressed
                     :color="'secondary'"
-                    v-if="userData && userData.profile_percentage <= 100"
+                    v-if="
+                      dashboardData &&
+                      dashboardData.profile &&
+                      dashboardData.profile.percentage < 100
+                    "
                   >
                     Complete <br />
                     Your Profile

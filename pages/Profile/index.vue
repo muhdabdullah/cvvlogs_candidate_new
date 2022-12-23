@@ -8,6 +8,169 @@
     />
 
     <v-card
+      v-if="
+        userData && userData.profile && userData.profile.sharing_profile_url
+      "
+      class="mx-auto tw-opacity-95 my-5"
+      rounded="lg"
+      elevation="20"
+      color="white"
+      max-width="1170"
+    >
+      <v-card-text class="pa-1 d-flex align-center">
+        <v-text-field
+          class="tw-drop-shadow-none"
+          v-model="userData.profile.sharing_profile_url"
+          hide-details
+          dense
+          outlined
+          readonly
+          background-color="white"
+        >
+        </v-text-field>
+        <v-btn
+          class="text-capitalize ml-2"
+          height="40"
+          depressed
+          color="secondary"
+          @click="copy(userData.profile.sharing_profile_url)"
+          >Copy Url <v-icon class="ml-2">mdi-content-copy</v-icon></v-btn
+        >
+      </v-card-text>
+    </v-card>
+
+    <v-card
+      class="mx-auto tw-opacity-95 my-5"
+      rounded="lg"
+      elevation="20"
+      color="white"
+      max-width="1170"
+    >
+      <v-card-text class="pa-3 tw-h-full">
+        <div
+          class="d-flex align-center justify-space-between px-4 py-2 tw-h-full"
+        >
+          <h1 class="tw-text-xl tw-font-semibold text--primary">CV</h1>
+          <div class="edit__profile__btn d-flex align-center justify-end">
+            <v-btn
+              class="tw-text-lg text-capitalize tw-font-bold"
+              depressed
+              text
+              :color="uploadCvDialog ? 'error' : 'primary'"
+              @click="uploadCvDialog = !uploadCvDialog"
+            >
+              {{
+                uploadCvDialog
+                  ? "Cancel"
+                  : userData &&
+                    userData.videos &&
+                    userData.videos[0] &&
+                    userData.videos[0].vid_url
+                  ? "Edit Video"
+                  : "Upload Video"
+              }}
+              <v-icon class="ml-1" small>{{
+                uploadCvDialog ? "mdi-close" : "mdi-pencil"
+              }}</v-icon>
+            </v-btn>
+          </div>
+        </div>
+
+        <div class="personal__details pa-5 pt-0">
+          <v-divider class="mb-5"></v-divider>
+          <v-row no-gutters>
+            <v-col cols="12" sm="12" md="6" lg="6" xl="6">
+              <section id="video__cv__container" class="tw-h-full">
+                <video
+                  v-if="
+                    userData &&
+                    userData.videos &&
+                    userData.videos[0] &&
+                    userData.videos[0].vid_url
+                  "
+                  id="profile__video__cv"
+                  class="tw-border-2 tw-rounded-lg tw-border-slate-600"
+                  controls
+                  width="640"
+                  height="300"
+                >
+                  <source
+                    :src="
+                      uploadCvDialog
+                        ? ''
+                        : userData &&
+                          userData.videos &&
+                          userData.videos[0] &&
+                          userData.videos[0].vid_url
+                    "
+                    type="video/mp4"
+                  />
+                </video>
+                <div class="d-flex align-center tw-h-full" v-else>
+                  <h4 class="mx-auto red--text ma-1">No Video CV uploaded.</h4>
+                </div>
+              </section>
+            </v-col>
+
+            <v-col
+              align="center"
+              align-self="center"
+              cols="12"
+              md="6"
+              lg="6"
+              xl="6"
+            >
+              <v-card
+                :disabled="
+                  !(
+                    userData &&
+                    userData.profile &&
+                    userData.profile.uploaded_cv_file_url
+                  )
+                "
+                width="200"
+                class="mx-auto rounded-0 pa-1"
+              >
+                <v-btn
+                  color="primary"
+                  dark
+                  width="190"
+                  class="text-capitalize"
+                  depressed
+                  tile
+                  @click="
+                    downloadFile(
+                      userData &&
+                        userData.profile &&
+                        userData.profile.uploaded_cv_file_url
+                    ),
+                      `${
+                        personalDetails ? personalDetails.first_name : 'doc'
+                      }_CV`
+                  "
+                >
+                  Download CV <v-icon class="ml-2">mdi-cloud-download</v-icon>
+                </v-btn>
+              </v-card>
+              <h4
+                v-if="
+                  !(
+                    userData &&
+                    userData.profile &&
+                    userData.profile.uploaded_cv_file_url
+                  )
+                "
+                class="mx-auto red--text ma-1"
+              >
+                No CV uploaded.
+              </h4>
+            </v-col>
+          </v-row>
+        </div>
+      </v-card-text>
+    </v-card>
+
+    <v-card
       class="mx-auto tw-opacity-95 my-5"
       rounded="lg"
       elevation="20"
@@ -668,7 +831,7 @@
           <v-divider class="mb-5"></v-divider>
           <div class="d-flex align-center">
             <v-chip
-              v-for="(skill, index) in userData.skills"
+              v-for="(skill, index) in userData && userData.skills"
               :key="`skill-${index}`"
               class="mr-2"
             >
@@ -678,6 +841,13 @@
         </div>
       </v-card-text>
     </v-card>
+
+    <UploadVideoCv
+      :applyJob="true"
+      :initDialog="uploadCvDialog"
+      @closeDialog="uploadCvDialog = false"
+      @reload="getProfileData"
+    />
   </div>
 </template>
 
@@ -695,6 +865,7 @@ export default {
   },
   data() {
     return {
+      uploadCvDialog: false,
       genders: [
         { id: 1, name: "Male" },
         { id: 2, name: "Female" },
@@ -745,6 +916,26 @@ export default {
     },
   },
   methods: {
+    async copy(text) {
+      await navigator.clipboard.writeText(text);
+      this.$notifier.showMessage({
+        content: "Copied!",
+        color: "success",
+      });
+    },
+    downloadFile(path, filename) {
+      // Create a new link
+      const anchor = document.createElement("a");
+      anchor.href = path;
+      anchor.download = filename;
+      anchor.target = "_blank";
+      // Append to the DOM
+      document.body.appendChild(anchor);
+      // Trigger `click` event
+      anchor.click();
+      // Remove element from DOM
+      // document.body.removeChild(anchor);
+    },
     get_specifice_course(type) {
       let qual_id;
       if (
@@ -771,6 +962,19 @@ export default {
         .then((response) => {
           if (response?.data) {
             this.userData = response.data;
+
+            if (
+              this.userData &&
+              this.userData.videos &&
+              this.userData.videos[0] &&
+              this.userData.videos[0].vid_url &&
+              document.getElementById("profile__video__cv")
+            ) {
+              document.getElementById("profile__video__cv").src =
+                this.userData.videos[0].vid_url;
+            } else if (document.getElementById("profile__video__cv")) {
+              document.getElementById("profile__video__cv").src = "";
+            }
           }
         })
         .finally(() => {
@@ -994,6 +1198,14 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+#video__cv__container {
+  video {
+    height: 360px !important;
+  }
+}
+</style>
 
 <style lang="scss" >
 .personal__details {

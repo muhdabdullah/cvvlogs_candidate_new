@@ -53,7 +53,7 @@
         </div>
 
         <v-card-text class="pa-5">
-          <v-form v-model="form" @submit.prevent="onSubmit">
+          <v-form ref="form" v-model="form" @submit.prevent="onSubmit">
             <v-text-field
               v-model="email"
               :readonly="loading"
@@ -125,6 +125,7 @@ export default {
   },
   methods: {
     onSubmit() {
+      this.$refs.form.validate();
       if (!this.form) return;
 
       this.loading = true;
@@ -140,10 +141,11 @@ export default {
 
             if (resp?.status == 200 && resp?.data) {
               await this.$store.dispatch("auth/set_authId", resp.data);
+              if (this.$route != "/") this.$router.push("/");
+              this.$refs.form.reset();
             }
 
             if (resp?.status == 404) {
-              console.log("🚀 ~ file: SignIn.vue:170 ~ onSubmit ~ error", resp);
               this.$notifier.showMessage({
                 content: resp.message,
                 color: "error",
@@ -181,10 +183,10 @@ export default {
           }
         })
         .catch((error) => {
-          this.$notifier.showMessage({
-            content: "Hello, snackbar",
-            color: "error",
-          });
+          // this.$notifier.showMessage({
+          //   content: "Hello, snackbar",
+          //   color: "error",
+          // });
         })
         .finally(() => (this.loading = false));
     },

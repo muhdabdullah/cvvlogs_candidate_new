@@ -37,7 +37,14 @@
       <v-divider></v-divider>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="red darken-1" text @click="close"> Cancel </v-btn>
+        <v-btn
+          :disabled="buttonLoader"
+          color="red darken-1"
+          text
+          @click="close"
+        >
+          Cancel
+        </v-btn>
         <v-btn
           :loading="buttonLoader"
           color="primary darken-1"
@@ -76,7 +83,7 @@ export default {
       this.buttonLoader = true;
 
       const formData = new FormData();
-      formData.append("file", this.fileData);
+      formData.append("doc_file", this.fileData);
 
       await this.$api.documnetService
         .uploadCvDoc(formData)

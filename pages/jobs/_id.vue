@@ -35,21 +35,22 @@
                       tw-max-w-4xl tw-truncate tw-font-bold
                     "
                   >
-                    {{ Job.job_title }}
-                    <v-btn
+                    {{ Job && Job.job_title }}
+                    <!-- External Link Icon -->
+                    <!-- <v-btn
                       v-if="
-                        Job.company_name == 'Recruitwell' &&
                         Job &&
-                        Job.externalId
+                        Job.external_job_type == 'recruitwell' &&
+                        Job.external_id
                       "
                       target="_blank"
-                      :href="`https://www.recruitwell.com/providers/jobs/${6244}`"
+                      :href="`https://www.recruitwell.com/providers/jobs/${Job.external_id}`"
                       icon
                       fab
-                      small
+                      x-small
                     >
-                      <v-icon>mdi-open-in-new</v-icon>
-                    </v-btn>
+                      <v-icon color="primary">mdi-open-in-new</v-icon>
+                    </v-btn> -->
                   </h3>
                   <h4
                     class="
@@ -64,12 +65,10 @@
                   <div
                     class="d-flex align-center tw-text-sm tw-font-semibold my-1"
                   >
-                    <span v-if="Job.company_name != 'Recruitwell'"
+                    <span class="mr-2" v-if="!parseInt(Job.external_id)"
                       >{{ Job.salary_min }} - {{ Job.salary_max }}</span
                     >
-                    <span v-if="Job.company_name != 'Recruitwell'" class="mx-2"
-                      >|</span
-                    >
+                    <span v-if="!Job.external_id" class="mx-2">|</span>
                     <span v-if="Job.city"> {{ Job.city }}, </span>
                     <span v-if="Job.state"> &nbsp;{{ Job.state }}, </span>
                     <span v-if="Job.country"> &nbsp;{{ Job.country }} </span>
@@ -79,7 +78,13 @@
 
               <div class="d-flex flex-column pa-1">
                 <div class="text-right">
-                  <v-btn height="42" depressed color="secondary" width="120">
+                  <v-btn
+                    @click="applyForJob"
+                    height="42"
+                    depressed
+                    color="secondary"
+                    width="120"
+                  >
                     Apply
                   </v-btn>
 
@@ -266,25 +271,26 @@
             height="42"
             color="secondary"
             width="120"
+            @click="applyForJob"
           >
             Apply
           </v-btn>
         </section>
       </v-col>
     </v-row>
+
+    <UploadVideoCv
+      :applyJob="true"
+      :jobId="Job?.id"
+      :initDialog="uploadCvDialog"
+      @closeDialog="uploadCvDialog = false"
+    />
   </v-container>
 </template>
   
   <script>
 export default {
-  mounted() {
-    // if (!localStorage.getItem("auth_id")) {
-    //   this.$router.push("/");
-    //   return false;
-    // }
-  },
   async asyncData({ params, $api, app }) {
-    // if (localStorage.getItem("auth_id")) {
     const id = params.id;
 
     const Job = await $api.jobService.get_Job_by_Id(id).then((response) => {
@@ -292,12 +298,22 @@ export default {
     });
 
     return { Job };
-    // }
   },
   data() {
     return {
       Job: null,
+      uploadCvDialog: false,
     };
+  },
+  methods: {
+    applyForJob() {
+      if (this.Job && parseInt(this.Job.external_id)) {
+        window.open(
+          `https://www.recruitwell.com/providers/jobs/${this.Job.external_id}`,
+          "_blank"
+        );
+      } else this.uploadCvDialog = true;
+    },
   },
 };
 </script>

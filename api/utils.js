@@ -58,7 +58,7 @@ export default ($axios, store, ctx, router) => ({
   async add_qualification_get() {
     return ctx.$request.get("/add_qualification_get.php");
   },
-  
+
   async get_profile_viewers() {
     return ctx.$request.get("/profile_viewers.php");
   },
@@ -83,5 +83,22 @@ export default ($axios, store, ctx, router) => ({
         throw error;
       });
   },
-  
+
+  // OTP
+
+  async send_delete_account_otp() {
+    return ctx.$request.get("/send_delete_account_otp.php");
+  },
+
+  async confirm_delete_account(code) {
+    return ctx.$request.post("/confirm_delete_account.php", code);
+  },
+
+  async confirm_disable(data) {
+    return ctx.$request.post("/confirm_disable.php", data);
+  },
+
+  async send_disable_otp() {
+    return ctx.$request.get("/disable_otp.php");
+  },
 });

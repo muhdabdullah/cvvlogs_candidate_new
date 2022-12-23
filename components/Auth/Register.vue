@@ -18,7 +18,6 @@
       <v-card
         color="primary"
         width="582"
-        height="516"
         rounded
         flat
         class="mx-auto tw-border-0"
@@ -48,11 +47,10 @@
         </div>
 
         <v-card-text class="pa-5">
-          <v-form v-model="form" @submit.prevent="onSubmit">
-            <v-row dense>
+          <v-form ref="form" v-model="form" @submit.prevent="onSubmit">
+            <v-row>
               <v-col cols="12" sm="12" md="6" lg="6" xl="6">
                 <v-text-field
-                  hide-details
                   v-model="registerData.first_name"
                   :readonly="loading"
                   :rules="[required]"
@@ -63,7 +61,6 @@
                 ></v-text-field>
 
                 <v-text-field
-                  hide-details
                   :readonly="loading"
                   :rules="[required]"
                   v-model="registerData.email"
@@ -76,7 +73,6 @@
 
                 <v-text-field
                   v-model="registerData.password"
-                  hide-details
                   type="password"
                   class=""
                   :readonly="loading"
@@ -89,7 +85,6 @@
 
               <v-col cols="12" sm="12" md="6" lg="6" xl="6">
                 <v-text-field
-                  hide-details
                   :readonly="loading"
                   :rules="[required]"
                   class="mb-2"
@@ -100,7 +95,6 @@
                 ></v-text-field>
 
                 <v-text-field
-                  hide-details
                   :readonly="loading"
                   :rules="[required]"
                   class="mb-2"
@@ -113,7 +107,6 @@
                 ></v-text-field>
 
                 <v-text-field
-                  hide-details
                   class=""
                   :readonly="loading"
                   solo
@@ -182,6 +175,8 @@ export default {
 
   methods: {
     onSubmit() {
+      this.$refs.form.validate();
+
       if (!this.form) return;
 
       this.loading = true;
@@ -189,8 +184,21 @@ export default {
       this.$api.authService
         .signUp(this.registerData)
         .then((resp) => {
+          if (resp?.status == 200 && resp?.data) {
+            this.$refs.form.reset();
+          }
+
           if (resp.data) {
             this.dialog = false;
+            this.$refs.form.reset();
+          }
+
+          if (resp?.status == 404) {
+            this.$notifier.showMessage({
+              content: resp?.message || "Error",
+              color: "error",
+            });
+            return;
           }
         })
         .finally(() => (this.loading = false));
