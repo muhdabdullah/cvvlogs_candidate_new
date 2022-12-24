@@ -213,9 +213,9 @@
           md="6"
           lg="6"
           xl="6"
-          class="d-flex  align-center justify-end"
+          class="d-flex align-center justify-end"
         >
-          <p>Home Page</p>
+          <p>Home</p>
           <p class="ml-10">About Us</p>
           <p class="ml-10">Contact Us</p>
         </v-col>
