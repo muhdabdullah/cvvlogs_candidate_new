@@ -196,7 +196,7 @@
             :cols="filter_data && filter_data.industries.length ? 9 : 12"
           >
             <section>
-              <div v-if="!slicedJobsArray.length">
+              <div v-if="loading">
                 <v-skeleton-loader
                   v-for="i in 3"
                   :key="i"
@@ -204,6 +204,23 @@
                   type="card"
                   class="py-2 my-2 pa-4"
                 ></v-skeleton-loader>
+              </div>
+
+              <div
+                class="d-flex align-center justify-center tw-h-full"
+                v-else-if="slicedJobsArray && slicedJobsArray.length == 0"
+              >
+                <h1
+                  class="
+                    tw-text-4xl
+                    grey--text
+                    text-center
+                    tw-font-semibold
+                    my-5
+                  "
+                >
+                  No jobs.
+                </h1>
               </div>
 
               <JobsCard
@@ -256,35 +273,7 @@ export default {
       slicedJobsArray: [],
       jobs_length: 5,
       recentJobs: [],
-      job_applications: [
-        {
-          img: "img/Job_app_1.png",
-          title: "Matematics Tutors",
-          organization: "Multination Organization Pvt.(Ltd).",
-          salary: "$12K - 15K",
-          address: "Virginia, USA, PO # 001003",
-          status: "received",
-          date: "Nov 06, 2020",
-        },
-        {
-          img: "img/Job_app_2.png",
-          title: "Web Developer",
-          organization: "Online, Online Teaching jobs",
-          salary: "$12K - 15K",
-          address: "Virginia, USA, PO # 001003",
-          status: "received",
-          date: "Nov 06, 2020",
-        },
-        {
-          img: "img/Job_app_3.png",
-          title: "Accounts Teacher Required",
-          organization: "Multination Organization Pvt.(Ltd).",
-          salary: "$12K - 15K",
-          address: "Virginia, USA, PO # 001003",
-          status: "received",
-          date: "Nov 06, 2020",
-        },
-      ],
+      loading: false,
     };
   },
   created() {
@@ -327,20 +316,36 @@ export default {
       });
     },
     get_offline_dashboard() {
-      this.$api.jobService.get_offline_dashboard().then((response) => {
-        this.recentJobs = [...response.data.recent_jobs];
-        this.slicedJobsArray = [...this.recentJobs.slice(0, this.jobs_length)];
-        this.filter_data = {
-          ...this.filter_data,
-          industries: response.data.jobs_by_industry,
-        };
-      });
+      this.loading = true;
+      this.$api.jobService
+        .get_offline_dashboard()
+        .then((response) => {
+          this.recentJobs = [...response.data.recent_jobs];
+          this.slicedJobsArray = [
+            ...this.recentJobs.slice(0, this.jobs_length),
+          ];
+          this.filter_data = {
+            ...this.filter_data,
+            industries: response.data.jobs_by_industry,
+          };
+        })
+        .finally(() => {
+          this.loading = false;
+        });
     },
     get_job_data() {
-      this.$api.jobService.get_job_exclude().then((response) => {
-        this.recentJobs = response.data.job;
-        this.slicedJobsArray = [...this.recentJobs.slice(0, this.jobs_length)];
-      });
+      this.loading = true;
+      this.$api.jobService
+        .get_job_exclude()
+        .then((response) => {
+          this.recentJobs = response.data.job;
+          this.slicedJobsArray = [
+            ...this.recentJobs.slice(0, this.jobs_length),
+          ];
+        })
+        .finally(() => {
+          this.loading = false;
+        });
     },
     explore_more_filter(filter_name) {
       if (filter_name == "industry") {

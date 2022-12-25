@@ -135,6 +135,22 @@
               </v-col>
             </v-row>
 
+            <v-row v-else-if="recentJobs && recentJobs.length == 0">
+              <v-col cols="12">
+                <h1
+                  class="
+                    tw-text-2xl
+                    grey--text
+                    text-center
+                    tw-font-semibold
+                    my-5
+                  "
+                >
+                  No recent jobs.
+                </h1>
+              </v-col>
+            </v-row>
+
             <v-row v-else>
               <v-col v-for="i in 4" :key="i" cols="12" md="3" lg="3" xl="3">
                 <v-skeleton-loader
@@ -214,6 +230,22 @@
                     </h6>
                   </v-card-text>
                 </v-card>
+              </v-col>
+            </v-row>
+
+            <v-row v-else-if="all_Jobs && all_Jobs.length == 0">
+              <v-col cols="12">
+                <h1
+                  class="
+                    tw-text-2xl
+                    grey--text
+                    text-center
+                    tw-font-semibold
+                    my-5
+                  "
+                >
+                  No jobs.
+                </h1>
               </v-col>
             </v-row>
 

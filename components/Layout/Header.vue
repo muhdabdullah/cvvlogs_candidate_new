@@ -151,10 +151,20 @@
 
             <div>
               <LayoutLoginMenu class="mx-2" v-if="AuthID" />
-              <AuthSignIn v-else class="ml-2" />
+              <AuthSignIn
+                ref="signInDialog"
+                @initSignup="initSignup"
+                v-else
+                class="ml-2"
+              />
             </div>
 
-            <AuthRegister v-if="!AuthID" class="ml-2" />
+            <AuthRegister
+              @initSignIn="initSignIn"
+              ref="signUpDialog"
+              v-if="!AuthID"
+              class="ml-2"
+            />
 
             <v-btn
               class="ml-2"
@@ -231,7 +241,18 @@ export default {
       ],
     };
   },
-  mounted() {},
+  methods: {
+    initSignup() {
+      if (this.$refs && this.$refs.signUpDialog) {
+        this.$refs.signUpDialog.dialog = true;
+      }
+    },
+    initSignIn() {
+      if (this.$refs && this.$refs.signInDialog) {
+        this.$refs.signInDialog.dialog = true;
+      }
+    },
+  },
   watch: {},
   computed: {
     AuthID() {

@@ -238,22 +238,27 @@
 <script>
 export default {
   async asyncData({ $api, store }) {
-    const job_by_Industry = await $api.jobService
-      .get_offline_dashboard()
-      .then((response) => {
-        if (response?.data) {
-          store.dispatch(
-            "set_jobs_by_industry",
-            response.data.jobs_by_industry
-          );
-          store.dispatch("setDashboardData", response.data);
-          store.dispatch("setRecentJobs", response.data.recent_jobs);
-        }
+    if (store.getters["get_jobs_by_industry"]) {
+      const job_by_Industry = [...store.getters["get_jobs_by_industry"]];
+      return job_by_Industry;
+    } else {
+      const job_by_Industry = await $api.jobService
+        .get_offline_dashboard()
+        .then((response) => {
+          if (response?.data) {
+            store.dispatch(
+              "set_jobs_by_industry",
+              response.data.jobs_by_industry
+            );
+            store.dispatch("setDashboardData", response.data);
+            store.dispatch("setRecentJobs", response.data.recent_jobs);
+          }
 
-        return [...response?.data?.jobs_by_industry];
-      });
+          return [...response?.data?.jobs_by_industry];
+        });
 
-    return { job_by_Industry };
+      return { job_by_Industry };
+    }
   },
   data() {
     return {

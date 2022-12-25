@@ -151,7 +151,7 @@
                     text
                     color="grey"
                   >
-                    Edit Profile <v-icon class="ml-1" small>mdi-pencil</v-icon>
+                    View Profile <v-icon class="ml-1" small>mdi-pencil</v-icon>
                   </v-btn>
                 </div>
 

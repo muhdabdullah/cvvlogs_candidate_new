@@ -1,10 +1,7 @@
 <template>
   <v-container>
-    <div class="d-flex px-5 align-center justify-space-between">
-      <h1>Mesages</h1>
-      <v-icon color="primary">mdi-information</v-icon>
-    </div>
-    <v-card class="my-2 mb-5" rounded="xl" outlined height="600">
+    <h1>meesages</h1>
+    <v-card class="my-5" rounded="xl" outlined height="600">
       <v-row no-gutters class="tw-h-full">
         <v-col cols="4">
           <v-text-field

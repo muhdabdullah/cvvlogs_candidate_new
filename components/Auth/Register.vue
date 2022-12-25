@@ -145,7 +145,13 @@
             </v-btn>
 
             <h6 class="secondary--text pa-3 text-center">
-              Don't have an account? <span class="tw-font-bold"> Sign in </span>
+              Don't have an account?
+              <span
+                @click="init_SignIn_dialog"
+                class="tw-font-bold tw-cursor-pointer"
+              >
+                Sign in
+              </span>
             </h6>
           </v-form>
         </v-card-text>
@@ -174,6 +180,10 @@ export default {
   }),
 
   methods: {
+    init_SignIn_dialog() {
+      this.dialog = false;
+      this.$emit("initSignIn");
+    },
     onSubmit() {
       this.$refs.form.validate();
 

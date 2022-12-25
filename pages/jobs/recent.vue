@@ -43,9 +43,7 @@ export default {
       ],
     };
   },
-  created() {
-    this.get_job_data();
-  },
+
   methods: {
     get_job_data() {
       this.$api.jobService.get_offline_dashboard().then((response) => {

@@ -53,7 +53,7 @@
           :cols="12"
         >
           <section>
-            <div v-if="!slicedJobsArray.length">
+            <div v-if="loading">
               <v-skeleton-loader
                 v-for="i in 3"
                 :key="i"
@@ -61,6 +61,14 @@
                 type="card"
                 class="py-2 my-2 pa-4"
               ></v-skeleton-loader>
+            </div>
+
+            <div v-else-if="recentJobs && recentJobs.length == 0">
+              <h1
+                class="tw-text-2xl grey--text text-center tw-font-semibold my-5"
+              >
+                No recent jobs.
+              </h1>
             </div>
 
             <JobsCard
@@ -103,6 +111,7 @@ export default {
   },
   data() {
     return {
+      loading: false,
       recentJobs: [],
       slicedJobsArray: [],
       jobs_length: 3,
@@ -157,10 +166,18 @@ export default {
       }
     },
     get_job_data() {
-      this.$api.jobService.get_offline_dashboard().then((response) => {
-        this.recentJobs = [...response.data.recent_jobs];
-        this.slicedJobsArray = [...this.recentJobs.slice(0, this.jobs_length)];
-      });
+      this.loading = true;
+      this.$api.jobService
+        .get_offline_dashboard()
+        .then((response) => {
+          this.recentJobs = [...response.data.recent_jobs];
+          this.slicedJobsArray = [
+            ...this.recentJobs.slice(0, this.jobs_length),
+          ];
+        })
+        .finally(() => {
+          this.loading = false;
+        });
     },
     exploreMore() {
       if (this.compactView) {

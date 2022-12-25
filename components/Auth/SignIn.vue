@@ -99,7 +99,13 @@
             </v-btn>
 
             <h6 class="secondary--text pa-3 text-center">
-              Don't have an account? <span class="tw-font-bold"> Sign up </span>
+              Don't have an account?
+              <span
+                @click="init_SignUp_dialog"
+                class="tw-font-bold tw-cursor-pointer"
+              >
+                Sign up
+              </span>
             </h6>
           </v-form>
         </v-card-text>
@@ -118,12 +124,21 @@ export default {
     password: null,
     loading: false,
   }),
+  created() {
+    this.$nuxt.$on("init-login-dialog", () => {
+      this.dialog = true;
+    });
+  },
   computed: {
     AuthID() {
       if (this.$store.getters["auth/get_authId"]) return true;
     },
   },
   methods: {
+    init_SignUp_dialog() {
+      this.dialog = false;
+      this.$emit("initSignup");
+    },
     onSubmit() {
       this.$refs.form.validate();
       if (!this.form) return;
@@ -182,12 +197,7 @@ export default {
             this.dialog = false;
           }
         })
-        .catch((error) => {
-          // this.$notifier.showMessage({
-          //   content: "Hello, snackbar",
-          //   color: "error",
-          // });
-        })
+        .catch((error) => {})
         .finally(() => (this.loading = false));
     },
 

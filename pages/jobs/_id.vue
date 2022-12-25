@@ -307,12 +307,21 @@ export default {
   },
   methods: {
     applyForJob() {
-      if (this.Job && parseInt(this.Job.external_id)) {
-        window.open(
-          `https://www.recruitwell.com/providers/jobs/${this.Job.external_id}`,
-          "_blank"
-        );
-      } else this.uploadCvDialog = true;
+      if (this.$store.getters["auth/get_authId"]) {
+        if (this.Job && parseInt(this.Job.external_id)) {
+          window.open(
+            `https://www.recruitwell.com/providers/jobs/${this.Job.external_id}`,
+            "_blank"
+          );
+        } else this.uploadCvDialog = true;
+      } else {
+        // this will popup login dialog.
+        this.$nuxt.$emit("init-login-dialog");
+        this.$notifier.showMessage({
+          content: "Sign in to apply for job.",
+          color: "info",
+        });
+      }
     },
   },
 };

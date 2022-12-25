@@ -69,7 +69,7 @@
             </span>
 
             <span class="text-capitalize tw-text-sm mt-3">
-              <v-btn depressed width="120" color="primary"
+              <v-btn :disabled="!AuthID" depressed width="120" color="primary"
                 ><span class="text-capitalize tw-font-light"
                   >Apply Now</span
                 ></v-btn
