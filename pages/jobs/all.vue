@@ -6,7 +6,7 @@
         <v-row align="center" class="my-5">
           <v-col>
             <div class="borderVerticalLine d-flex align-center">
-              <h3 class="tw-text-5xl tw-font-bold ml-5" style="color: #282828">
+              <h3 class="tw-text-5xl tw-font-bold ml-5 black--text">
                 All Jobs
               </h3>
             </div>

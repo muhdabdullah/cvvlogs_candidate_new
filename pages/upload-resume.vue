@@ -17,11 +17,7 @@
 
           <UploadVideoCv />
 
-          <v-btn dark width="307" height="50" color="red" rounded depressed>
-            <span class="text-capitalize"
-              >Record Intro <span class="text-uppercase">Video</span></span
-            ></v-btn
-          >
+          <UploadRecordVideo />
         </div>
       </v-card-text>
     </v-card>
