@@ -151,7 +151,7 @@
                     text
                     color="grey"
                   >
-                    View Profile <v-icon class="ml-1" small>mdi-pencil</v-icon>
+                    View Profile <v-icon class="ml-1" small>mdi-eye</v-icon>
                   </v-btn>
                 </div>
 
@@ -214,12 +214,12 @@
               cover
               :lazy-src="
                 (userData && userData.profile_picture) ||
-                userData.dp ||
+                (userData && userData.dp) ||
                 '/img/homeProfileImg.png'
               "
               :src="
                 (userData && userData.profile_picture) ||
-                userData.dp ||
+                (userData && userData.dp) ||
                 '/img/homeProfileImg.png'
               "
             />

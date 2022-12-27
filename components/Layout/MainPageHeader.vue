@@ -88,7 +88,7 @@
               >
               </v-select>
 
-              <v-btn class="ml-2 secondary" icon fab>
+              <v-btn class="ml-2 secondary" icon fab to="/search_login">
                 <v-icon color="white" size="x-large">mdi-magnify</v-icon>
               </v-btn>
             </div>

@@ -215,9 +215,15 @@
           xl="6"
           class="d-flex align-center justify-end"
         >
-          <p>Home</p>
-          <p class="ml-10">About Us</p>
-          <p class="ml-10">Contact Us</p>
+          <NuxtLink class="white--text ml-10" to="/blogs">
+            <p>Blogs</p>
+          </NuxtLink>
+          <NuxtLink class="white--text ml-10" to="/about-us">
+            <p>About Us</p>
+          </NuxtLink>
+          <NuxtLink class="white--text ml-10" to="/contact-us">
+            <p>Contact Us</p>
+          </NuxtLink>
         </v-col>
       </v-row>
     </v-container>
@@ -252,7 +258,7 @@ export default {
           },
           text2: { label: "Privacy Policy", to: "/privacy-policy" },
           text3: { label: "Terms & Conditions", to: "/termsAndCondition" },
-          text4: { label: "Tips & Recommendations", to: "/" },
+          text4: { label: "Tips & Recommendations", to: "/tips" },
         },
         {
           heading: { label: "Job Seekers" },
@@ -277,7 +283,7 @@ export default {
         {
           heading: { label: "Contact Us", to: "/contact-us" },
           text1: { label: "info@cvvlogscom", to: "/" },
-          text2: { label: "Feed back", to: "/" },
+          text2: { label: "Feed back", to: "/feedback" },
         },
       ],
     };

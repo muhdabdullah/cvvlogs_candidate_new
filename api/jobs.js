@@ -53,7 +53,16 @@ export default ($axios, store, ctx, router) => ({
         throw error;
       });
   },
-
+  async searchJob(data) {
+    return ctx.$request
+      .post("/search.php",data)
+      .then((response) => {
+        return response;
+      })
+      .catch((error) => {
+        throw error;
+      });
+  },
   async apply_job(params) {
     return ctx.$request.post("/apply_job.php", params);
   },

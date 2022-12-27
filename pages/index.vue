@@ -290,19 +290,19 @@ export default {
     },
   },
   methods: {
-    // get_home_data() {
-    //   this.$api.jobService.get_offline_dashboard().then((response) => {
-    //     this.job_by_Industry = [...response.data.jobs_by_industry];
-    //     if (response.data) {
-    //       this.$store.dispatch(
-    //         "set_jobs_by_industry",
-    //         response.data.jobs_by_industry
-    //       );
-    //       this.$store.dispatch("setDashboardData", response.data);
-    //       this.$store.dispatch("setRecentJobs", response.data.recent_jobs);
-    //     }
-    //   });
-    // },
+    get_home_data() {
+      this.$api.jobService.get_offline_dashboard().then((response) => {
+        this.job_by_Industry = [...response.data.jobs_by_industry];
+        if (response.data) {
+          this.$store.dispatch(
+            "set_jobs_by_industry",
+            response.data.jobs_by_industry
+          );
+          this.$store.dispatch("setDashboardData", response.data);
+          this.$store.dispatch("setRecentJobs", response.data.recent_jobs);
+        }
+      });
+    },
   },
 };
 </script>

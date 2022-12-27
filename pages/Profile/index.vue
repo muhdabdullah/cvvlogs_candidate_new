@@ -200,9 +200,20 @@
           </div>
         </div>
 
-        <div v-if="personalEdits" class="personal__details__form pa-5">
+        <div
+          v-if="personalDetailsLoader"
+          class="d-flex my-5 align-center justify-center"
+        >
+          <v-progress-circular
+            indeterminate
+            :size="70"
+            color="secondary"
+          ></v-progress-circular>
+        </div>
+
+        <div v-else-if="personalEdits" class="personal__details__form pa-5">
           <v-form ref="form" v-if="personalDetails">
-            <div class="d-flex align-center">
+            <div class="d-flex align-start">
               <v-text-field
                 label="First Name"
                 class="mr-2"
@@ -218,12 +229,46 @@
               ></v-text-field>
             </div>
 
-            <v-text-field
-              v-model="personalDetails.email"
-              placeholder="Email"
-              outlined
-              type="email"
-            ></v-text-field>
+            <div class="d-flex align-start">
+              <v-text-field
+                v-model="personalDetails.email"
+                placeholder="Email"
+                outlined
+                type="email"
+              ></v-text-field>
+
+              <v-row class="ml-5" no-gutters dense>
+                <v-col cols="3">
+                  <v-autocomplete
+                    style="width: 220px"
+                    v-model="countryCode"
+                    :items="country_code_list"
+                    item-value="country_id"
+                    item-text="country_code"
+                    placeholder="Country Code"
+                    hide-details
+                    single-line
+                    class="phoneSelector"
+                    outlined
+                  >
+                    <template v-slot:append>
+                      <!-- Caret Down -->
+                      <v-icon>mdi-chevron-down</v-icon>
+                    </template>
+                  </v-autocomplete>
+                </v-col>
+
+                <v-col cols="9">
+                  <v-text-field
+                    class="ml-2"
+                    outlined
+                    v-model.trim="personalDetails.num"
+                    hide-details
+                    placeholder="Phone number"
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+            </div>
 
             <v-select
               v-model="personalDetails.country"
@@ -273,7 +318,7 @@
                 v-model="personalDetails.gender"
                 :items="genders"
                 item-text="name"
-                ite-value="id"
+                item-value="id"
                 label="Gender"
                 outlined
                 class="ml-2"
@@ -299,6 +344,7 @@
               label="Language (max 3 language)"
               outlined
               item-text="l_name"
+              item-value="id"
               multiple
               clearable
               chips
@@ -330,7 +376,7 @@
         <div v-else class="personal__details pa-5 pt-0">
           <v-divider class="mb-5"></v-divider>
           <v-row v-if="userData && userData.profile" no-gutters>
-            <v-col cols="12" md="6" lg="6" xl="6">
+            <v-col cols="12" md="4" lg="4" xl="4">
               <div class="pt-0">
                 <h4>Full Name</h4>
                 <h6>{{ userData.profile.name }}</h6>
@@ -352,7 +398,7 @@
               </div>
             </v-col>
 
-            <v-col cols="12" md="6" lg="6" xl="6">
+            <v-col cols="12" md="4" lg="4" xl="4">
               <div class="pt-0">
                 <h4>Country</h4>
                 <h6>{{ userData.profile.country }}</h6>
@@ -371,6 +417,13 @@
               <div>
                 <h4>Language</h4>
                 <h6>{{ userData.profile.languages }}</h6>
+              </div>
+            </v-col>
+
+            <v-col cols="12" md="4" lg="4" xl="4">
+              <div class="pt-0">
+                <h4>Phone number</h4>
+                <h6>{{ (userData.profile && userData.profile.num) || "-" }}</h6>
               </div>
             </v-col>
           </v-row>
@@ -865,6 +918,8 @@ export default {
   },
   data() {
     return {
+      countryCode: null,
+      country_code_list: [],
       uploadCvDialog: false,
       genders: [
         { id: 1, name: "Male" },
@@ -876,6 +931,7 @@ export default {
       skillEdit: false,
       skills: [],
       personalDetails: [],
+      personalDetailsLoader: false,
       proffessionalDetails: [],
       qualificationDetails: [],
       selectedSkills: [],
@@ -901,6 +957,7 @@ export default {
     },
     personalEdits(val) {
       if (val) {
+        this.get_country_code();
         this.getPersonalDetails();
       }
     },
@@ -992,7 +1049,7 @@ export default {
         .getStateList(country_id)
         .then(async (response) => {
           if (response?.data) {
-            this.stateList = response.data?.state_list;
+            this.stateList = response?.data?.state_list;
 
             let findState = this.stateList.find(
               (el) => el.state_id == this.personalDetails?.state?.id
@@ -1012,6 +1069,12 @@ export default {
           }
         });
     },
+    async get_country_code() {
+      await this.$api.utilsService.get_country_code().then(async (response) => {
+        this.country_code_list = response?.data?.country_codes;
+      });
+    },
+
     async getCity(obj) {
       await this.$api.utilsService.getCityList(obj).then(async (response) => {
         if (response?.data) {
@@ -1037,49 +1100,66 @@ export default {
         }
       });
     },
-    async getPersonalDetails() {
+    async getCountries() {
       // Get Counties data
+
+      await this.$api.utilsService.getCountryList().then((response) => {
+        this.countries = response?.data?.country;
+      });
+    },
+    async getPersonalDetails() {
+      this.personalDetailsLoader = true;
+
       if (!this.countries.length) {
-        await this.$api.utilsService.getCountryList().then((response) => {
-          this.countries = response?.data?.country;
-        });
+        this.getCountries();
       }
 
-      // this.skillLoader = true;
-      await this.$api.utilsService.personal_details().then(async (response) => {
-        if (response?.data) {
-          this.personalDetails = {
-            ...response.data?.stored_values,
-          };
+      await this.$api.utilsService
+        .personal_details()
+        .then(async (response) => {
+          if (response?.data) {
+            this.personalDetails = {
+              ...response.data?.stored_values,
+            };
 
-          let findCountry = this.countries.find(
-            (el) => el.country_id == this.personalDetails?.country?.id
-          );
+            let findCountry = this.countries.find(
+              (el) => el.country_id == this.personalDetails?.country?.id
+            );
 
-          if (findCountry) {
-            await this.getState({ country_id: findCountry?.country_id });
+            if (findCountry) {
+              await this.getState({ country_id: findCountry?.country_id });
+
+              // Set Country Code
+              if (this.country_code_list?.length) {
+                this.personalDetails.num_code = this.country_code_list.find(
+                  (el) => el.country_id == this.personalDetails.num_code
+                );
+              }
+            }
+
+            this.personalDetails = {
+              ...this.personalDetails,
+              country: findCountry,
+              gender: this.genders.find(
+                (el) => el.id == this.personalDetails.gender
+              ),
+            };
+
+            this.$store.dispatch(
+              "utils/set_languages",
+              response.data?.languages
+            );
+            this.$store.dispatch(
+              "utils/set_nationalities",
+              response?.data?.nationality
+            );
+            this.$store.dispatch(
+              "utils/set_maritalStatus",
+              response?.data?.marital_statuses
+            );
           }
-
-          this.personalDetails = {
-            ...this.personalDetails,
-            country: findCountry,
-            gender: this.genders.find(
-              (el) => el.id == this.personalDetails.gender
-            ),
-          };
-
-          this.$store.dispatch("utils/set_languages", response.data?.languages);
-          this.$store.dispatch(
-            "utils/set_nationalities",
-            response?.data?.nationality
-          );
-          this.$store.dispatch(
-            "utils/set_maritalStatus",
-            response?.data?.marital_statuses
-          );
-        }
-      });
-      // .finally(() => (this.skillLoader = false));
+        })
+        .finally(() => (this.personalDetailsLoader = false));
     },
     async getQualificationDetails() {
       await this.$api.utilsService
@@ -1122,22 +1202,65 @@ export default {
     async saveProfile() {
       this.profileLoader = true;
 
-      delete this.personalDetails.email;
-      delete this.personalDetails.num;
-      delete this.personalDetails.num_code;
+      if (!this.personalDetails.num_code) this.personalDetails.num_code = null;
+      console.log(
+        "🚀 ~ file: index.vue:1200 ~ saveProfile ~ this.personalDetails",
+        this.personalDetails
+      );
 
-      //let formData = new FormData();
-      // for (const key in this.personalDetails) {
-      //   if (Object.hasOwnProperty.call(this.personalDetails, key)) {
-      //     const element = this.personalDetails[key];
-      //     formData.append(key, element);
-      //   }
+      if (this.personalDetails?.city?.city_id)
+        this.personalDetails.city = this.personalDetails.city.city_id;
+
+      if (this.personalDetails?.country?.country_id)
+        this.personalDetails.country = this.personalDetails.country.country_id;
+
+      if (this.personalDetails?.gender?.id)
+        this.personalDetails.gender = this.personalDetails.gender.id;
+
+      if (this.personalDetails?.marital_status?.id)
+        this.personalDetails.marital_status =
+          this.personalDetails.marital_status.id;
+
+      if (this.personalDetails?.nationality?.id)
+        this.personalDetails.nationality = this.personalDetails.nationality.id;
+
+      if (this.personalDetails?.state?.state_id)
+        this.personalDetails.state = this.personalDetails.state.state_id;
+
+      // if (
+      //   this.personalDetails?.languages?.length &&
+      //   this.personalDetails?.languages[0]?.value
+      // ) {
+      //   this.personalDetails.languages = this.personalDetails.languages.map(
+      //     (el) => [el.id]
+      //   );
       // }
 
+      let formData = new FormData();
+      formData.append("first_name", this.personalDetails.first_name);
+      formData.append("last_name", this.personalDetails.last_name);
+      formData.append("file", this.personalDetails.dp);
+      formData.append("nationality", this.personalDetails.nationality);
+      formData.append("gender", this.personalDetails.gender);
+      formData.append("dob", this.personalDetails.dob);
+      formData.append("email", this.personalDetails.email);
+      formData.append("num", this.personalDetails.num);
+      formData.append("num_code", this.personalDetails.num_code);
+      formData.append("marital_stat", this.personalDetails.marital_status);
+      formData.append("country", this.personalDetails.country);
+      formData.append("city", this.personalDetails.city);
+
+      if (this.personalDetails?.languages?.length) {
+        this.personalDetails.languages.forEach((lang) => {
+          if (lang?.id) formData.append("lang[]", lang.id);
+          else formData.append("lang[]", lang);
+        });
+      }
+
       await this.$api.utilsService
-        .saveProfileDetail(this.personalDetails)
+        .saveProfileDetail(formData)
         .then((response) => {
-          if (response?.data) {
+          if (response?.status == 200) {
             this.personalEdits = false;
             this.getProfileData();
           }

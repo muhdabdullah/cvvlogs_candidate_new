@@ -21,15 +21,19 @@
             >
               <v-list-item
                 @click="get_message_by_chatId(chat)"
-                :key="`chat-${chat.user_id}`"
+                :key="`chat-${chat.chat_id}`"
               >
                 <v-list-item-avatar size="60">
-                  <v-img :src="chat.user_img"></v-img>
+                  <v-img v-if="chat.user_img" :src="chat.user_img"></v-img>
+
+                  <v-icon v-else x-large color="white" class="grey">
+                    mdi-account
+                  </v-icon>
                 </v-list-item-avatar>
 
                 <v-list-item-content>
                   <v-list-item-title
-                    class="tw-font-semibold"
+                    class="tw-font-semibold text-capitalize"
                     v-html="chat.user_name"
                   ></v-list-item-title>
                   <v-list-item-subtitle
@@ -56,7 +60,7 @@
               <template v-for="(msg, msg_index) in user_messages.all_messages">
                 <div
                   v-if="msg.sent_or_recvd == 0"
-                  :key="`msg_send-${msg_index + 1}`"
+                  :key="`msg_send-${msg_index + 1}-0`"
                   class="message__box__user my-1 d-flex align-center"
                   :class="`msg-${msg.id}`"
                 >
@@ -80,7 +84,7 @@
 
                 <div
                   v-else
-                  :key="`msg_rec-${msg_index + 1}`"
+                  :key="`msg_rec-${msg_index + 1}-1`"
                   :id="msg.id"
                   :class="`msg-${msg.id}`"
                   class="
@@ -129,6 +133,8 @@
             <div class="d-flex align-center justify-space-between">
               <v-text-field
                 class="mx-2 py-0 custom_chat_fields"
+                @keyup.enter="send_message"
+                :disabled="!selected_chat.chat_id || !selected_chat.user_id"
                 placeholder="Type your message here"
                 plain
                 hide-details
@@ -136,15 +142,13 @@
               ></v-text-field>
               <div class="icons__sec_two mx-2">
                 <v-btn
-                  @click.prevent="
-                    send_message({
-                      chat_id: 16050,
-                      reciever: 6295,
-                      message: 'this is owais',
-                      message_file: '',
-                    })
-                  "
+                  @click.prevent="send_message"
                   large
+                  :disabled="
+                    !new_message ||
+                    !selected_chat.chat_id ||
+                    !selected_chat.user_id
+                  "
                   :loading="send_message_loader"
                   color="primary"
                   icon
@@ -198,6 +202,14 @@ export default {
 
     return { getAllChats };
   },
+  async created() {
+    setInterval(async () => {
+      await this.get_user_all_chats();
+      if (this.selected_chat?.chat_id) {
+        await this.get_message_by_chatId(this.selected_chat);
+      }
+    }, 3000);
+  },
   data() {
     return {
       getAllChats: null,
@@ -205,7 +217,12 @@ export default {
       user_messages: [],
       message_loader: false,
       send_message_loader: false,
-      selected_chat: null,
+      selected_chat: {
+        chat_id: null,
+        reciever: null,
+        message: null,
+        message_file: null,
+      },
       new_message: null,
       chatIcons: [
         "mdi-emoticon-happy-outline",
@@ -224,6 +241,11 @@ export default {
         el.scrollIntoView(options);
       }
     },
+    async get_user_all_chats() {
+      await this.$api.messageService.get_all_chats().then((response) => {
+        this.getAllChats = response?.data;
+      });
+    },
     async get_message_by_chatId(chat, noloader) {
       // Save user chatID
       this.selected_chat = chat;
@@ -241,25 +263,30 @@ export default {
     async send_message(data) {
       let new_msg = new FormData();
 
-      // Append Data in Form
-      new_msg.append("chat_id", this.selected_chat?.chat_id);
-      new_msg.append("reciever", this.selected_chat?.user_id);
-      new_msg.append("message", this.new_message);
-      new_msg.append("message_file", null);
+      if (this.selected_chat.chat_id && this.new_message) {
+        // Append Data in Form
+        new_msg.append("chat_id", this.selected_chat?.chat_id);
+        new_msg.append("reciever", this.selected_chat?.user_id);
+        new_msg.append("message", this.new_message);
+        new_msg.append("message_file", null);
 
-      this.send_message_loader = true;
-      await this.$api.messageService
-        .new_chat(new_msg)
-        .then((response) => {
-          this.get_message_by_chatId(this.selected_chat, true);
-          // reset_message
-          this.new_message = null;
-          // scroll
-          this.scrollToElement({ behavior: "smooth" }, response?.data?.msg_id);
-        })
-        .finally(() => {
-          this.send_message_loader = false;
-        });
+        this.send_message_loader = true;
+        await this.$api.messageService
+          .new_chat(new_msg)
+          .then((response) => {
+            this.get_message_by_chatId(this.selected_chat, true);
+            // reset_message
+            this.new_message = null;
+            // scroll
+            this.scrollToElement(
+              { behavior: "smooth" },
+              response?.data?.msg_id
+            );
+          })
+          .finally(() => {
+            this.send_message_loader = false;
+          });
+      }
     },
   },
 };

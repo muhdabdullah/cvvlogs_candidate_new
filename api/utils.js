@@ -39,6 +39,10 @@ export default ($axios, store, ctx, router) => ({
       });
   },
 
+  async get_country_code() {
+    return ctx.$request.get(`/country_codes.php`);
+  },
+
   async saveProfileDetail(params) {
     return ctx.$request.post("/add_profile.php", params);
   },

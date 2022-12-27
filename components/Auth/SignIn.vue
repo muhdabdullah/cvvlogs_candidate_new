@@ -154,20 +154,6 @@ export default {
           if (resp.data) {
             await this.$store.dispatch("resetJobsData");
 
-            if (resp?.status == 200 && resp?.data) {
-              await this.$store.dispatch("auth/set_authId", resp.data);
-              if (this.$route != "/") this.$router.push("/");
-              this.$refs.form.reset();
-            }
-
-            if (resp?.status == 404) {
-              this.$notifier.showMessage({
-                content: resp.message,
-                color: "error",
-              });
-              return;
-            }
-
             // Get new Auth Data
             await this.$api.jobService
               .get_offline_dashboard()
@@ -192,6 +178,20 @@ export default {
 
                 return [...response?.data?.jobs_by_industry];
               });
+
+            if (resp?.status == 200 && resp?.data) {
+              await this.$store.dispatch("auth/set_authId", resp.data);
+              if (this.$route != "/") this.$router.push("/");
+              this.$refs.form.reset();
+            }
+
+            if (resp?.status == 404) {
+              this.$notifier.showMessage({
+                content: resp.message,
+                color: "error",
+              });
+              return;
+            }
 
             if (this.$route.path != "/") this.$router.push("/");
             this.dialog = false;
