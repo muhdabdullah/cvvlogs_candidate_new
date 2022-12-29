@@ -11,7 +11,13 @@
             Feedback
           </h1>
           <div class="d-flex justify-center mt-4">
-            <v-card min-width="950" min-height="534" class="cardDesign">
+            <v-card
+              min-width="950"
+              min-height="534"
+              class="cardDesign"
+              elevation="1"
+              outlined
+            >
               <div class="ma-12">
                 <h1 class="tw-text-2xl tw-text-black tw-font-medium">
                   What did you like the most? What did you like the least?
@@ -19,15 +25,27 @@
                 <p class="primary--text tw-font-bold tw-text-base mt-6">
                   Write a review
                 </p>
-                <div style="height: 100%;">
-                    <v-textarea
-                  outlined
-                  name="input-7-4"
-                  label="Write your review here"
-                  rows="10"
-                ></v-textarea>
+                <v-form ref="form" v-model="formHasErrors" @submit.prevent="submit">
+                <div style="height: 100%">
+                  <v-textarea
+                    solo
+                    v-model="_review"
+                    name="_review"
+                    required
+                    label="Write your review here"
+                    rows="10"
+                    :rules="[() => !!_review || 'This field is required']"
+                  ></v-textarea>
                 </div>
-                <v-btn width="100%" height="38" class="secondary text-capitalize tw-text-base tw-font-bold">Submit</v-btn>
+                <v-btn
+                  :disabled="!formHasErrors"
+                  width="100%"
+                  height="38"
+                  class="secondary text-capitalize tw-text-base tw-font-bold"
+                  type="submit"
+                  >Submit</v-btn
+                >
+                </v-form>
               </div>
             </v-card>
           </div>
@@ -40,7 +58,23 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      formHasErrors: false,
+      _review: null,
+    };
+  },
+  methods: {
+    async submit(e) {
+      this.$refs.form.reset()
+      this.$refs.form.resetValidation()
+      await this.$api.utilsService
+        .send_feedback({ feedback: e.target._review.value,source:"feedback screen"})
+        .then((response) => {
+          console.log(response)
+        }).catch((err) => {
+          console.log(err)
+        })
+    },
   },
 };
 </script>

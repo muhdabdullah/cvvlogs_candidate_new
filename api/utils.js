@@ -105,4 +105,8 @@ export default ($axios, store, ctx, router) => ({
   async send_disable_otp() {
     return ctx.$request.get("/disable_otp.php");
   },
+
+  async send_feedback(data) {
+    return ctx.$request.post("/send_feedback.php",data);
+  },
 });
