@@ -36,10 +36,14 @@
               {{ jobDetail.rec }}
             </h4>
             <div class="d-flex align-center tw-text-sm tw-font-semibold my-1">
-              <span v-if="jobDetail.city"> {{ jobDetail.city }}, </span>
-              <span v-if="jobDetail.state"> &nbsp;{{ jobDetail.state }}, </span>
+              <span v-if="jobDetail.city">
+                {{ jobDetail.city.name || jobDetail.city }},
+              </span>
+              <span v-if="jobDetail.state">
+                &nbsp;{{ jobDetail.state.name || jobDetail.state }},
+              </span>
               <span v-if="jobDetail.country">
-                &nbsp;{{ jobDetail.country }}
+                &nbsp;{{ jobDetail.country.name || jobDetail.country }}
               </span>
             </div>
           </div>
@@ -56,7 +60,7 @@
             "
           >
             <span>
-              <v-icon aria-hidden="false" color="#4c2e8b"> mdi-heart </v-icon>
+              <v-icon aria-hidden="false" color="primary"> mdi-heart </v-icon>
             </span>
           </div>
           <div class="d-flex flex-column">

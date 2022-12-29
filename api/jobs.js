@@ -55,7 +55,7 @@ export default ($axios, store, ctx, router) => ({
   },
   async searchJob(data) {
     return ctx.$request
-      .post("/search.php",data)
+      .post("/search.php", data)
       .then((response) => {
         return response;
       })
@@ -65,5 +65,15 @@ export default ($axios, store, ctx, router) => ({
   },
   async apply_job(params) {
     return ctx.$request.post("/apply_job.php", params);
+  },
+
+  async get_job_list(params) {
+    return await $axios
+      .$get(`https://staging.cvvlogs.com/api/get-job-list`, {
+        params: params,
+      })
+      .then((response) => {
+        return response;
+      });
   },
 });

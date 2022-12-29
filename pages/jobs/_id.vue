@@ -65,6 +65,9 @@
                   <div
                     class="d-flex align-center tw-text-sm tw-font-semibold my-1"
                   >
+                    <span v-if="Job.currency || Job.curr" class="mr-2">{{
+                      Job.currency || Job.curr
+                    }}</span>
                     <span class="mr-2" v-if="!parseInt(Job.external_id)"
                       >{{ Job.salary_min }} - {{ Job.salary_max }}</span
                     >

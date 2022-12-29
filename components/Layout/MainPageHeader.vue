@@ -44,6 +44,7 @@
             <div class="d-flex align-center justify-center">
               <v-text-field
                 placeholder="Enter Your Keyword"
+                v-model="selected_keyword"
                 type="text"
                 background-color="white"
                 hide-details
@@ -56,7 +57,7 @@
                 </template>
               </v-text-field>
 
-              <v-text-field
+              <!-- <v-text-field
                 placeholder="City, Province or Region"
                 type="text"
                 hide-details
@@ -70,10 +71,9 @@
                     >mdi-map-marker-outline</v-icon
                   >
                 </template>
-              </v-text-field>
+              </v-text-field> -->
 
               <v-select
-                style="max-width: 272px"
                 placeholder="Category"
                 type="text"
                 hide-details
@@ -81,6 +81,7 @@
                 background-color="white"
                 class="mx-1"
                 :items="job_categories"
+                v-model="selected_industry"
                 item-text="name"
                 item-value="id"
                 filled
@@ -88,15 +89,15 @@
               >
               </v-select>
 
-              <v-btn class="ml-2 secondary" icon fab to="/search_login">
+              <v-btn @click="move_to_search" class="ml-2 secondary" icon fab>
                 <v-icon color="white" size="x-large">mdi-magnify</v-icon>
               </v-btn>
             </div>
 
-            <p class="text-center white--text ma-1">
+            <!-- <p class="text-center white--text ma-1">
               We will deliver 7 days a week, 365 days a year get a free quote:
               <span class="tw-font-bold">(123) - 45 - 7890</span>
-            </p>
+            </p> -->
           </v-card-text>
         </v-card>
       </div>
@@ -108,7 +109,10 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      selected_keyword: null,
+      selected_industry: null,
+    };
   },
   computed: {
     job_categories() {
@@ -126,6 +130,17 @@ export default {
         if (name) return name;
       }
       return "Get Your Dream Job Today!";
+    },
+  },
+  methods: {
+    move_to_search() {
+      this.$router.push({
+        name: "search",
+        params: {
+          keyword: this.selected_keyword,
+          industry: this.selected_industry,
+        },
+      });
     },
   },
 };
