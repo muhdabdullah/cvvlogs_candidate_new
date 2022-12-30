@@ -154,32 +154,32 @@ export default {
           if (resp.data) {
             await this.$store.dispatch("resetJobsData");
 
-            // Get new Auth Data
-            await this.$api.jobService
-              .get_offline_dashboard()
-              .then((response) => {
-                if (response.data) {
-                  this.$store.dispatch(
-                    "set_jobs_by_industry",
-                    response.data.jobs_by_industry
-                  );
-                  this.$store.dispatch("setDashboardData", response.data);
-                  this.$store.dispatch(
-                    "setRecentJobs",
-                    response.data.recent_jobs
-                  );
-
-                  if (this.AuthID) {
-                    this.$api.jobService.get_job_exclude().then((response) => {
-                      this.$store.dispatch("setAllJobs", response?.data?.job);
-                    });
+            if (resp?.status == 200 && resp?.data) {
+              // // Get new Auth Data, Cause Now the user is logged In.
+              await this.$api.jobService
+                .get_offline_dashboard()
+                .then((response) => {
+                  if (response.data) {
+                    this.$store.dispatch(
+                      "set_jobs_by_industry",
+                      response.data.jobs_by_industry
+                    );
+                    this.$store.dispatch("setDashboardData", response.data);
+                    // this.$store.dispatch(
+                    //   "set_userData",
+                    //   response?.data?.profile
+                    // );
+                    this.$store.dispatch(
+                      "setRecentJobs",
+                      response.data.recent_jobs
+                    );
                   }
-                }
+                });
 
-                return [...response?.data?.jobs_by_industry];
+              await this.$api.jobService.get_job_exclude().then((response) => {
+                this.$store.dispatch("setAllJobs", response?.data?.job);
               });
 
-            if (resp?.status == 200 && resp?.data) {
               await this.$store.dispatch("auth/set_authId", resp.data);
               if (this.$route != "/") this.$router.push("/");
               this.$refs.form.reset();

@@ -237,36 +237,36 @@
 
 <script>
 export default {
-  async asyncData({ $api, store }) {
-    if (store.getters["get_jobs_by_industry"]) {
-      const job_by_Industry = [...store.getters["get_jobs_by_industry"]];
-      return job_by_Industry;
-    } else {
-      const job_by_Industry = await $api.jobService
-        .get_offline_dashboard()
-        .then((response) => {
-          if (response?.data) {
-            store.dispatch(
-              "set_jobs_by_industry",
-              response.data.jobs_by_industry
-            );
-            store.dispatch("setDashboardData", response.data);
-            store.dispatch("setRecentJobs", response.data.recent_jobs);
-          }
+  // async asyncData({ $api, store }) {
+  //   if (store.getters["get_jobs_by_industry"]) {
+  //     const job_by_Industry = [...store.getters["get_jobs_by_industry"]];
+  //     return job_by_Industry;
+  //   } else {
+  //     const job_by_Industry = await $api.jobService
+  //       .get_offline_dashboard()
+  //       .then((response) => {
+  //         if (response?.data) {
+  //           store.dispatch(
+  //             "set_jobs_by_industry",
+  //             response.data.jobs_by_industry
+  //           );
+  //           store.dispatch("setDashboardData", response.data);
+  //           store.dispatch("setRecentJobs", response.data.recent_jobs);
+  //         }
 
-          return [...response?.data?.jobs_by_industry];
-        });
+  //         return [...response?.data?.jobs_by_industry];
+  //       });
 
-      return { job_by_Industry };
-    }
-  },
+  //     return { job_by_Industry };
+  //   }
+  // },
   data() {
     return {
       job_by_Industry: [],
     };
   },
   mounted() {
-    // this.get_home_data();
+    this.get_home_data();
   },
   computed: {
     jobs_by_industry_sliced() {
@@ -292,7 +292,7 @@ export default {
   methods: {
     get_home_data() {
       this.$api.jobService.get_offline_dashboard().then((response) => {
-        this.job_by_Industry = [...response.data.jobs_by_industry];
+        this.job_by_Industry = [...response?.data?.jobs_by_industry];
         if (response.data) {
           this.$store.dispatch(
             "set_jobs_by_industry",

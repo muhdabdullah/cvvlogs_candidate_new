@@ -63,7 +63,7 @@
               <v-icon aria-hidden="false" color="primary"> mdi-heart </v-icon>
             </span>
           </div>
-          <div class="d-flex flex-column">
+          <div class="d-flex justify-center flex-column">
             <span class="tw-text-sm">
               <v-btn @click="viewJob" depressed width="120" color="secondary">
                 <span class="text-capitalize tw-font-medium black--text"
@@ -73,7 +73,7 @@
             </span>
 
             <span class="text-capitalize tw-text-sm mt-3">
-              <v-btn :disabled="!AuthID" depressed width="120" color="primary"
+              <v-btn v-if="AuthID" depressed width="120" color="primary"
                 ><span class="text-capitalize tw-font-light"
                   >Apply Now</span
                 ></v-btn

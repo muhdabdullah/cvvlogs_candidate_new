@@ -31,10 +31,8 @@
                   <h1 class="black--text tw-text-2xl tw-font-semibold">
                     {{ profileById?.comapany?.name }}
                   </h1>
-                  <v-btn depressed color="secondary">
-                    Chat
-                    <v-icon color=""> mdi-chat </v-icon></v-btn
-                  >
+
+                  <MessageNewChat />
                 </div>
                 <p class="tw-text-sm tw-font-semibold primary--text mt-2 mb-2">
                   {{ profileById?.comapany?.tagline }}

@@ -203,12 +203,14 @@ export default {
     return { getAllChats };
   },
   async created() {
-    setInterval(async () => {
-      await this.get_user_all_chats();
-      if (this.selected_chat?.chat_id) {
-        await this.get_message_by_chatId(this.selected_chat);
-      }
-    }, 3000);
+    if (this.$store.getters["auth/get_authId"]) {
+      setInterval(async () => {
+        await this.get_user_all_chats();
+        if (this.selected_chat?.chat_id) {
+          await this.get_message_by_chatId(this.selected_chat);
+        }
+      }, 3000);
+    }
   },
   data() {
     return {

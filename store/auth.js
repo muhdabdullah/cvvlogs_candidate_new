@@ -25,6 +25,9 @@ const getters = {
 };
 
 const mutations = {
+  // set_userData(state, payload) {
+  //   state.userData = payload;
+  // },
   set_authId(state, payload) {
     state.auth_id = payload.auth_id;
     state.userData = payload;
