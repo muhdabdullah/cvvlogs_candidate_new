@@ -178,7 +178,11 @@ export default {
     password: null,
     loading: false,
   }),
-
+  created() {
+    this.$nuxt.$on("init-register-dialog", () => {
+      this.dialog = true;
+    });
+  },
   methods: {
     init_SignIn_dialog() {
       this.dialog = false;

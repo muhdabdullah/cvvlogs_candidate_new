@@ -113,7 +113,11 @@
         </v-card>
 
         <div
-          v-if="searchData && searchData.previous_searches"
+          v-if="
+            searchData &&
+            searchData.previous_searches &&
+            searchData.previous_searches.length
+          "
           class="d-flex justify-space-between"
         >
           <div>
@@ -209,17 +213,14 @@
         color="secondary"
         v-model="filter.page"
         :length="
-          (job_list_data &&
-            job_list_data.links &&
-            job_list_data.links.length) ||
-          4
+          job_list_data && job_list_data.links && job_list_data.links.length
         "
         circle
         @input="get_job_list"
       ></v-pagination>
       <small class="tw-font-bold black--text"
-        >Showing {{ job_list_data.per_page }} results of
-        {{ job_list_data.total }}</small
+        >Showing {{ job_list_data.data && job_list_data.data.length }} results
+        of {{ job_list_data.total }}</small
       >
     </div>
   </v-container>
@@ -265,6 +266,7 @@ export default {
         limit: null,
         keyword: null,
         page: null,
+        limit: 30,
       },
     };
   },

@@ -46,6 +46,17 @@
                 &nbsp;{{ jobDetail.country.name || jobDetail.country }}
               </span>
             </div>
+            <div
+              v-if="!parseInt(jobDetail.external_id)"
+              class="d-flex align-center tw-text-sm tw-font-semibold"
+            >
+              <span v-if="jobDetail.currency || jobDetail.curr" class="mr-2">{{
+                jobDetail.currency || jobDetail.curr
+              }}</span>
+              <span class="mr-2"
+                >{{ jobDetail.salary_min }} - {{ jobDetail.salary_max }}
+              </span>
+            </div>
           </div>
         </div>
 

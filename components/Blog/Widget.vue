@@ -49,6 +49,7 @@
       <v-btn
         class="tw-text-lg text-capitalize tw-font-bold"
         width="224"
+        to="/blogs"
         height="64"
         depressed
         tile

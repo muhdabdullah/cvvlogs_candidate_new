@@ -219,6 +219,7 @@
                   class="text-capitalize"
                   color="secondary"
                   height="64"
+                  @click="$nuxt.$emit('init-login-dialog')"
                   depressed
                   tile
                   width="224"
