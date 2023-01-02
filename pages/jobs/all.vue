@@ -178,6 +178,17 @@
               </v-card-text>
             </v-card>
 
+            <v-btn
+              v-if="AuthID"
+              @click.prevent="get_job_list"
+              color="secondary"
+              depressed
+              block
+              ><span class="text-capitalize tw-text-xl tw-font-bold"
+                >Apply Filter</span
+              ></v-btn
+            >
+
             <!-- Salary Filter -->
             <!-- <v-card outlined class="my-2" flat>
               <div
