@@ -19,11 +19,11 @@
       <v-btn
         v-bind="attrs"
         v-on="on"
-        dark
         width="307"
         height="50"
         color="red"
         rounded
+        disabled
         depressed
       >
         <span class="text-capitalize"

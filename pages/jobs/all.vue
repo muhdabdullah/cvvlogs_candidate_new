@@ -15,9 +15,7 @@
           <v-col align="right" class="jobTabs">
             <v-btn-toggle
               tile
-              :rounded="false"
               color="primary"
-              borderless
               multiple
               @change="get_job_list"
               v-model="filter.work_level_id"
@@ -68,7 +66,7 @@
                         <v-expansion-panel-header class="d-flex pa-0">
                           <div class="d-flex align-center">
                             <v-checkbox
-                              :label="`${job.name} (${job.children.length})`"
+                              :label="`${job.name} (${job.job_count})`"
                               :value="job.id"
                               v-model="child_industry_id_parent"
                               hide-details
@@ -83,7 +81,7 @@
                             :key="job_child_index"
                             :label="`${job_child.name} ${
                               job_child.job_count
-                                ? `${job_child.job_count}`
+                                ? `(${job_child.job_count})`
                                 : ''
                             }`"
                             hide-details
@@ -179,12 +177,12 @@
             </v-card>
 
             <v-btn
-              v-if="AuthID"
               @click.prevent="get_job_list"
-              color="secondary"
+              color="primary"
+              outlined
               depressed
               block
-              ><span class="text-capitalize tw-text-xl tw-font-bold"
+              ><span class="text-capitalize tw-text-lg tw-font-bold"
                 >Apply Filter</span
               ></v-btn
             >
@@ -276,8 +274,12 @@
 
         <small class="tw-font-bold black--text"
           >Showing
-          {{ jobs_search_data.data && jobs_search_data.data.length }} results of
-          {{ jobs_search_data.total }}</small
+          {{
+            jobs_search_data &&
+            jobs_search_data.data &&
+            jobs_search_data.data.length
+          }}
+          results of {{ jobs_search_data && jobs_search_data.total }}</small
         >
       </div>
 
@@ -347,13 +349,19 @@ export default {
     };
   },
   created() {
-    if (this.AuthID) {
-      // this.get_job_data();
-      this.get_job_list();
+    // if (this.AuthID) {
+    //   // this.get_job_data();
+    //   this.get_job_list();
 
-      // Get Filter Data
-      this.search_data_get();
-    } else this.get_offline_dashboard();
+    //   // Get Filter Data
+    //   this.search_data_get();
+    // } else this.get_offline_dashboard();
+
+    // New API Flow
+    this.get_job_list();
+
+    // Get Filter Data
+    this.search_data_get();
   },
   computed: {
     AuthID() {

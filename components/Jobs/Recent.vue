@@ -10,7 +10,7 @@
           </div>
         </v-col>
 
-        <v-col align="right" class="jobTabs">
+        <!-- <v-col align="right" class="jobTabs">
           <v-tabs
             light
             center-active
@@ -22,7 +22,7 @@
             <v-tab class="text-capitalize">Part Time</v-tab>
             <v-tab class="text-capitalize">Full Time</v-tab>
           </v-tabs>
-        </v-col>
+        </v-col> -->
       </v-row>
       <v-row dense>
         <!-- <v-col v-if="!compactView" cols="3">

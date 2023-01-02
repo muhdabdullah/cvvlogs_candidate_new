@@ -153,10 +153,11 @@
             <!-- Recent Jobs -->
             <JobsRecent />
 
-            <BlogWidget />
+            <!-- Blogs Component -->
+            <!-- <BlogWidget /> -->
           </v-container>
 
-          <LayoutCustomerReview />
+          <!-- <LayoutCustomerReview /> -->
 
           <v-container class="custom_wd_container">
             <section class="mt-15">
@@ -169,7 +170,7 @@
             </section>
           </v-container>
 
-          <section class="mt-15">
+          <!-- <section class="mt-15">
             <header class="tw-relative">
               <v-img
                 class="page__header"
@@ -228,7 +229,7 @@
                 >
               </div>
             </header>
-          </section>
+          </section> -->
         </div>
       </v-col>
     </v-row>

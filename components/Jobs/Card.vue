@@ -53,7 +53,9 @@
               <span v-if="jobDetail.currency || jobDetail.curr" class="mr-2">{{
                 jobDetail.currency || jobDetail.curr
               }}</span>
-              <span class="mr-2"
+              <span
+                v-if="jobDetail.salary_min || jobDetail.salary_max"
+                class="mr-2"
                 >{{ jobDetail.salary_min }} - {{ jobDetail.salary_max }}
               </span>
             </div>
@@ -61,7 +63,7 @@
         </div>
 
         <div class="d-flex pa-1">
-          <div
+          <!-- <div
             class="mr-4 mt-1 d-flex justify-center align-center"
             style="
               width: 35px;
@@ -69,11 +71,15 @@
               height: 31px;
               border-radius: 4px;
             "
+          > -->
+          <v-btn
+            class="tw-border-solid tw-border-2 tw-rounded-lg mx-4"
+            tile
+            icon
           >
-            <span>
-              <v-icon aria-hidden="false" color="primary"> mdi-heart </v-icon>
-            </span>
-          </div>
+            <v-icon aria-hidden="false" color="grey"> mdi-heart </v-icon>
+          </v-btn>
+          <!-- </div> -->
           <div class="d-flex justify-center flex-column">
             <span class="tw-text-sm">
               <v-btn @click="viewJob" depressed width="120" color="secondary">
