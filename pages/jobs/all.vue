@@ -51,7 +51,7 @@
                   tw-text-xl tw-font-semibold
                 "
               >
-                Job Industry
+                Job Category
               </div>
               <v-card-text class="tw-overflow-auto tw-max-h-64">
                 <div
@@ -69,6 +69,8 @@
                           <div class="d-flex align-center">
                             <v-checkbox
                               :label="`${job.name} (${job.children.length})`"
+                              :value="job.id"
+                              v-model="child_industry_id_parent"
                               hide-details
                               color="primary"
                               class="my-1 black--text"
@@ -85,6 +87,8 @@
                                 : ''
                             }`"
                             hide-details
+                            v-model="filter.industry_id"
+                            :value="job_child.id"
                             color="primary"
                             class="my-1 black--text"
                           ></v-checkbox>
@@ -96,6 +100,8 @@
                   <v-checkbox
                     v-else
                     :label="`${job.name} (${job.job_count})`"
+                    :value="job.id"
+                    v-model="filter.industry_id"
                     hide-details
                     color="primary"
                     class="my-1 black--text"
@@ -147,6 +153,8 @@
                 >
                   <v-checkbox
                     :label="location.state_name"
+                    :value="location.state_id"
+                    v-model="filter.state_id"
                     hide-details
                     color="primary"
                     class="my-1 black--text"
@@ -311,11 +319,13 @@ export default {
       recentJobs: [],
       jobs_search_data: null,
       loading: false,
+      child_industry_id_parent: [],
       filter: {
-        work_level_id: null,
+        work_level_id: [],
         country_id: null,
         city_id: null,
-        industry_id: null,
+        state_id: [],
+        industry_id: [],
         // min_salary: 0,
         // max_salary: 100000,
         featured: null,
@@ -354,10 +364,15 @@ export default {
 
       params["state_id[]"] = this.selected_state?.state_id;
       params.city_id = params.city_id?.map((row) => row.city_id);
-      params.industry_id = params.industry_id?.map((row) => row.id);
+      //params.industry_id = params.industry_id?.map((row) => row.id);
 
+      // Merging child_industry_id_parent with main industry arr.
+      params.industry_id = params.industry_id.concat(
+        this.child_industry_id_parent
+      );
+
+      // sending userId in payload.
       let userData = JSON.parse(localStorage.getItem("userData"));
-
       params.user_id = userData?.id;
       // params.min_salary = this.salary_value[0];
       // params.max_salary = this.salary_value[1];
