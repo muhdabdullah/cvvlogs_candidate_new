@@ -107,6 +107,10 @@ export default ($axios, store, ctx, router) => ({
   },
 
   async send_feedback(data) {
-    return ctx.$request.post("/send_feedback.php",data);
+    return ctx.$request.post("/send_feedback.php", data);
+  },
+
+  init_favourite(param) {
+    return ctx.$request.post("/mark-unmark-job-fav.php", param);
   },
 });

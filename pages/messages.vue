@@ -202,18 +202,26 @@ export default {
 
     return { getAllChats };
   },
-  async created() {
+  mounted() {
     if (this.$store.getters["auth/get_authId"]) {
-      setInterval(async () => {
-        await this.get_user_all_chats();
+      console.log("created", this.intval);
+      this.intval = setInterval(() => {
+        this.get_user_all_chats();
         if (this.selected_chat?.chat_id) {
-          await this.get_message_by_chatId(this.selected_chat);
+          this.get_message_by_chatId(this.selected_chat);
         }
       }, 3000);
     }
   },
+  destroyed() {
+    if (this.intval) {
+      console.log("unmounted", this.intval);
+      clearInterval(this.intval);
+    }
+  },
   data() {
     return {
+      intval: null,
       getAllChats: null,
       search_chat: null,
       user_messages: [],

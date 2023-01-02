@@ -143,8 +143,8 @@
     </v-row>
 
     <v-row class="my-5">
-      <v-col cols="2">
-        <!-- Salary Filter -->
+      <!-- <v-col cols="2">
+       
         <v-card outlined class="my-2" flat>
           <div
             class="
@@ -169,9 +169,9 @@
             </div>
           </v-card-text>
         </v-card>
-      </v-col>
+      </v-col> -->
 
-      <v-col cols="10">
+      <v-col cols="12">
         <div class="mb-10" v-if="job_list_loading">
           <v-skeleton-loader
             v-for="i in 2"
@@ -213,11 +213,12 @@
         color="secondary"
         v-model="filter.page"
         :length="
-          job_list_data && job_list_data.links && job_list_data.links.length
+          job_list_data && job_list_data.last_page && job_list_data.last_page
         "
         circle
         @input="get_job_list"
       ></v-pagination>
+
       <small class="tw-font-bold black--text"
         >Showing {{ job_list_data.data && job_list_data.data.length }} results
         of {{ job_list_data.total }}</small
@@ -260,10 +261,9 @@ export default {
         country_id: null,
         city_id: null,
         industry_id: null,
-        min_salary: 0,
-        max_salary: 100000,
+        // min_salary: 0,
+        // max_salary: 100000,
         featured: null,
-        limit: null,
         keyword: null,
         page: null,
         limit: 30,
@@ -292,8 +292,11 @@ export default {
       params.work_level_id = params.work_level_id?.map((row) => row.id);
       params.city_id = params.city_id?.map((row) => row.city_id);
       params.industry_id = params.industry_id?.map((row) => row.id);
-      params.min_salary = this.salary_value[0];
-      params.max_salary = this.salary_value[1];
+      let userData = JSON.parse(localStorage.getItem("userData"));
+
+      params.user_id = userData?.id;
+      // params.min_salary = this.salary_value[0];
+      // params.max_salary = this.salary_value[1];
 
       this.$api.jobService
         .get_job_list(params)

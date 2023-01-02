@@ -13,17 +13,24 @@
           </v-col>
 
           <v-col align="right" class="jobTabs">
-            <v-tabs
-              light
-              center-active
-              class="d-flex justify-end tabsCustom"
-              color="#4c2e8b"
+            <v-btn-toggle
+              tile
+              :rounded="false"
+              color="primary"
+              borderless
+              multiple
+              @change="get_job_list"
+              v-model="filter.work_level_id"
             >
-              <v-tab class="text-capitalize">Featured</v-tab>
-              <v-tab class="text-capitalize">Remotely</v-tab>
-              <v-tab class="text-capitalize">Part Time</v-tab>
-              <v-tab class="text-capitalize">Full Time</v-tab>
-            </v-tabs>
+              <v-btn
+                v-for="(btn, index) in job_type_list"
+                :key="`toggle-${index + 1}`"
+                small
+                :value="btn.id"
+              >
+                {{ btn.name }}
+              </v-btn>
+            </v-btn-toggle>
           </v-col>
         </v-row>
         <v-row dense>
@@ -164,7 +171,7 @@
             </v-card>
 
             <!-- Salary Filter -->
-            <v-card outlined class="my-2" flat>
+            <!-- <v-card outlined class="my-2" flat>
               <div
                 class="
                   text-center
@@ -187,7 +194,7 @@
                   {{ salary_range.value[0] }}$ - {{ salary_range.value[1] }}$
                 </div>
               </v-card-text>
-            </v-card>
+            </v-card> -->
           </v-col>
 
           <v-col
@@ -208,7 +215,7 @@
 
               <div
                 class="d-flex align-center justify-center tw-h-full"
-                v-else-if="slicedJobsArray && slicedJobsArray.length == 0"
+                v-else-if="recentJobs && recentJobs.length == 0"
               >
                 <h1
                   class="
@@ -225,7 +232,7 @@
 
               <JobsCard
                 v-else
-                v-for="(job, index) in slicedJobsArray"
+                v-for="(job, index) in recentJobs"
                 :key="`job__${index}__${job.id}`"
                 :jobDetail="job"
               />
@@ -234,7 +241,28 @@
         </v-row>
       </v-container>
 
-      <div class="d-flex justify-center my-2">
+      <div v-if="recentJobs && recentJobs.length" class="ma-5 text-center">
+        <v-pagination
+          total-visible="7"
+          color="secondary"
+          v-model="filter.page"
+          :length="
+            jobs_search_data &&
+            jobs_search_data.last_page &&
+            jobs_search_data.last_page
+          "
+          circle
+          @input="get_job_list"
+        ></v-pagination>
+
+        <small class="tw-font-bold black--text"
+          >Showing
+          {{ jobs_search_data.data && jobs_search_data.data.length }} results of
+          {{ jobs_search_data.total }}</small
+        >
+      </div>
+
+      <!-- <div class="d-flex justify-center my-2">
         <v-btn
           v-if="!(recentJobs.length === slicedJobsArray.length)"
           class="tw-text-lg text-capitalize tw-font-bold"
@@ -246,7 +274,7 @@
           @click.prevent="exploreMore"
           >Explore More Jobs</v-btn
         >
-      </div>
+      </div> -->
     </section>
   </section>
 </template>
@@ -255,6 +283,14 @@
 export default {
   data() {
     return {
+      job_type_list: [
+        { id: 1, name: "Full Time" },
+        { id: 2, name: "Part Time" },
+        { id: 3, name: "Freelance" },
+        { id: 4, name: "Permanent" },
+        { id: 5, name: "Fixed Term" },
+        { id: 6, name: "Remote Working" },
+      ],
       exploreMoreOptions: {
         industryLength: 5,
         locationLength: 5,
@@ -273,12 +309,26 @@ export default {
       slicedJobsArray: [],
       jobs_length: 5,
       recentJobs: [],
+      jobs_search_data: null,
       loading: false,
+      filter: {
+        work_level_id: null,
+        country_id: null,
+        city_id: null,
+        industry_id: null,
+        // min_salary: 0,
+        // max_salary: 100000,
+        featured: null,
+        keyword: null,
+        page: null,
+        limit: 30,
+      },
     };
   },
   created() {
     if (this.AuthID) {
-      this.get_job_data();
+      // this.get_job_data();
+      this.get_job_list();
 
       // Get Filter Data
       this.search_data_get();
@@ -296,6 +346,33 @@ export default {
     },
   },
   methods: {
+    async get_job_list() {
+      this.loading = true;
+
+      // Cloning Filter so it doesnt changes value on selector as we have used as v-model on
+      let params = Object.assign({}, this.filter);
+
+      params["state_id[]"] = this.selected_state?.state_id;
+      params.city_id = params.city_id?.map((row) => row.city_id);
+      params.industry_id = params.industry_id?.map((row) => row.id);
+
+      let userData = JSON.parse(localStorage.getItem("userData"));
+
+      params.user_id = userData?.id;
+      // params.min_salary = this.salary_value[0];
+      // params.max_salary = this.salary_value[1];
+
+      this.$api.jobService
+        .get_job_list(params)
+        .then((response) => {
+          this.recentJobs = response?.data?.data;
+          this.jobs_search_data = response?.data;
+          this.filter.page = response?.data?.current_page;
+        })
+        .finally(() => {
+          this.loading = false;
+        });
+    },
     search_data_get() {
       this.$api.jobService.search_data_get().then((response) => {
         this.filter_data = {
