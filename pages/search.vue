@@ -260,7 +260,7 @@ export default {
         work_level_id: null,
         country_id: null,
         city_id: null,
-        industry_id: null,
+        industry_id: [],
         // min_salary: 0,
         // max_salary: 100000,
         featured: null,
@@ -272,6 +272,12 @@ export default {
   },
   async created() {
     this.get_search_data();
+    if (this.$route.params) {
+      const { keyword, industry_id } = this.$route.params;
+      this.filter.keyword = keyword;
+      if (industry_id) this.filter.industry_id.push(industry_id);
+      this.get_job_list();
+    }
   },
   computed: {
     job_categories() {

@@ -83,7 +83,6 @@
                 :items="job_categories"
                 v-model="selected_industry"
                 item-text="name"
-                item-value="id"
                 filled
                 rounded
               >
@@ -138,7 +137,7 @@ export default {
         name: "search",
         params: {
           keyword: this.selected_keyword,
-          industry: this.selected_industry,
+          industry_id: this.selected_industry,
         },
       });
     },

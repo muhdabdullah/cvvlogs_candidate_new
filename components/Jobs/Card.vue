@@ -24,7 +24,7 @@
               class="
                 tw-text-lg
                 text-capitalize
-                tw-max-w-xs tw-truncate tw-font-bold
+                tw-max-w-xl tw-truncate tw-font-bold
               "
             >
               {{ jobDetail.title || jobDetail.job_title }}
@@ -63,23 +63,15 @@
         </div>
 
         <div class="d-flex pa-1">
-          <!-- <div
-            class="mr-4 mt-1 d-flex justify-center align-center"
-            style="
-              width: 35px;
-              border: 1px solid #ede3e3;
-              height: 31px;
-              border-radius: 4px;
-            "
-          > -->
           <v-btn
             class="tw-border-solid tw-border-2 tw-rounded-lg mx-4"
+            @click="add_favourite_job"
             tile
             icon
           >
             <v-icon aria-hidden="false" color="grey"> mdi-heart </v-icon>
           </v-btn>
-          <!-- </div> -->
+
           <div class="d-flex justify-center flex-column">
             <span class="tw-text-sm">
               <v-btn @click="viewJob" depressed width="120" color="secondary">
@@ -120,6 +112,14 @@ export default {
     },
   },
   methods: {
+    add_favourite_job() {
+      this.$api.utilsService.init_favourite().then((response) => {
+        console.log(
+          "🚀 ~ file: Card.vue:126 ~ .init_favourite ~ response",
+          response
+        );
+      });
+    },
     viewJob() {
       this.$router.push({
         name: "jobs-id",
