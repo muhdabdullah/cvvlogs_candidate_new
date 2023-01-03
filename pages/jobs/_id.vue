@@ -91,13 +91,27 @@
                     Apply
                   </v-btn>
 
-                  <v-icon
+                  <v-btn
+                    :loading="favourite_loader"
+                    class="tw-border-solid tw-border-2 tw-rounded-lg ma-2"
+                    @click="add_favourite_job"
+                    icon
+                  >
+                    <v-icon
+                      aria-hidden="false"
+                      :color="Job && Job.is_fav ? 'primary' : 'grey'"
+                    >
+                      mdi-heart
+                    </v-icon>
+                  </v-btn>
+
+                  <!-- <v-icon
                     style="border: 1px solid #ede3e3; border-radius: 4px"
                     class="ma-2 pa-2"
-                    color="primary"
+                    :color="Job && Job.is_fav ? 'primary' : 'grey'"
                   >
                     mdi-heart
-                  </v-icon>
+                  </v-icon> -->
                 </div>
                 <div class="d-flex align-center justify-center pa-1">
                   <span class="grey--text tw-text-sm">
@@ -306,9 +320,35 @@ export default {
     return {
       Job: null,
       uploadCvDialog: false,
+      favourite_loader: false,
     };
   },
   methods: {
+    add_favourite_job() {
+      let userData = JSON.parse(localStorage.getItem("userData"));
+      if (this.Job?.id) {
+        this.favourite_loader = true;
+        this.$api.utilsService
+          .init_favourite({
+            job_id: this.Job.id,
+            user_id: userData?.id,
+            is_fav: this.Job.is_fav ? 0 : 1,
+          })
+          .then(() => {
+            this.$api.jobService
+              .get_Job_by_Id(this.Job.id)
+              .then((response) => {
+                this.Job = response.data?.result;
+              })
+              .finally(() => {
+                this.favourite_loader = false;
+              });
+          })
+          .finally(() => {
+            this.favourite_loader = false;
+          });
+      }
+    },
     applyForJob() {
       if (this.$store.getters["auth/get_authId"]) {
         if (this.Job && parseInt(this.Job.external_id)) {

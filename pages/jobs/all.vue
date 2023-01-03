@@ -12,7 +12,21 @@
             </div>
           </v-col>
 
-          <v-col align="right" class="jobTabs">
+          <v-col align="right" class="d-flex align-center">
+            <v-btn
+              tile
+              depressed
+              :color="filter.is_Fav ? 'secondary' : ''"
+              class="mx-2"
+              small
+              :value="filter.is_Fav ? 1 : 0"
+              @click="filter.is_Fav = filter.is_Fav ? 0 : 1"
+            >
+              Favourites
+              <v-icon small aria-hidden="false" class="ml-1">
+                mdi-heart
+              </v-icon>
+            </v-btn>
             <v-btn-toggle
               tile
               color="primary"
@@ -345,6 +359,7 @@ export default {
         keyword: null,
         page: null,
         limit: 30,
+        is_Fav: 0,
       },
     };
   },

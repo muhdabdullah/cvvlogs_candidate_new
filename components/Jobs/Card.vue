@@ -65,7 +65,6 @@
           <v-btn
             :loading="favourite_loader"
             class="tw-border-solid tw-border-2 tw-rounded-lg mx-4"
-            @click="add_favourite_job"
             icon
           >
             <v-icon
@@ -128,14 +127,9 @@ export default {
         .init_favourite({
           job_id: this.jobDetail.id,
           user_id: userData?.id,
-          is_fav: !this.jobDetail.is_fav ? 0 : 1,
+          is_fav: this.jobDetail.is_fav ? 0 : 1,
         })
-        .then((response) => {
-          console.log(
-            "🚀 ~ file: Card.vue:126 ~ .init_favourite ~ response",
-            response
-          );
-        })
+        .then((response) => {})
         .finally(() => {
           this.favourite_loader = false;
         });
