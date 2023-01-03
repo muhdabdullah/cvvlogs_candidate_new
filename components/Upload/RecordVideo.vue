@@ -16,7 +16,7 @@
           >Upload Video <span class="text-uppercase">CV</span></span
         >
       </v-btn> -->
-      <v-btn
+      <!-- <v-btn
         v-bind="attrs"
         v-on="on"
         width="307"
@@ -29,7 +29,7 @@
         <span class="text-capitalize"
           >Record Intro <span class="text-uppercase">Video</span></span
         ></v-btn
-      >
+      > -->
     </template>
 
     <v-card outlined>
