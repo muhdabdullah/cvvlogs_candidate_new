@@ -128,7 +128,7 @@ export default {
         let name = `Welcome Back, ${this.$store.getters["auth/get_candidate_name"]}`;
         if (name) return name;
       }
-      return "Get Your Dream Job Today!";
+      return "Boost Your Job Application with a Video Resume!";
     },
   },
   methods: {

@@ -44,6 +44,7 @@
               :rules="[(msg) => !!msg]"
               auto-grow
               outlined
+              @keyup.enter="send"
               placeholder="Type your message..."
             ></v-textarea>
 
@@ -69,7 +70,7 @@
 
 <script>
 export default {
-  props: ["receiver_id"],
+  props: ["receiver_id", "chat_id"],
   data() {
     return {
       dialog: false,
@@ -84,7 +85,7 @@ export default {
 
         if (this.receiver_id) {
           // Append Data in Form
-          new_msg.append("chat_id", null);
+          new_msg.append("chat_id", this.chat_id);
           new_msg.append("reciever", this.receiver_id);
           new_msg.append("message", this.message);
           new_msg.append("message_file", null);

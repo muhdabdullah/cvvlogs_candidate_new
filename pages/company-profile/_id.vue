@@ -32,7 +32,10 @@
                     {{ profileById?.comapany?.name }}
                   </h1>
 
-                  <MessageNewChat />
+                  <MessageNewChat
+                    :receiver_id="recruiter_id"
+                    :chat_id="chat_id"
+                  />
                 </div>
                 <p class="tw-text-sm tw-font-semibold primary--text mt-2 mb-2">
                   {{ profileById?.comapany?.tagline }}
@@ -115,18 +118,20 @@
 <script>
 export default {
   async asyncData({ params, $api, store }) {
-    const id = params.id;
+    const { id, recruiter_id, chat_id } = params;
     const profileById = await $api.utilsService
       .get_Profile_by_Id(id)
       .then((response) => {
         return response.data;
       });
 
-    return { profileById };
+    return { profileById, recruiter_id, chat_id };
   },
   data() {
     return {
       profileById: null,
+      recruiter_id: null,
+      chat_id: null,
     };
   },
   methods: {},

@@ -2,7 +2,6 @@
   <div>
     <v-hover v-slot="{ hover }">
       <v-card
-        @click="viewJob"
         :elevation="hover ? 6 : 0"
         :class="{ 'on-hover': hover }"
         outlined
@@ -64,12 +63,17 @@
 
         <div class="d-flex pa-1">
           <v-btn
+            :loading="favourite_loader"
             class="tw-border-solid tw-border-2 tw-rounded-lg mx-4"
             @click="add_favourite_job"
-            tile
             icon
           >
-            <v-icon aria-hidden="false" color="grey"> mdi-heart </v-icon>
+            <v-icon
+              aria-hidden="false"
+              :color="jobDetail.is_fav ? 'primary' : 'grey'"
+            >
+              mdi-heart
+            </v-icon>
           </v-btn>
 
           <div class="d-flex justify-center flex-column">
@@ -103,6 +107,11 @@ export default {
       type: Object,
     },
   },
+  data() {
+    return {
+      favourite_loader: false,
+    };
+  },
   computed: {
     Helper() {
       return helperFunc;
@@ -113,12 +122,23 @@ export default {
   },
   methods: {
     add_favourite_job() {
-      this.$api.utilsService.init_favourite().then((response) => {
-        console.log(
-          "🚀 ~ file: Card.vue:126 ~ .init_favourite ~ response",
-          response
-        );
-      });
+      let userData = JSON.parse(localStorage.getItem("userData"));
+      this.favourite_loader = true;
+      this.$api.utilsService
+        .init_favourite({
+          job_id: this.jobDetail.id,
+          user_id: userData?.id,
+          is_fav: !this.jobDetail.is_fav ? 0 : 1,
+        })
+        .then((response) => {
+          console.log(
+            "🚀 ~ file: Card.vue:126 ~ .init_favourite ~ response",
+            response
+          );
+        })
+        .finally(() => {
+          this.favourite_loader = false;
+        });
     },
     viewJob() {
       this.$router.push({

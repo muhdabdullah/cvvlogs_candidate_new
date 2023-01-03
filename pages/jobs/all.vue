@@ -369,7 +369,17 @@ export default {
     },
     job_categories() {
       if (this.$store.getters["get_jobs_by_industry"]) {
-        return this.$store.getters["get_jobs_by_industry"];
+        let jobs = this.$store.getters["get_jobs_by_industry"];
+
+        let arr = [...jobs];
+        if (arr?.length) {
+          arr.sort((a, b) => {
+            // Sort array in descending order.
+            return b.job_count - a.job_count;
+          });
+        }
+
+        return arr;
       }
       return [];
     },

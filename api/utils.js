@@ -111,6 +111,9 @@ export default ($axios, store, ctx, router) => ({
   },
 
   init_favourite(param) {
-    return ctx.$request.post("/mark-unmark-job-fav.php", param);
+    return $axios.$post(
+      "https://staging.cvvlogs.com/api/mark-unmark-job-fav",
+      param
+    );
   },
 });

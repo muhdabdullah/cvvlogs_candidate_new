@@ -41,7 +41,13 @@
         >
           <v-card
             :elevation="hover ? 6 : 0"
-            @click="viewProfile(details.company_id)"
+            @click="
+              viewProfile(
+                details.company_id,
+                details.recruiter_id,
+                details.chat_id
+              )
+            "
             :class="{ 'on-hover': hover }"
             outlined
             rounded="lg"
@@ -243,11 +249,13 @@ export default {
     };
   },
   methods: {
-    viewProfile(id) {
+    viewProfile(id, recruiter_id, chat_id) {
       this.$router.push({
         name: "company-profile-id",
         params: {
           id: id,
+          recruiter_id: recruiter_id,
+          chat_id: chat_id,
         },
       });
     },

@@ -215,7 +215,6 @@ export default {
   },
   destroyed() {
     if (this.intval) {
-      console.log("unmounted", this.intval);
       clearInterval(this.intval);
     }
   },
