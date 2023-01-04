@@ -1,79 +1,135 @@
 <template>
-    <v-container>
-      <v-row class="mt-15">
-        <v-col>
-          <div class="">
-            <h1 :class="`primary--text tw-font-bold ${$vuetify.breakpoint.mobile? 'tw-text-4xl' : 'tw-text-4xl'}`">Tips & Recommendations</h1>
-            <div class="d-flex justify-center mt-12">
-                <v-card max-width="642" height="363">
-                <iframe width="640" height="360" 
+  <v-container>
+    <v-row class="mt-15">
+      <v-col>
+        <div class="">
+          <h1
+            :class="`primary--text tw-font-bold ${
+              $vuetify.breakpoint.mobile ? 'tw-text-4xl' : 'tw-text-4xl'
+            }`"
+          >
+            Tips & Recommendations
+          </h1>
+          <div class="d-flex justify-center mt-12">
+            <v-card max-width="642" height="363">
+              <iframe
+                width="640"
+                height="360"
                 src="https://www.youtube.com/embed/dlCW95MZo-Q"
-                 title="cvvlogs Introduction (Urdu)"
-                  frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowfullscreen></iframe>
-              </v-card>
-            </div>
+                title="cvvlogs Introduction (Urdu)"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+              ></iframe>
+            </v-card>
           </div>
-          <div>
-            <h1 class="mt-10 danger tw-font-bold">IMPORTANT</h1>
-            <p class="danger tw-font-bold mt-3">
-                In order to protect your Privacy and Identity, we strongly recommend that you do not share any personal details such as full name, phone number or email in your video resume
-            </p>
-            <p>The video shouldn’t be longer than 120 seconds.</p>
-          </div>
-          <div v-for="data in tips" :key="data">
-            <h1 :class="`tw-font-extrabold text-uppercase mt-8 tw-text-base`">
-              {{ data?.heading }}
-            </h1>
-            <p :class="`tw-font-extralight content1 ${$vuetify.breakpoint.mobile ? 'tw-text-md' : 'tw-text-lg'}`">
-              {{ data?.text }}
-            </p>
-          </div>
-        </v-col>
-      </v-row>
-    </v-container>
-  </template>
-  
-  <script>
-  export default {
-    data() {
-      return {
-        tips: [
-          {
-            heading: "GUIDELINES FOR VIDEO:",
-            text: `1. What will you bring to the company? (Focus on key requirements for the job)
-            2. Why should we hire you? (Mention both your hard and soft skills)
-            3. Explain how your skills and attributes would benefit the company? (Maybe highlight a few achievements)\n
-            Please make sure you record your video.in 16:9 format fhd (full hd 30fps). If you upload your video, please make sure your upload videos are in 16:9 fhd 30fps (full hd 30 frames per second format) and video size should not be more than 300mb.`,
-          },
-          {
-            heading: "CHOOSE AN APPROPRIATE LOCATION",
-            text: `Make sure to record the video in an appropriate room where there won’t be any noises, and you won’t get distracted. If you have pets at home, keep them in a different room during the interview. A barking dog or a meowing cat noise in the background doesn’t make you look very professional. Also, a plain white wall as a backdrop is ideal for video interviews.`,
-          },
-          {
-            heading: "TRY YOUR HARDWARE BEFORE THE INTERVIEW",
-            text: `Try all of your equipment including your headsets, microphone and internet connection to make sure that they are properly working. Set up your camera, so it is focused on your eye level. Verify that your sound is clear. You can test it by making a video call with a friend. Also, confirm that you can hear the other person via your headphones.`,
-          },
-          {
-            heading: "APPEARANCE",
-            text: `Make yourself as professional as possible, turn on good lighting and set the camera in front of your face. All other angles look less advantageous. Imagine that the recruiter is you and wonder what a promising candidate for a specific position should look like?`,
-          },
-          {
-            heading: "TIME MANAGEMENT",
-            text:  `You have 120 seconds / two minutes to record this video resume. In order to use this time effectively and to make the best impression start talking about your education, work experience and any special skills that you may have, after which you can end your recording with a positive statement as to why the employer should hire you and why you will be an asset to the company.`,
-          },
-        ],
-      };
-    },
-  };
-  </script>
-  
-  <style lang="scss">
-  .content1 {
-    white-space: pre-line;
-  }
-  .danger {
-    color: #dc3545 !important;
-  }
-  </style>
-  
+        </div>
+        <div>
+          <h1 class="mt-10 danger tw-font-bold">IMPORTANT</h1>
+          <p class="danger tw-font-bold mt-3">
+            In order to protect your Privacy and Identity, we strongly recommend
+            that you do not share any personal details such as full name, phone
+            number or email in your video resume
+          </p>
+          <p>The video shouldn’t be longer than 120 seconds.</p>
+        </div>
+        <div v-for="data in tips" :key="data">
+          <h1 :class="`tw-font-extrabold text-uppercase mt-8 tw-text-base`">
+            {{ data?.heading }}
+          </h1>
+          <!-- <p
+            :class="`tw-font-light content1 ${
+              $vuetify.breakpoint.mobile ? 'tw-text-md' : 'tw-text-lg'
+            }`"
+          >
+            {{ data?.text }}
+          </p> -->
+          <ul class="tw-leading-8 mt-4">
+            <li
+              v-for="(item, index) in data.text"
+              :key="`para_${index}`"
+              :class="`tw-font-light ${
+                $vuetify.breakpoint.mobile ? 'tw-text-md' : 'tw-text-lg'
+              }`"
+            >
+              {{ item }}
+            </li>
+          </ul>
+        </div>
+      </v-col>
+    </v-row>
+  </v-container>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      tips: [
+        {
+          heading: "Questions to answer in a general video resume:",
+          text: [
+            `What can you bring to a company? Talk about your education and past experience.`,
+            `Why should we hire you? Make sure to mention hard and soft skills.`,
+            `How will your skills and attributes benefit a company? This is a good time to highlight a few achievements.`,
+          ],
+        },
+        {
+          heading: "Some employers have specific questions:",
+          text: [
+            `Please read each job description carefully.`,
+            `If an employer wants you to answer certain questions, create a separate video where you provide those answers.`,
+            `Upload your new video to the individual job.`,
+            `Your tailored video will replace your general video for that job only.`,
+          ],
+        },
+        {
+          heading: "Video quality requirements:",
+          text: [
+            `Record your video at 1080p HD at 30 fps.`,
+            `This is the default for most smartphones but we recommend checking your settings just to make sure.`,
+            `Maximum video size is 300mb.`,
+          ],
+        },
+        {
+          heading: "Choose a good location:",
+          text: [
+            `Record your video in a quiet room with no background noises.`,
+            `Choose a nice backdrop. When in doubt, a plain white wall works great.`,
+            `Use good lighting. Natural light from a window is best but lamps work too.`,
+          ],
+        },
+        {
+          heading: "Professional appearance:",
+          text: [
+            `Choose a professional top and make sure your hair is tidy.`,
+            `Position the camera directly in front of you and level with your face. Do not position the camera so you’re looking down or up into it.`,
+            `Don’t forget to smile.`,
+          ],
+        },
+        {
+          heading: "Time management:",
+          text: [
+            `Maximum video length is 120 seconds (2 minutes).`,
+            `Practice what you’ll say a few times before you record.`,
+            `Answer all the questions above, any specific questions (if applicable), and end with a positive statement about why the employer should hire you.`,
+          ],
+        },
+      ],
+    };
+  },
+};
+</script>
+
+<style lang="scss" scoped>
+.danger {
+  color: #dc3545 !important;
+}
+
+li:before {
+  content: "•";
+  font-size: 35px !important;
+  vertical-align: top;
+  padding-right: 7px;
+}
+</style>

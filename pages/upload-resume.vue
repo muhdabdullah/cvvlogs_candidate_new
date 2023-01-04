@@ -17,7 +17,8 @@
 
           <UploadVideoCv />
 
-          <UploadRecordVideo />
+          <!-- <UploadRecordVideo /> -->
+          <!-- <CopyRecordVideo/> -->
         </div>
       </v-card-text>
     </v-card>
@@ -25,7 +26,9 @@
 </template>
 
 <script>
-export default {};
+import CopyRecordVideo from '~/components/Upload/copyRecordVideo.vue';
+
+export default { components: { CopyRecordVideo } };
 </script>
 
 <style></style>

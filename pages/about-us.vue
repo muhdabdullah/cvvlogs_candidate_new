@@ -40,9 +40,15 @@
             </div>
             <div>
               <v-card min-width="587" height="363">
-                <iframe width="640" height="360" src="https://www.youtube.com/embed/3mZFjtRaOyY" title="cvvlogs Introduction (Urdu)"
-                  frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowfullscreen></iframe>
+                <iframe
+                  width="640"
+                  height="360"
+                  src="https://www.youtube.com/embed/3mZFjtRaOyY"
+                  title="cvvlogs Introduction (Urdu)"
+                  frameborder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen
+                ></iframe>
               </v-card>
             </div>
           </div>
@@ -72,7 +78,7 @@
             <h1 class="tw-text-6xl mt-3" style="color: #f6a017">
               {{ n.calcuation }}+
             </h1>
-            <p class="tw-text-lg tw-font-extralight mt-3">{{ n.title }}</p>
+            <p class="tw-text-lg tw-font-light mt-3">{{ n.title }}</p>
           </div>
         </div>
       </div>
