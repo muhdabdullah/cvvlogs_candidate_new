@@ -418,6 +418,10 @@ export default {
       // sending userId in payload.
       let userData = JSON.parse(localStorage.getItem("userData"));
       params.user_id = userData?.id;
+      if (params?.country_id)
+        params.country_id = [
+          this.$store.getters["auth/get_ip_info"]?.country_id,
+        ];
       // params.min_salary = this.salary_value[0];
       // params.max_salary = this.salary_value[1];
 
@@ -456,6 +460,8 @@ export default {
       this.$api.jobService
         .get_offline_dashboard()
         .then((response) => {
+          // Store ip_info
+          if (response?.data?.ip_info) this.$store.dispatch("auth/set_ip_info");
           this.recentJobs = [...response.data.recent_jobs];
           this.slicedJobsArray = [
             ...this.recentJobs.slice(0, this.jobs_length),

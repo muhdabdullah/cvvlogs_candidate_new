@@ -92,7 +92,7 @@
               color="secondary"
               height="60"
               size="large"
-              type="submit"
+              @click="onSubmit"
               depressed
             >
               Sign In
@@ -150,37 +150,35 @@ export default {
           username: this.email,
           password: this.password,
         })
-        .then(async (resp) => {
+        .then((resp) => {
           if (resp.data) {
-            await this.$store.dispatch("resetJobsData");
+            this.$store.dispatch("resetJobsData");
 
             if (resp?.status == 200 && resp?.data) {
               // // Get new Auth Data, Cause Now the user is logged In.
-              await this.$api.jobService
-                .get_offline_dashboard()
-                .then((response) => {
-                  if (response.data) {
-                    this.$store.dispatch(
-                      "set_jobs_by_industry",
-                      response.data.jobs_by_industry
-                    );
-                    this.$store.dispatch("setDashboardData", response.data);
-                    // this.$store.dispatch(
-                    //   "set_userData",
-                    //   response?.data?.profile
-                    // );
-                    this.$store.dispatch(
-                      "setRecentJobs",
-                      response.data.recent_jobs
-                    );
-                  }
-                });
+              this.$api.jobService.get_offline_dashboard().then((response) => {
+                if (response.data) {
+                  this.$store.dispatch(
+                    "set_jobs_by_industry",
+                    response.data.jobs_by_industry
+                  );
+                  this.$store.dispatch("setDashboardData", response.data);
+                  // this.$store.dispatch(
+                  //   "set_userData",
+                  //   response?.data?.profile
+                  // );
+                  this.$store.dispatch(
+                    "setRecentJobs",
+                    response.data.recent_jobs
+                  );
+                }
+              });
 
-              await this.$api.jobService.get_job_exclude().then((response) => {
+              this.$api.jobService.get_job_exclude().then((response) => {
                 this.$store.dispatch("setAllJobs", response?.data?.job);
               });
 
-              await this.$store.dispatch("auth/set_authId", resp.data);
+              this.$store.dispatch("auth/set_authId", resp.data);
               if (this.$route != "/") this.$router.push("/");
               this.$refs.form.reset();
             }

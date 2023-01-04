@@ -85,7 +85,9 @@ export default {
 
         if (this.receiver_id) {
           // Append Data in Form
-          new_msg.append("chat_id", this.chat_id);
+          if (this.chat_id) {
+            new_msg.append("chat_id", this.chat_id);
+          }
           new_msg.append("reciever", this.receiver_id);
           new_msg.append("message", this.message);
           new_msg.append("message_file", null);

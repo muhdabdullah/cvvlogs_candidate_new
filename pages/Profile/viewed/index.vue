@@ -73,12 +73,14 @@ export default {
   },
   methods: {
     viewProfile(id) {
-      this.$router.push({
-        name: "company-profile-id",
-        params: {
-          id: id,
-        },
-      });
+      if (id) {
+        this.$router.push({
+          name: "company-profile-id",
+          params: {
+            id: id,
+          },
+        });
+      }
     },
   },
 };

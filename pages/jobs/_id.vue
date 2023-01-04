@@ -326,6 +326,16 @@ export default {
   methods: {
     add_favourite_job() {
       let userData = JSON.parse(localStorage.getItem("userData"));
+
+      if (!this.$store.getters["auth/get_authId"]) {
+        this.$nuxt.$emit("init-login-dialog");
+        this.$notifier.showMessage({
+          content: "Sign in to add job in your favourites.",
+          color: "info",
+        });
+        return false;
+      }
+
       if (this.Job?.id) {
         this.favourite_loader = true;
         this.$api.utilsService

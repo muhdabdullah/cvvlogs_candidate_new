@@ -1,3 +1,5 @@
+import nuxtConfig from "@/nuxt.config";
+
 export default ($axios, store, ctx, router) => ({
   async signUp(params) {
     return await $axios
@@ -54,5 +56,12 @@ export default ($axios, store, ctx, router) => ({
       .catch((error) => {
         throw error;
       });
+  },
+
+  send_forget_password_mail(params) {
+    return $axios.$post(
+      `${nuxtConfig?.axios?.baseURL}/forget_password.php`,
+      params
+    );
   },
 });

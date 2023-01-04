@@ -73,11 +73,13 @@
 
                 <v-text-field
                   v-model="registerData.password"
-                  type="password"
                   class=""
                   :readonly="loading"
                   solo
                   :rules="[required]"
+                  :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
+                  :type="showPass ? 'text' : 'password'"
+                  @click:append="showPass = !showPass"
                   placeholder="Password"
                   density="comfortable"
                 ></v-text-field>
@@ -110,9 +112,11 @@
                   class=""
                   :readonly="loading"
                   solo
-                  type="password"
                   :rules="[required]"
                   v-model="registerData.confirmPassword"
+                  :append-icon="showConfirmPass ? 'mdi-eye' : 'mdi-eye-off'"
+                  :type="showConfirmPass ? 'text' : 'password'"
+                  @click:append="showConfirmPass = !showConfirmPass"
                   placeholder="Confirm Password"
                   density="comfortable"
                 ></v-text-field>
@@ -173,6 +177,8 @@ export default {
       number: null,
     },
     dialog: false,
+    showPass: false,
+    showConfirmPass: false,
     form: false,
     email: null,
     password: null,
@@ -200,19 +206,20 @@ export default {
         .then((resp) => {
           if (resp?.status == 200 && resp?.data) {
             this.$refs.form.reset();
-          }
-
-          if (resp.data) {
             this.dialog = false;
-            this.$refs.form.reset();
-          }
-
-          if (resp?.status == 404) {
+          } else if (resp?.status == 404) {
             this.$notifier.showMessage({
               content: resp?.message || "Error",
               color: "error",
             });
             return;
+          } else {
+            if (resp?.message) {
+              this.$notifier.showMessage({
+                content: resp.message,
+                color: "error",
+              });
+            }
           }
         })
         .finally(() => (this.loading = false));

@@ -86,6 +86,9 @@
                 filled
                 rounded
               >
+                <template v-slot:item="{ item }">
+                  <span>{{ item.name }} ({{ item.job_count || 0 }})</span>
+                </template>
               </v-select>
 
               <v-btn @click="move_to_search" class="ml-2 secondary" icon fab>
@@ -116,7 +119,17 @@ export default {
   computed: {
     job_categories() {
       if (this.$store.getters["get_jobs_by_industry"]) {
-        return this.$store.getters["get_jobs_by_industry"];
+        let jobs = this.$store.getters["get_jobs_by_industry"];
+
+        let arr = [...jobs];
+        if (arr?.length) {
+          arr.sort((a, b) => {
+            // Sort array in descending order.
+            return b.job_count - a.job_count;
+          });
+        }
+
+        return arr;
       }
       return [];
     },

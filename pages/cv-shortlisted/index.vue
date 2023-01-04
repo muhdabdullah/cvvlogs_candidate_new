@@ -250,14 +250,16 @@ export default {
   },
   methods: {
     viewProfile(id, recruiter_id, chat_id) {
-      this.$router.push({
-        name: "company-profile-id",
-        params: {
-          id: id,
-          recruiter_id: recruiter_id,
-          chat_id: chat_id,
-        },
-      });
+      if (id) {
+        this.$router.push({
+          name: "company-profile-id",
+          params: {
+            id: id,
+            recruiter_id: recruiter_id,
+            chat_id: chat_id,
+          },
+        });
+      }
     },
   },
 };

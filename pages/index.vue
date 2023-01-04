@@ -109,6 +109,7 @@
                 >
                   <v-hover v-slot="{ hover }">
                     <v-card
+                      @click="move_to_search(job)"
                       :elevation="hover ? 12 : 5"
                       :class="{ 'on-hover': hover }"
                       color=""
@@ -292,10 +293,21 @@ export default {
     },
   },
   methods: {
+    move_to_search(job) {
+      this.$router.push({
+        name: "search",
+        params: {
+          industry_id: job,
+        },
+      });
+    },
     get_home_data() {
       this.$api.jobService.get_offline_dashboard().then((response) => {
         this.job_by_Industry = [...response?.data?.jobs_by_industry];
         if (response.data) {
+          // Store ip_info
+          if (response.data?.ip_info)
+            this.$store.dispatch("auth/set_ip_info", response.data.ip_info);
           this.$store.dispatch(
             "set_jobs_by_industry",
             response.data.jobs_by_industry

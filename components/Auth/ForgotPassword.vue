@@ -21,11 +21,14 @@
           </h6>
         </div>
         <v-card-text class="pa-5">
-          <v-form v-model="form" @submit.prevent="">
+          <v-form ref="form">
             <v-text-field
-              hide-details
               class="mb-2"
+              v-model="email"
+              :rules="emailRules"
+              type="email"
               outlined
+              @keyup.enter="submit"
               placeholder="Enter Registered Email ID"
             ></v-text-field>
 
@@ -35,7 +38,8 @@
               color="secondary"
               height="50"
               size="large"
-              type="submit"
+              :loading="loading"
+              @click="submit"
               depressed
             >
               Submit
@@ -62,8 +66,37 @@ export default {
   data() {
     return {
       dialog: false,
+      loading: false,
       form: null,
+      email: null,
+      emailRules: [
+        (v) => !!v || "E-mail is required",
+        (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
+      ],
     };
+  },
+  methods: {
+    submit() {
+      if (this.$refs.form.validate()) {
+        this.loading = true;
+        this.$api.authService
+          .send_forget_password_mail({ email: this.email })
+          .then((response) => {
+            if (response.status == 200) {
+              this.$notifier.showMessage({
+                content: "Email sent successfully.",
+                color: "success",
+              });
+              this.dialog = false;
+              this.email = null;
+              this.$refs.form.reset();
+            }
+          })
+          .finally(() => {
+            this.loading = false;
+          });
+      }
+    },
   },
 };
 </script>

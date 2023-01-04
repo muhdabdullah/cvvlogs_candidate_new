@@ -22,6 +22,9 @@ const getters = {
   get_userData(state) {
     return state.userData;
   },
+  get_ip_info(state) {
+    return state.ip_info;
+  },
 };
 
 const mutations = {
@@ -39,9 +42,15 @@ const mutations = {
     localStorage.removeItem("auth_id");
     localStorage.removeItem("userData");
   },
+  set_ip_info(state, payload) {
+    state.ip_info = payload;
+  },
 };
 
 const actions = {
+  set_ip_info({ commit }, payload) {
+    commit("set_ip_info", payload);
+  },
   set_authId({ commit }, payload) {
     if (payload.onlyID) {
       // Storing in Local Storage.

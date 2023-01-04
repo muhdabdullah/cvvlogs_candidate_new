@@ -217,9 +217,9 @@
           xl="6"
           class="d-flex align-center justify-end"
         >
-          <NuxtLink class="white--text ml-10" to="/blogs">
+          <!-- <NuxtLink class="white--text ml-10" to="/blogs">
             <p>Blogs</p>
-          </NuxtLink>
+          </NuxtLink> -->
           <NuxtLink class="white--text ml-10" to="/about-us">
             <p>About Us</p>
           </NuxtLink>
