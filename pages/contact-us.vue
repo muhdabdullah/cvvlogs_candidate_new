@@ -16,7 +16,17 @@
             </div>
             <p class="tw-text-xl tw-font-semibold mt-6">{{ card.heading }}</p>
             <p class="tw-text-base text-center tw-text-gray-500 mb-1">
-              {{ card.text1 }}
+              <span v-if="card && card.tel">
+                <a :href="`tel:${card.text}`">
+                  <span class="ml-2">{{ card.text }}</span>
+                </a>
+              </span>
+              <span v-else-if="card && card.email">
+                <a :href="`mailto:${card.text}`">
+                  <span class="ml-2">{{ card.text }}</span>
+                </a>
+              </span>
+              <span v-else>{{ card.text }}</span>
             </p>
           </div>
         </v-col>
@@ -133,22 +143,21 @@ export default {
     return {
       cards: [
         {
+          tel: true,
           icon: "img/callIcon.png",
           heading: "Contact Us",
-          text1: "1 (866) 955-9001",
-          text2: "+123 456 789 0",
+          text: "+1 866-955-9001",
         },
         {
+          email: true,
           icon: "img/emailIcon.png",
           heading: "Email",
-          text1: "info@cvvlogs.com",
-          text2: "support@example.com",
+          text: "info@cvvlogs.com",
         },
         {
           icon: "img/locationIcon.png",
           heading: "Location",
-          text1: "200 Booth Rd. Suite A Ormond Beach, FL 32174",
-          text2: "Lorem ispum, giving infromation",
+          text: "200 Booth Rd. Suite A Ormond Beach, FL 32174",
         },
       ],
       snackbar: false,

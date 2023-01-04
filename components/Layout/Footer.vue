@@ -180,13 +180,15 @@
             <div>
               <h3 class="font-weight-bold mt-5">Follow Us On</h3>
               <v-btn
-                v-for="icon in icons"
-                :key="icon"
+                v-for="btn in icons"
+                :key="btn.icon"
+                :href="btn.href"
+                target="_blank"
                 class="mx-0"
                 icon
                 size="32"
               >
-                <v-icon>{{ icon }}</v-icon></v-btn
+                <v-icon>{{ btn.icon }}</v-icon></v-btn
               >
             </div>
           </div>
@@ -245,7 +247,20 @@
 export default {
   data() {
     return {
-      icons: ["mdi-facebook", "mdi-twitter", "mdi-linkedin", "mdi-instagram"],
+      icons: [
+        {
+          icon: "mdi-facebook",
+          href: "https://www.facebook.com/cvvlogspk",
+        },
+        {
+          icon: "mdi-instagram",
+          href: "https://www.instagram.com/__CVVlogs",
+        },
+        {
+          icon: "mdi-linkedin",
+          href: "https://www.linkedin.com/company/cvvlogs",
+        },
+      ],
       footerText: [
         {
           heading: {

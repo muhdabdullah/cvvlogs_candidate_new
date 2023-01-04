@@ -58,8 +58,8 @@
           <div class="call_to_actions d-flex align-center">
             <div class="phone">
               <v-icon color="primary">mdi-phone</v-icon>
-              <a href="tel:123-456-789">
-                <span class="ml-2">123-456-789</span>
+              <a href="tel:+1866-955-9001">
+                <span class="ml-2">+1 866-955-9001</span>
               </a>
             </div>
 
