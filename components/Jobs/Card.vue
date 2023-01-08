@@ -45,7 +45,7 @@
                 &nbsp;{{ jobDetail.country.name || jobDetail.country }}
               </span>
             </div>
-            <div
+            <!-- <div
               v-if="!parseInt(jobDetail.external_id)"
               class="d-flex align-center tw-text-sm tw-font-semibold"
             >
@@ -57,19 +57,20 @@
                 class="mr-2"
                 >{{ jobDetail.salary_min }} - {{ jobDetail.salary_max }}
               </span>
-            </div>
+            </div> -->
           </div>
         </div>
 
         <div class="d-flex pa-1">
           <v-btn
+            v-if="AuthID"
             :loading="favourite_loader"
             class="tw-border-solid tw-border-2 tw-rounded-lg mx-4"
             icon
           >
             <v-icon
               aria-hidden="false"
-              :color="jobDetail.is_fav ? 'primary' : 'grey'"
+              :color="jobDetail.is_fav ? 'red' : 'grey'"
             >
               mdi-heart
             </v-icon>
@@ -84,13 +85,13 @@
               >
             </span>
 
-            <span class="text-capitalize tw-text-sm mt-3">
+            <!-- <span class="text-capitalize tw-text-sm mt-3">
               <v-btn v-if="AuthID" depressed width="120" color="primary"
                 ><span class="text-capitalize tw-font-light"
                   >Apply Now</span
                 ></v-btn
               >
-            </span>
+            </span> -->
           </div>
         </div>
       </v-card>

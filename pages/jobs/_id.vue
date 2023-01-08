@@ -99,7 +99,7 @@
                   >
                     <v-icon
                       aria-hidden="false"
-                      :color="Job && Job.is_fav ? 'primary' : 'grey'"
+                      :color="Job && Job.is_fav ? 'red' : 'grey'"
                     >
                       mdi-heart
                     </v-icon>
@@ -299,6 +299,7 @@
     <UploadVideoCv
       :applyJob="true"
       :jobId="Job?.id"
+      :jobDetail="Job"
       :initDialog="uploadCvDialog"
       @closeDialog="uploadCvDialog = false"
     />
@@ -323,6 +324,7 @@ export default {
       favourite_loader: false,
     };
   },
+  computed: {},
   methods: {
     add_favourite_job() {
       let userData = JSON.parse(localStorage.getItem("userData"));
@@ -359,14 +361,10 @@ export default {
           });
       }
     },
+
     applyForJob() {
       if (this.$store.getters["auth/get_authId"]) {
-        if (this.Job && parseInt(this.Job.external_id)) {
-          window.open(
-            `https://www.recruitwell.com/providers/jobs/${this.Job.external_id}`,
-            "_blank"
-          );
-        } else this.uploadCvDialog = true;
+        this.uploadCvDialog = true;
       } else {
         // this will popup login dialog.
         this.$nuxt.$emit("init-login-dialog");

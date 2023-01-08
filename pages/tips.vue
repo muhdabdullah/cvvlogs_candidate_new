@@ -15,7 +15,7 @@
               <iframe
                 width="640"
                 height="360"
-                src="https://www.youtube.com/embed/dlCW95MZo-Q"
+                :src="intro_video_lang"
                 title="cvvlogs Introduction (Urdu)"
                 frameborder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -117,6 +117,17 @@ export default {
         },
       ],
     };
+  },
+  computed: {
+    intro_video_lang() {
+      if (
+        [167, 101].includes(
+          parseInt(this.$store.getters["auth/get_ip_info"]?.country_id || 0)
+        )
+      ) {
+        return "https://www.youtube.com/embed/dlCW95MZo-Q";
+      } else return "https://www.youtube.com/embed/-cuKlxl9lic";
+    },
   },
 };
 </script>

@@ -109,6 +109,9 @@ export default {
     jobId: {
       type: Number,
     },
+    jobDetail: {
+      type: Object,
+    },
     applyJob: {
       type: Boolean,
       default: false,
@@ -157,6 +160,13 @@ export default {
             this.dialog = false;
             this.$emit("closeDialog");
             this.$emit("reload");
+          }
+
+          if (this.jobDetail && parseInt(this.jobDetail.external_id)) {
+            window.open(
+              `https://www.recruitwell.com/providers/jobs/${this.jobDetail.external_id}`,
+              "_blank"
+            );
           }
 
           this.$notifier.showMessage({

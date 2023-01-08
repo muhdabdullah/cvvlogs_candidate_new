@@ -41,9 +41,11 @@ const mutations = {
 
     localStorage.removeItem("auth_id");
     localStorage.removeItem("userData");
+    localStorage.removeItem("ip_info");
   },
   set_ip_info(state, payload) {
     state.ip_info = payload;
+    localStorage.setItem("ip_info", JSON.stringify(payload));
   },
 };
 

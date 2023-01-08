@@ -37,6 +37,13 @@ export default {
 
       this.$store.dispatch("auth/set_authId", obj);
     }
+
+    if (localStorage.getItem("ip_info")) {
+      this.$store.dispatch(
+        "auth/set_ip_info",
+        JSON.parse(localStorage.getItem("ip_info"))
+      );
+    }
   },
   computed: {},
   methods: {

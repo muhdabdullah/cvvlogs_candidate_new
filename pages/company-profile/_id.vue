@@ -56,6 +56,7 @@
           class="tw-opacity-95 roundedBox"
           elevation="0"
           outlined
+          width="100%"
           min-height="322"
         >
           <v-card-text class="tw-h-full d-flex flex-column">

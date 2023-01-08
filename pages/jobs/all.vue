@@ -14,13 +14,14 @@
 
           <v-col align="right" class="d-flex align-center">
             <v-btn
+              v-if="$store.getters['auth/get_authId']"
               tile
               depressed
               :color="filter.is_Fav ? 'secondary' : ''"
               class="mx-2"
               small
               :value="filter.is_Fav ? 1 : 0"
-              @click="filter.is_Fav = filter.is_Fav ? 0 : 1"
+              @click="filter_jobs_by_Fav"
             >
               Favourites
               <v-icon small aria-hidden="false" class="ml-1">
@@ -409,6 +410,10 @@ export default {
     },
   },
   methods: {
+    filter_jobs_by_Fav() {
+      this.filter.is_Fav = this.filter.is_Fav ? 0 : 1;
+      this.get_job_list();
+    },
     async get_job_list() {
       this.loading = true;
 

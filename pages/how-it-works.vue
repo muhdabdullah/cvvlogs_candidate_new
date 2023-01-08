@@ -23,7 +23,7 @@
             class="mx-auto"
             :width="$vuetify.breakpoint.mobile ? 'auto' : 700"
             height="415"
-            src="https://www.youtube.com/embed/QAOHAHHOIy0"
+            :src="intro_video_lang"
             title="YouTube video player"
             frameborder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -36,7 +36,19 @@
 </template>
 
 <script>
-export default {};
+export default {
+  computed: {
+    intro_video_lang() {
+      if (
+        [167, 101].includes(
+          parseInt(this.$store.getters["auth/get_ip_info"]?.country_id || 0)
+        )
+      ) {
+        return "https://www.youtube.com/embed/QAOHAHHOIy0";
+      } else return "https://www.youtube.com/embed/ECWJ-xQ4P2o";
+    },
+  },
+};
 </script>
 
 <style></style>

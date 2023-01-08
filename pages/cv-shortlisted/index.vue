@@ -250,6 +250,13 @@ export default {
   },
   methods: {
     viewProfile(id, recruiter_id, chat_id) {
+      if (!id) {
+        this.$notifier.showMessage({
+          content: "Company information not available.",
+          color: "info",
+        });
+      }
+
       if (id) {
         this.$router.push({
           name: "company-profile-id",

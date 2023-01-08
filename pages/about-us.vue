@@ -46,7 +46,7 @@
             <iframe
               height="360"
               width="100%"
-              src="https://www.youtube.com/embed/3mZFjtRaOyY"
+              :src="intro_video_lang"
               title="cvvlogs Introduction (Urdu)"
               frameborder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -177,7 +177,7 @@
           <v-img width="64" height="64" src="img/visionIcon.png" />
           <h1 class="tw-font-extrabold tw-text-5xl mt-4">Our Vision</h1>
           <p class="tw-text-lg mt-4 paraWidth">
-            Our mission is to change the landscape of conventional recruitment
+            Our vision is to change the landscape of conventional recruitment
             with this unique, dynamic and reliable video platform that allows
             employers and candidates to connect globally with efficiency and
             transparency.
@@ -210,6 +210,17 @@ export default {
         },
       ],
     };
+  },
+  computed: {
+    intro_video_lang() {
+      if (
+        [167, 101].includes(
+          parseInt(this.$store.getters["auth/get_ip_info"]?.country_id || 0)
+        )
+      ) {
+        return "https://www.youtube.com/embed/3mZFjtRaOyY";
+      } else return "https://www.youtube.com/embed/Lr4XcRr6M9Y";
+    },
   },
 };
 </script>

@@ -100,6 +100,14 @@
               </NuxtLink>
             </div>
 
+            <span
+              v-else-if="links.text1 && links.text1.label == 'Login'"
+              @click="$nuxt.$emit('init-login-dialog')"
+              class="tw-text-xs py-2 tw-cursor-pointer"
+            >
+              {{ links.text1.label }}
+            </span>
+
             <NuxtLink
               v-else-if="links.text1 && links.text1.to"
               :to="links.text1.to"
@@ -118,6 +126,14 @@
                 {{ links.text2.label }}
               </NuxtLink>
             </div>
+
+            <span
+              v-else-if="links.text2 && links.text2.label == 'Register'"
+              @click="$nuxt.$emit('init-register-dialog')"
+              class="tw-text-xs py-2 tw-cursor-pointer"
+            >
+              {{ links.text2.label }}
+            </span>
 
             <NuxtLink
               v-else-if="links.text2 && links.text2.to"
@@ -279,7 +295,7 @@ export default {
           heading: { label: "Job Seekers" },
           text1: { label: "Login", to: "/" },
           text2: { label: "Register", to: "/" },
-          text3: { label: "Search", to: "/" },
+          text3: { label: "Search", to: "/search" },
           text4: { label: "Browse Jobs", to: "/jobs/all" },
         },
         {
@@ -324,7 +340,8 @@ export default {
     line-height: 1rem; /* 16px */
   }
 
-  a:hover {
+  a:hover,
+  .tw-cursor-pointer:hover {
     color: orange;
     font-size: 0.75rem; /* 12px */
     line-height: 1rem; /* 16px */

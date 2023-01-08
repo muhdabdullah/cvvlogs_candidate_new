@@ -95,7 +95,14 @@ export default {
           this.send_message_loader = true;
           await this.$api.messageService
             .new_chat(new_msg)
-            .then(() => {
+            .then((response) => {
+              if (response.status == 200) {
+                this.$notifier.showMessage({
+                  content: response.message || "Message sent!",
+                  color: "success",
+                });
+              }
+
               // reset_message
               this.message = null;
               this.dialog = false;
