@@ -20,11 +20,8 @@
         <div class="d-flex flex-wrap align-center pa-1 text-capitalize">
           <div class="d-flex flex-column align-start mx-5">
             <h3
-              class="
-                tw-text-lg
-                text-capitalize
-                tw-max-w-xl tw-truncate tw-font-bold
-              "
+              :class="$vuetify.breakpoint.mobile ? 'tw-w-64' : 'tw-max-w-xl'"
+              class="tw-text-lg text-capitalize tw-truncate tw-font-bold"
             >
               {{ jobDetail.title || jobDetail.job_title }}
             </h3>
@@ -34,14 +31,17 @@
             >
               {{ jobDetail.rec }}
             </h4>
-            <div class="d-flex align-center tw-text-sm tw-font-semibold my-1">
-              <span v-if="jobDetail.city">
+            <div
+              :class="$vuetify.breakpoint.mobile ? 'tw-w-64' : 'tw-max-w-xl'"
+              class="d-flex align-center tw-text-sm tw-font-semibold my-1"
+            >
+              <span class="tw-truncate" v-if="jobDetail.city">
                 {{ jobDetail.city.name || jobDetail.city }},
               </span>
-              <span v-if="jobDetail.state">
+              <span class="tw-truncate" v-if="jobDetail.state">
                 &nbsp;{{ jobDetail.state.name || jobDetail.state }},
               </span>
-              <span v-if="jobDetail.country">
+              <span class="tw-truncate" v-if="jobDetail.country">
                 &nbsp;{{ jobDetail.country.name || jobDetail.country }}
               </span>
             </div>

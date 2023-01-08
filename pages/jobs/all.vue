@@ -12,7 +12,11 @@
             </div>
           </v-col>
 
-          <v-col align="right" class="d-flex align-center">
+          <v-col
+            v-if="!$vuetify.breakpoint.mobile"
+            align="right"
+            class="d-flex align-center"
+          >
             <v-btn
               v-if="$store.getters['auth/get_authId']"
               tile
@@ -44,6 +48,24 @@
                 {{ btn.name }}
               </v-btn>
             </v-btn-toggle>
+          </v-col>
+
+          <v-col v-else cols="12">
+            <v-select
+              outlined
+              hide-details
+              dense
+              clearable
+              label="Job type"
+              item-text="name"
+              item-value="id"
+              auto-select-first
+              :items="job_type_list"
+              v-model="filter.work_level_id"
+              @input="get_job_list"
+              multiple
+            >
+            </v-select>
           </v-col>
         </v-row>
         <v-row dense>
@@ -422,6 +444,10 @@ export default {
 
       params["state_id[]"] = this.selected_state?.state_id;
       params.city_id = params.city_id?.map((row) => row.city_id);
+      params.work_level_id = params.work_level_id?.map((row) => {
+        if (row?.id) return row.id;
+        else return row;
+      });
       //params.industry_id = params.industry_id?.map((row) => row.id);
 
       // Merging child_industry_id_parent with main industry arr.
