@@ -79,7 +79,7 @@
           <div class="d-flex justify-center flex-column">
             <span class="tw-text-sm">
               <v-btn @click="viewJob" depressed width="120" color="secondary">
-                <span class="text-capitalize tw-font-medium black--text"
+                <span class="text-capitalize tw-font-medium"
                   >View Job</span
                 ></v-btn
               >

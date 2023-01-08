@@ -82,7 +82,9 @@
                 class="mx-1"
                 :items="job_categories"
                 v-model="selected_industry"
+                return-object
                 item-text="name"
+                item-value="id"
                 filled
                 rounded
               >

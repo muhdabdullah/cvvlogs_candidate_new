@@ -52,7 +52,6 @@
                 item-text="state_name"
                 item-value="state_id"
                 label="State/Province"
-                placeholder="Select State"
                 outlined
                 hide-details
                 single-line
@@ -242,11 +241,7 @@ export default {
       ],
       searchData: [],
       job_list_data: [],
-      selected_state: {
-        cities: [],
-        state_name: null,
-        state_id: null,
-      },
+      selected_state: null,
       selected_city: {
         city_id: null,
         city_name: null,
