@@ -132,6 +132,21 @@
             </div>
           </div>
 
+          <div class="d-flex align-center justify-center">
+            <v-btn
+              target="_blank"
+              href="https://recruiter.cvvlogs.com/"
+              class="text-capitalize"
+              color="primary"
+              height="35"
+              small
+              rounded
+              depressed
+            >
+              For Recruiters
+            </v-btn>
+          </div>
+
           <div class="mx-2 tw-h-full d-flex align-center justify-center">
             <v-btn
               v-if="AuthID"
@@ -166,7 +181,7 @@
               class="ml-2"
             />
 
-            <v-btn
+            <!-- <v-btn
               class="ml-2"
               color="primary"
               text
@@ -183,7 +198,7 @@
                   >(login/register here)</span
                 >
               </div>
-            </v-btn>
+            </v-btn> -->
 
             <!-- <v-btn
               v-if="!AuthID"

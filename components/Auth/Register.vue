@@ -6,6 +6,7 @@
           v-bind="attrs"
           v-on="on"
           color="primary"
+          class="text-capitalize"
           height="35"
           width="110"
           small
