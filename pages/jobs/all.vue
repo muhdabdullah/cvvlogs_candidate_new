@@ -46,7 +46,10 @@
           </v-col>
         </v-row>
         <v-row dense>
-          <v-col v-if="filter_data.industries.length" cols="3">
+          <v-col
+            v-if="filter_data.industries.length && !$vuetify.breakpoint.mobile"
+            cols="3"
+          >
             <!-- Job Filter -->
             <v-card
               v-if="filter_data && filter_data.industries"
@@ -231,7 +234,13 @@
           <v-col
             class="tw-overflow-auto"
             :class="'max__height'"
-            :cols="filter_data && filter_data.industries.length ? 9 : 12"
+            :cols="
+              filter_data &&
+              filter_data.industries.length &&
+              !$vuetify.breakpoint.mobile
+                ? 9
+                : 12
+            "
           >
             <section>
               <div v-if="loading">

@@ -3,52 +3,12 @@
     <v-container>
       <v-row align="center" class="my-5">
         <v-col>
-          <div class="borderVerticalLine d-flex align-center">
-            <h3 class="tw-text-5xl tw-font-bold ml-5" style="color: #282828">
-              {{ alljobs ? "All Jobs" : "Recent Jobs" }}
-            </h3>
-          </div>
+          <LayoutSectionHeader :text="alljobs ? 'All Jobs' : 'Recent Jobs'" />
         </v-col>
-
-        <!-- <v-col align="right" class="jobTabs">
-          <v-tabs
-            light
-            center-active
-            class="d-flex justify-end tabsCustom"
-            color="#4c2e8b"
-          >
-            <v-tab class="text-capitalize">Featured</v-tab>
-            <v-tab class="text-capitalize">Remotely</v-tab>
-            <v-tab class="text-capitalize">Part Time</v-tab>
-            <v-tab class="text-capitalize">Full Time</v-tab>
-          </v-tabs>
-        </v-col> -->
       </v-row>
       <v-row dense>
-        <!-- <v-col v-if="!compactView" cols="3">
-          <v-card class="my-2" flat>
-            <div
-              class="
-                text-center
-                secondary
-                pa-3
-                white--text
-                tw-text-xl tw-font-semibold
-              "
-            >
-              Job Title
-            </div>
-            <v-card-text>
-              <div class="d-flex justify-space-between align-center">
-                <v-checkbox :label="`Accounts`"></v-checkbox>
-                <span>15</span>
-              </div>
-            </v-card-text>
-          </v-card>
-        </v-col> -->
-
         <v-col
-          class="tw-overflow-auto pa-4"
+          class="tw-overflow-auto pa-xs-0 pa-lg-4"
           :class="compactView ? '' : 'max__height'"
           :cols="12"
         >

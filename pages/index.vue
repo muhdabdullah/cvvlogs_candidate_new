@@ -63,39 +63,10 @@
 
           <v-container class="custom_wd_container">
             <section class="mt-10 container">
-              <v-row align="center" no-gutters>
-                <v-col>
-                  <div class="borderVerticalLine d-flex align-center">
-                    <h3
-                      class="tw-text-5xl tw-font-bold ml-5"
-                      style="color: #282828"
-                    >
-                      Jobs by Category
-                    </h3>
-                  </div>
-                </v-col>
-
-                <v-col align="right">
-                  <v-btn
-                    to="/jobs"
-                    width="160"
-                    height="50"
-                    depressed
-                    color="secondary"
-                  >
-                    <span
-                      class="
-                        tw-text-base
-                        max-sm:tw-text-sm
-                        font-weight-light
-                        text-capitalize
-                      "
-                    >
-                      View All
-                    </span>
-                  </v-btn>
-                </v-col>
-              </v-row>
+              <LayoutSectionHeader
+                viewAllRoute="/jobs"
+                text="Jobs by Category"
+              />
 
               <v-row
                 v-if="job_by_Industry && job_by_Industry.length"
@@ -114,7 +85,7 @@
                       :class="{ 'on-hover': hover }"
                       color=""
                       rounded="lg"
-                      height="60"
+                      :height="$vuetify.breakpoint.mobile ? '100%' : 60"
                       class="
                         gradient-btn
                         d-flex
@@ -133,7 +104,7 @@
                     class="mr-2"
                   /> -->
 
-                      <h3 class="tw-text-sm tw-font-semibold">
+                      <h3 class="md:tw-text-sm tw-text-xs tw-font-semibold">
                         {{ job.name }} ({{ job.job_count }})
                       </h3>
                     </v-card>

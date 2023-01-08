@@ -67,10 +67,10 @@
         </div> -->
 
         <v-card class="mx-auto" max-width="1170" flat>
-          <v-card-title>
+          <v-card-title class="pa-0">
             <LayoutTitle title="Recent Jobs" route="/jobs/recent" />
           </v-card-title>
-          <v-card-text>
+          <v-card-text class="pa-0">
             <v-row v-if="recentJobs && recentJobs.length" dense>
               <v-col
                 cols="12"
@@ -164,10 +164,10 @@
         </v-card>
 
         <v-card class="mx-auto" max-width="1170" flat>
-          <v-card-title>
+          <v-card-title class="pa-0">
             <LayoutTitle title="All Jobs" route="/jobs/all" />
           </v-card-title>
-          <v-card-text>
+          <v-card-text class="pa-0">
             <v-row v-if="all_Jobs && all_Jobs.length" dense>
               <v-col
                 cols="12"

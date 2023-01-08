@@ -13,7 +13,7 @@
           justify-space-between
           py-2
           my-2
-          pa-4
+          pa-xs-0 pa-lg-4
           tw-cursor-pointer
         "
       >
