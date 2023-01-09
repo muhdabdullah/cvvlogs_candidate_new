@@ -62,7 +62,7 @@
           </div>
         </div>
 
-        <div class="d-flex pa-1">
+        <!-- <div class="d-flex pa-1">
           <v-btn
             v-if="AuthID"
             :loading="favourite_loader"
@@ -77,7 +77,7 @@
             </v-icon>
           </v-btn>
 
-          <!-- <div class="d-flex justify-center flex-column">
+          <div class="d-flex justify-center flex-column">
             <span class="tw-text-sm">
               <v-btn @click="viewJob" depressed width="120" color="secondary">
                 <span class="text-capitalize tw-font-medium"
@@ -93,8 +93,8 @@
                 ></v-btn
               >
             </span>
-          </div> -->
-        </div>
+          </div>
+        </div> -->
       </v-card>
     </v-hover>
   </div>

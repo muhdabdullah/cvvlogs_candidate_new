@@ -45,6 +45,7 @@
               <v-text-field
                 placeholder="Enter Your Keyword"
                 v-model="selected_keyword"
+                @keyup.enter="move_to_search"
                 type="text"
                 background-color="white"
                 hide-details

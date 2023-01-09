@@ -1,5 +1,5 @@
 <template>
-  <div v-if="title" class="tw-w-full">
+  <div v-if="title" class="tw-w-full my-5">
     <v-row align="center" no-gutters>
       <v-col>
         <h1 class="md:tw-text-3xl tw-text-sm tw-font-bold text--primary">

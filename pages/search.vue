@@ -233,6 +233,7 @@ export default {
   data() {
     return {
       primary: "#8a63de",
+      state_list_data: [],
       job_type_list: [
         { id: 1, name: "Full Time" },
         { id: 2, name: "Part Time" },
@@ -304,6 +305,29 @@ export default {
     },
   },
   methods: {
+    getState(country_id) {
+      this.$api.utilsService.getStateList(country_id).then(async (response) => {
+        if (response?.data) {
+          this.stateList = response?.data?.state_list;
+
+          let findState = this.stateList.find(
+            (el) => el.state_id == this.personalDetails?.state?.id
+          );
+
+          if (findState) {
+            await this.getCity({
+              country_id: this.personalDetails?.country?.id,
+              state_id: this.personalDetails?.state?.id,
+            });
+
+            this.personalDetails = {
+              ...this.personalDetails,
+              state: findState,
+            };
+          }
+        }
+      });
+    },
     async get_job_list() {
       this.job_list_loading = true;
 
@@ -315,6 +339,8 @@ export default {
       params.city_id = params.city_id?.map((row) => row.city_id);
       params.industry_id = params.industry_id?.map((row) => row.id);
       let userData = JSON.parse(localStorage.getItem("userData"));
+
+      params.country_id = this.$store.getters["auth/get_ip_info"]?.country_id;
 
       params.user_id = userData?.id;
       if (params?.country_id)
@@ -336,9 +362,13 @@ export default {
         });
     },
     async get_search_data() {
-      await this.$api.jobService.search_data_get().then((response) => {
-        this.searchData = response.data;
-      });
+      await this.$api.jobService
+        .search_data_get({
+          country_id: this.$store.getters["auth/get_ip_info"]?.country_id,
+        })
+        .then((response) => {
+          this.searchData = response.data;
+        });
     },
     clear_state() {
       this.selected_state = {
