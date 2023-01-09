@@ -6,7 +6,7 @@
           <v-col>
             <div class="d-flex align-center">
               <h3 class="tw-text-5xl md:tw-text-2xl black--text tw-font-bold">
-                Jobs by Category
+                My Job Applications
               </h3>
             </div>
           </v-col>
