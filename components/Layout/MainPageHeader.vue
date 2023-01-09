@@ -148,6 +148,8 @@ export default {
   },
   methods: {
     move_to_search() {
+      // Clear search data in store.
+      this.$store.dispatch("reset_search_jobs_data");
       this.$router.push({
         name: "search",
         params: {

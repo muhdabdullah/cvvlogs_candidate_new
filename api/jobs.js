@@ -43,9 +43,9 @@ export default ($axios, store, ctx, router) => ({
       });
   },
 
-  async search_data_get() {
+  async search_data_get(params) {
     return ctx.$request
-      .get("/search_data_get.php")
+      .get("/search_data_get.php", params)
       .then((response) => {
         return response;
       })

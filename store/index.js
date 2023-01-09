@@ -4,6 +4,7 @@ const state = () => ({
   allJobs: [],
   profileViews: 0,
   dashboardData: null,
+  search_jobs_data: {},
 });
 
 const getters = {
@@ -22,9 +23,15 @@ const getters = {
   getAllJobs(state) {
     return state.allJobs;
   },
+  search_jobs_data(state) {
+    return state.search_jobs_data;
+  },
 };
 
 const mutations = {
+  set_search_jobs_data(state, payload) {
+    state.search_jobs_data = payload;
+  },
   setAllJobs(state, payload) {
     state.allJobs = payload;
   },
@@ -44,9 +51,18 @@ const mutations = {
     state.dashboardData = null;
     state.profileViews = 0;
   },
+  reset_search_jobs_data(state) {
+    state.search_jobs_data = {};
+  },
 };
 
 const actions = {
+  set_search_jobs_data({ commit }, payload) {
+    commit("set_search_jobs_data", payload);
+  },
+  reset_search_jobs_data({ commit }, payload) {
+    commit("reset_search_jobs_data", payload);
+  },
   setAllJobs({ commit }, payload) {
     commit("setAllJobs", payload);
   },

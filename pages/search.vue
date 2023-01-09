@@ -12,6 +12,7 @@
               <v-col cols="9">
                 <v-text-field
                   v-model="filter.keyword"
+                  auto-foucus
                   append-icon="mdi-magnify secondary rounded-xl pa-1 "
                   placeholder="Job Title / Keyword"
                   label="Keyword"
@@ -20,6 +21,7 @@
                   outlined
                   clearable
                   autofocus
+                  @keyup.enter="get_job_list"
                 >
                 </v-text-field>
               </v-col>
@@ -266,13 +268,32 @@ export default {
     };
   },
   async created() {
-    this.get_search_data();
-    if (this.$route.params) {
-      const { keyword, industry_id } = this.$route.params;
-      this.filter.keyword = keyword;
-      if (industry_id) this.filter.industry_id.push(industry_id);
-      this.get_job_list();
+    const backup_data = this.$store.getters["search_jobs_data"];
+    if (backup_data?.filter) {
+      this.get_search_data();
+      if (backup_data.filter) this.filter = { ...backup_data.filter };
+      if (backup_data.job_list_data)
+        this.job_list_data = backup_data.job_list_data;
+      if (backup_data.searchData) this.searchData = backup_data.searchData;
+      if (backup_data.selected_state)
+        this.selected_state = backup_data.selected_state;
+    } else {
+      this.get_search_data();
+      if (this.$route.params) {
+        const { keyword, industry_id } = this.$route.params;
+        this.filter.keyword = keyword;
+        if (industry_id) this.filter.industry_id.push(industry_id);
+        this.get_job_list();
+      }
     }
+  },
+  destroyed() {
+    this.$store.dispatch("set_search_jobs_data", {
+      filter: { ...this.filter },
+      job_list_data: this.job_list_data,
+      searchData: this.searchData,
+      selected_state: this.selected_state,
+    });
   },
   computed: {
     job_categories() {

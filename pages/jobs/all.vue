@@ -477,23 +477,33 @@ export default {
         });
     },
     search_data_get() {
-      this.$api.jobService.search_data_get().then((response) => {
-        this.filter_data = {
-          ...response.data,
-          slicedIndustry: [
-            ...response.data.industries.slice(
-              0,
-              this.exploreMoreOptions.industryLength
-            ),
-          ],
-          slicedLocation: [
-            ...response.data.state.slice(
-              0,
-              this.exploreMoreOptions.locationLength
-            ),
-          ],
-        };
-      });
+      this.$api.jobService
+        .search_data_get({
+          country_id: 167,
+        })
+        .then((response) => {
+          this.filter_data = {
+            ...response.data,
+            slicedIndustry: [
+              ...response.data.industries.slice(
+                0,
+                this.exploreMoreOptions.industryLength
+              ),
+            ],
+          };
+
+          if (this.AuthID) {
+            this.filter_data = {
+              ...this.filter_data,
+              slicedLocation: [
+                ...response.data.state.slice(
+                  0,
+                  this.exploreMoreOptions.locationLength
+                ),
+              ],
+            };
+          }
+        });
     },
     get_offline_dashboard() {
       this.loading = true;

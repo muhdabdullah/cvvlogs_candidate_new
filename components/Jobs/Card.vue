@@ -2,6 +2,7 @@
   <div>
     <v-hover v-slot="{ hover }">
       <v-card
+        @click="viewJob"
         :elevation="hover ? 6 : 0"
         :class="{ 'on-hover': hover }"
         outlined
@@ -76,7 +77,7 @@
             </v-icon>
           </v-btn>
 
-          <div class="d-flex justify-center flex-column">
+          <!-- <div class="d-flex justify-center flex-column">
             <span class="tw-text-sm">
               <v-btn @click="viewJob" depressed width="120" color="secondary">
                 <span class="text-capitalize tw-font-medium"
@@ -85,14 +86,14 @@
               >
             </span>
 
-            <!-- <span class="text-capitalize tw-text-sm mt-3">
+            <span class="text-capitalize tw-text-sm mt-3">
               <v-btn v-if="AuthID" depressed width="120" color="primary"
                 ><span class="text-capitalize tw-font-light"
                   >Apply Now</span
                 ></v-btn
               >
-            </span> -->
-          </div>
+            </span>
+          </div> -->
         </div>
       </v-card>
     </v-hover>
