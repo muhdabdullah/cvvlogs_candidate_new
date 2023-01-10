@@ -340,13 +340,9 @@ export default {
       params.industry_id = params.industry_id?.map((row) => row.id);
       let userData = JSON.parse(localStorage.getItem("userData"));
 
-      params.country_id = this.$store.getters["auth/get_ip_info"]?.country_id;
+      params.country_id = [this.$store.getters["auth/get_ip_info"]?.country_id];
 
       params.user_id = userData?.id;
-      if (params?.country_id)
-        params.country_id = [
-          this.$store.getters["auth/get_ip_info"]?.country_id,
-        ];
       // params.min_salary = this.salary_value[0];
       // params.max_salary = this.salary_value[1];
 

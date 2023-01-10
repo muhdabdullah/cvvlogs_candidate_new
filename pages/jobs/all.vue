@@ -458,28 +458,28 @@ export default {
       // sending userId in payload.
       let userData = JSON.parse(localStorage.getItem("userData"));
       params.user_id = userData?.id;
-      if (params?.country_id)
-        params.country_id = [
-          this.$store.getters["auth/get_ip_info"]?.country_id,
-        ];
-      // params.min_salary = this.salary_value[0];
-      // params.max_salary = this.salary_value[1];
 
-      this.$api.jobService
-        .get_job_list(params)
-        .then((response) => {
-          this.recentJobs = response?.data?.data;
-          this.jobs_search_data = response?.data;
-          this.filter.page = response?.data?.current_page;
-        })
-        .finally(() => {
-          this.loading = false;
-        });
+      (params.country_id = [
+        this.$store.getters["auth/get_ip_info"]?.country_id,
+      ]),
+        // params.min_salary = this.salary_value[0];
+        // params.max_salary = this.salary_value[1];
+
+        this.$api.jobService
+          .get_job_list(params)
+          .then((response) => {
+            this.recentJobs = response?.data?.data;
+            this.jobs_search_data = response?.data;
+            this.filter.page = response?.data?.current_page;
+          })
+          .finally(() => {
+            this.loading = false;
+          });
     },
     search_data_get() {
       this.$api.jobService
         .search_data_get({
-          country_id: 167,
+          country_id: this.$store.getters["auth/get_ip_info"]?.country_id,
         })
         .then((response) => {
           this.filter_data = {
