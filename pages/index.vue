@@ -12,7 +12,11 @@
           />
 
           <!-- Job Application -->
-          <JobsWidget />
+          <JobsWidget
+            :recent_jobs_loader="recent_jobs_loader"
+            :all_jobs_loader="all_jobs_loader"
+            :all_jobs_data="all_Jobs"
+          />
         </section>
 
         <div v-else>
@@ -95,15 +99,6 @@
                         tw-cursor-pointer
                       "
                     >
-                      <!-- <v-img
-                    max-width="50"
-                    height="50"
-                    lazy-src="img/bankIcon.png"
-                    src="img/bankIcon.png"
-                    contain
-                    class="mr-2"
-                  /> -->
-
                       <h3 class="md:tw-text-sm tw-text-xs tw-font-semibold">
                         {{ job.name }} ({{ job.job_count }})
                       </h3>
@@ -211,36 +206,20 @@
 
 <script>
 export default {
-  // async asyncData({ $api, store }) {
-  //   if (store.getters["get_jobs_by_industry"]) {
-  //     const job_by_Industry = [...store.getters["get_jobs_by_industry"]];
-  //     return job_by_Industry;
-  //   } else {
-  //     const job_by_Industry = await $api.jobService
-  //       .get_offline_dashboard()
-  //       .then((response) => {
-  //         if (response?.data) {
-  //           store.dispatch(
-  //             "set_jobs_by_industry",
-  //             response.data.jobs_by_industry
-  //           );
-  //           store.dispatch("setDashboardData", response.data);
-  //           store.dispatch("setRecentJobs", response.data.recent_jobs);
-  //         }
-
-  //         return [...response?.data?.jobs_by_industry];
-  //       });
-
-  //     return { job_by_Industry };
-  //   }
-  // },
   data() {
     return {
       job_by_Industry: [],
+      recent_jobs_loader: false,
+      all_jobs_loader: false,
+      all_Jobs: [],
     };
   },
   mounted() {
     this.get_home_data();
+
+    if (this.AuthID) {
+      this.get_job_data();
+    }
   },
   computed: {
     jobs_by_industry_sliced() {
@@ -265,6 +244,7 @@ export default {
   },
   methods: {
     move_to_search(job) {
+      this.$store.dispatch("reset_search_jobs_data");
       this.$router.push({
         name: "search",
         params: {
@@ -272,21 +252,39 @@ export default {
         },
       });
     },
+    get_job_data() {
+      this.all_jobs_loader = true;
+      this.$api.jobService
+        .get_job_exclude()
+        .then((response) => {
+          this.all_Jobs = response?.data?.job;
+          this.$store.dispatch("setAllJobs", response.data.job);
+        })
+        .finally(() => {
+          this.all_jobs_loader = false;
+        });
+    },
     get_home_data() {
-      this.$api.jobService.get_offline_dashboard().then((response) => {
-        this.job_by_Industry = [...response?.data?.jobs_by_industry];
-        if (response.data) {
-          // Store ip_info
-          if (response.data?.ip_info)
-            this.$store.dispatch("auth/set_ip_info", response.data.ip_info);
-          this.$store.dispatch(
-            "set_jobs_by_industry",
-            response.data.jobs_by_industry
-          );
-          this.$store.dispatch("setDashboardData", response.data);
-          this.$store.dispatch("setRecentJobs", response.data.recent_jobs);
-        }
-      });
+      this.recent_jobs_loader = true;
+      this.$api.jobService
+        .get_offline_dashboard()
+        .then((response) => {
+          this.job_by_Industry = [...response?.data?.jobs_by_industry];
+          if (response.data) {
+            // Store ip_info
+            if (response.data?.ip_info)
+              this.$store.dispatch("auth/set_ip_info", response.data.ip_info);
+            this.$store.dispatch(
+              "set_jobs_by_industry",
+              response.data.jobs_by_industry
+            );
+            this.$store.dispatch("setDashboardData", response.data);
+            this.$store.dispatch("setRecentJobs", response.data.recent_jobs);
+          }
+        })
+        .finally(() => {
+          this.recent_jobs_loader = false;
+        });
     },
   },
 };

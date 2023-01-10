@@ -31,6 +31,7 @@ export default {
     "@nuxtjs/tailwindcss",
     "@nuxtjs/vuetify",
     "@nuxt/image",
+    "@nuxtjs/moment",
   ],
 
   image: {

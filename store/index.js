@@ -5,9 +5,13 @@ const state = () => ({
   profileViews: 0,
   dashboardData: null,
   search_jobs_data: {},
+  all_jobs_loader: false,
 });
 
 const getters = {
+  all_jobs_loader(state) {
+    return state.all_jobs_loader;
+  },
   get_jobs_by_industry(state) {
     return state.jobs_by_industry;
   },
@@ -29,6 +33,9 @@ const getters = {
 };
 
 const mutations = {
+  init_all_jobs_loader(state, payload) {
+    state.all_jobs_loader = payload;
+  },
   set_search_jobs_data(state, payload) {
     state.search_jobs_data = payload;
   },
@@ -57,6 +64,9 @@ const mutations = {
 };
 
 const actions = {
+  init_all_jobs_loader({ commit }, payload) {
+    commit("init_all_jobs_loader", payload);
+  },
   set_search_jobs_data({ commit }, payload) {
     commit("set_search_jobs_data", payload);
   },

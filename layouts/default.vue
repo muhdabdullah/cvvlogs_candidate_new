@@ -48,9 +48,15 @@ export default {
   computed: {},
   methods: {
     get_job_data() {
-      this.$api.jobService.get_job_exclude().then((response) => {
-        this.$store.dispatch("setAllJobs", response.data.job);
-      });
+      this.$store.dispatch("init_all_jobs_loader", true);
+      this.$api.jobService
+        .get_job_exclude()
+        .then((response) => {
+          this.$store.dispatch("setAllJobs", response.data.job);
+        })
+        .finally(() => {
+          this.$store.dispatch("init_all_jobs_loader", false);
+        });
     },
     jobsByIndustry() {
       this.$api.jobService.get_offline_dashboard().then((response) => {

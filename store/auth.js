@@ -1,10 +1,14 @@
 const state = () => ({
   auth_id: null,
+  country_id: null,
   userData: {},
   ip_info: {},
 });
 
 const getters = {
+  country_id(state) {
+    return state.country_id;
+  },
   get_authId(state) {
     return state.auth_id;
   },
@@ -28,9 +32,9 @@ const getters = {
 };
 
 const mutations = {
-  // set_userData(state, payload) {
-  //   state.userData = payload;
-  // },
+  set_country_id(state, payload) {
+    state.country_id = payload;
+  },
   set_authId(state, payload) {
     state.auth_id = payload.auth_id;
     state.userData = payload;
@@ -50,6 +54,9 @@ const mutations = {
 };
 
 const actions = {
+  set_country_id({ commit }, payload) {
+    commit("set_country_id", payload);
+  },
   set_ip_info({ commit }, payload) {
     commit("set_ip_info", payload);
   },

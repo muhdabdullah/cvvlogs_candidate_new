@@ -135,6 +135,16 @@
               </v-col>
             </v-row>
 
+            <v-row v-else-if="recent_jobs_loader">
+              <v-col v-for="i in 4" :key="i" cols="12" md="3" lg="3" xl="3">
+                <v-skeleton-loader
+                  width="265"
+                  height="78"
+                  type="image"
+                ></v-skeleton-loader>
+              </v-col>
+            </v-row>
+
             <v-row v-else-if="recentJobs && recentJobs.length == 0">
               <v-col cols="12">
                 <h1
@@ -148,16 +158,6 @@
                 >
                   No recent jobs.
                 </h1>
-              </v-col>
-            </v-row>
-
-            <v-row v-else>
-              <v-col v-for="i in 4" :key="i" cols="12" md="3" lg="3" xl="3">
-                <v-skeleton-loader
-                  width="265"
-                  height="78"
-                  type="image"
-                ></v-skeleton-loader>
               </v-col>
             </v-row>
           </v-card-text>
@@ -233,6 +233,16 @@
               </v-col>
             </v-row>
 
+            <v-row v-else-if="all_jobs_loader">
+              <v-col v-for="i in 4" :key="i" cols="12" md="3" lg="3" xl="3">
+                <v-skeleton-loader
+                  width="265"
+                  height="78"
+                  type="image"
+                ></v-skeleton-loader>
+              </v-col>
+            </v-row>
+
             <v-row v-else-if="all_Jobs && all_Jobs.length == 0">
               <v-col cols="12">
                 <h1
@@ -248,16 +258,6 @@
                 </h1>
               </v-col>
             </v-row>
-
-            <v-row v-else>
-              <v-col v-for="i in 4" :key="i" cols="12" md="3" lg="3" xl="3">
-                <v-skeleton-loader
-                  width="265"
-                  height="78"
-                  type="image"
-                ></v-skeleton-loader>
-              </v-col>
-            </v-row>
           </v-card-text>
         </v-card>
       </v-card-text>
@@ -269,6 +269,20 @@
 import helperFunc from "@/utils/helper";
 
 export default {
+  props: {
+    all_jobs_loader: {
+      default: false,
+      type: Boolean,
+    },
+    recent_jobs_loader: {
+      default: false,
+      type: Boolean,
+    },
+    all_jobs_data: {
+      type: Array,
+      default: [],
+    },
+  },
   data() {
     return {
       job_applications: [
@@ -311,7 +325,7 @@ export default {
       return data;
     },
     all_Jobs() {
-      let data = [...this.$store.getters["getAllJobs"]].splice(0, 8);
+      let data = [...this.all_jobs_data].splice(0, 8);
       return data;
     },
   },
