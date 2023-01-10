@@ -3,7 +3,7 @@
     <v-row align="start">
       <v-col class="ma-16">
         <h1 class="searchHead">Search for Jobs</h1>
-        <p>Enter the following info to get the most suitable jobs</p>
+        <p>Enter the following info to find most suitable jobs</p>
         <v-text-field
           v-model="keyword"
           prepend-inner-icon="mdi-search"
@@ -62,42 +62,46 @@
 
 <script>
 export default {
-    async asyncData({ params,$api, store }) {
-      const searchData = await $api.jobService
-        .search_data_get()
-        .then((response) => {
-          return response.data
-        });
+  async asyncData({ params, $api, store }) {
+    const searchData = await $api.jobService
+      .search_data_get()
+      .then((response) => {
+        return response.data;
+      });
 
-      return { searchData };
-    },
+    return { searchData };
+  },
   data() {
     return {
-        primary: '#8a63de',
-        searchData: [],
-      recentSearchList: ['customer','accountant','freelance','Freelance','IT'],
+      primary: "#8a63de",
+      searchData: [],
+      recentSearchList: [
+        "customer",
+        "accountant",
+        "freelance",
+        "Freelance",
+        "IT",
+      ],
       items: ["Programming", "Design", "Vue", "Vuetify"],
-      city:null,
-      exp:null,
-      ind:null,
-      keyword:null,
-      state:null,
+      city: null,
+      exp: null,
+      ind: null,
+      keyword: null,
+      state: null,
     };
   },
   methods: {
     async serchingJob() {
-      const formData={
-        "city": this.city,
-        "exp": this.exp?.id,
-        "ind": this.ind.id,
-        "keyword": this.keyword,
-        "state": this.state?.state_id
-      }
-        await this.$api.jobService
-        .searchJob(formData)
-        .then((response) => {
-            return response
-        })
+      const formData = {
+        city: this.city,
+        exp: this.exp?.id,
+        ind: this.ind.id,
+        keyword: this.keyword,
+        state: this.state?.state_id,
+      };
+      await this.$api.jobService.searchJob(formData).then((response) => {
+        return response;
+      });
     },
   },
 };

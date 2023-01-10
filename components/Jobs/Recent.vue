@@ -74,7 +74,7 @@ export default {
       loading: false,
       recentJobs: [],
       slicedJobsArray: [],
-      jobs_length: 3,
+      jobs_length: 7,
       job_applications: [
         {
           img: "img/Job_app_1.png",

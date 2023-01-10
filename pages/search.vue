@@ -1,15 +1,19 @@
 <template>
   <v-container class="pa-0 tw-h-full">
-    <v-row align="start">
+    <v-row no-gutters align="start">
       <v-col>
-        <v-card color="grey lighten-3" class="my-5" outlined>
+        <v-card
+          color="grey lighten-3"
+          :class="$vuetify.breakpoint.mobile ? '' : 'my-5'"
+          outlined
+        >
           <v-card-text class="tw-font-bold primary--text">
             <h3 class="tw-text-5xl tw-font-bold">Search for Jobs</h3>
             <p class="tw-text-base tw-font-semibold">
-              Enter the following info to get the most suitable jobs
+              Enter the following info to find most suitable jobs
             </p>
-            <v-row>
-              <v-col cols="9">
+            <v-row no-gutters>
+              <v-col cols="12" lg="9" xl="9">
                 <v-text-field
                   v-model="filter.keyword"
                   auto-foucus
@@ -25,7 +29,7 @@
                 >
                 </v-text-field>
               </v-col>
-              <v-col cols="3">
+              <v-col cols="12" lg="3" xl="3">
                 <v-combobox
                   prepend-inner-icon="mdi-briefcase"
                   background-color="white"
@@ -45,7 +49,7 @@
                 ></v-combobox>
               </v-col>
             </v-row>
-            <div class="d-flex align-center justify-space-between">
+            <div class="d-flex flex-wrap align-center justify-space-between">
               <v-combobox
                 v-model="selected_state"
                 background-color="white"
@@ -57,7 +61,7 @@
                 outlined
                 hide-details
                 single-line
-                class="mr-1"
+                class="mr-1 pa-1"
                 clearable
                 @input="select_state"
                 @click:clear="clear_state"
@@ -82,7 +86,7 @@
                 hide-details
                 single-line
                 outlined
-                class="mr-1"
+                class="mr-1 pa-1"
               ></v-combobox>
               <v-combobox
                 v-model="filter['industry_id']"
@@ -99,13 +103,13 @@
                 multiple
                 clearable
                 outlined
-                class="mr-1"
+                class="mr-1 pa-1"
               ></v-combobox>
               <v-btn
                 :loading="job_list_loading"
                 depressed
                 height="56"
-                class="secondary"
+                class="secondary ma-1"
                 @click="get_job_list"
                 >Search</v-btn
               >
@@ -143,7 +147,7 @@
       </v-col>
     </v-row>
 
-    <v-row class="my-5">
+    <v-row no-gutters class="my-5 pa-2">
       <!-- <v-col cols="2">
        
         <v-card outlined class="my-2" flat>

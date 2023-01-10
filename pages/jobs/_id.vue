@@ -27,7 +27,10 @@
               "
             >
               <div class="d-flex flex-wrap align-center pa-1 text-capitalize">
-                <div class="d-flex flex-column align-start mx-5">
+                <div
+                  class="d-flex flex-column align-start"
+                  :class="$vuetify.breakpoint.mobile ? '' : 'mx-5'"
+                >
                   <h3
                     class="
                       tw-text-lg
@@ -63,7 +66,13 @@
                     {{ Job.company_name }}
                   </h4>
                   <div
-                    class="d-flex align-center tw-text-sm tw-font-semibold my-1"
+                    class="
+                      d-flex
+                      flex-wrap
+                      align-center
+                      tw-text-sm tw-font-semibold
+                      my-1
+                    "
                   >
                     <span v-if="Job.currency || Job.curr" class="mr-2">{{
                       Job.currency || Job.curr
@@ -113,7 +122,10 @@
                     mdi-heart
                   </v-icon> -->
                 </div>
-                <div class="d-flex align-center justify-center pa-1">
+                <div
+                  class="d-flex align-center pa-1"
+                  :class="$vuetify.breakpoint.mobile ? '' : 'justify-center'"
+                >
                   <span class="grey--text tw-text-sm">
                     <v-icon size="small">mdi-calendar-month</v-icon>
                     {{ Job.posted_on }}
@@ -126,7 +138,13 @@
                 </div>
               </div>
             </v-card>
-            <v-card height="50" class="my-5" rounded="lg" color="primary" flat>
+            <v-card
+              :height="$vuetify.breakpoint.mobile ? 'auto' : 50"
+              class="my-5"
+              rounded="lg"
+              color="primary"
+              flat
+            >
               <v-card-text
                 class="
                   pa-2

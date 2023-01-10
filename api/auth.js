@@ -3,7 +3,7 @@ import nuxtConfig from "@/nuxt.config";
 export default ($axios, store, ctx, router) => ({
   async signUp(params) {
     return await $axios
-      .$post("/signup.php", params)
+      .$post("/signup_new.php", params)
       .then((response) => {
         return response;
       })

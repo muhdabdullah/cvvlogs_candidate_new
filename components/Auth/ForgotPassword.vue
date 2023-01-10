@@ -2,7 +2,7 @@
   <div class="text-center">
     <v-dialog width="582" v-model="dialog">
       <template v-slot:activator="{ on, attrs }">
-        <h5 v-bind="attrs" v-on="on">Forgot password ?</h5>
+        <h5 class="py-1" v-bind="attrs" v-on="on">Forgot password ?</h5>
       </template>
       <v-card
         color="white"

@@ -34,7 +34,7 @@
               class="mx-auto"
               contain
               width="250"
-              height="80"
+              :height="$vuetify.breakpoint.mobile ? 50 : 80"
               src="/img/logo.png"
             />
           </div>
@@ -74,7 +74,15 @@
               placeholder="Password"
             ></v-text-field>
 
-            <div class="d-flex align-center white--text justify-space-between">
+            <div
+              class="
+                d-flex
+                flex-wrap
+                align-center
+                white--text
+                justify-space-between
+              "
+            >
               <v-checkbox
                 label="Remember me"
                 v-model="rememberMe"
@@ -208,7 +216,8 @@ export default {
 
 <style lang="scss" scoped>
 .card__login__bg {
-  height: 141px;
+  max-height: 141px;
+  min-height: 120px;
   background: white;
 }
 

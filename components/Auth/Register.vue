@@ -29,7 +29,7 @@
               class="mx-auto"
               contain
               width="300"
-              height="80"
+              :height="$vuetify.breakpoint.mobile ? 50 : 80"
               src="/img/logo.png"
             />
           </div>
@@ -206,6 +206,29 @@ export default {
         .signUp(this.registerData)
         .then((resp) => {
           if (resp?.status == 200 && resp?.data) {
+            // // Get new Auth Data, Cause Now the user is logged In.
+            this.$api.jobService.get_offline_dashboard().then((response) => {
+              if (response.data) {
+                this.$store.dispatch(
+                  "set_jobs_by_industry",
+                  response.data.jobs_by_industry
+                );
+                this.$store.dispatch("setDashboardData", response.data);
+
+                this.$store.dispatch(
+                  "setRecentJobs",
+                  response.data.recent_jobs
+                );
+              }
+            });
+
+            this.$api.jobService.get_job_exclude().then((response) => {
+              this.$store.dispatch("setAllJobs", response?.data?.job);
+            });
+
+            this.$store.dispatch("auth/set_authId", resp.data);
+            if (this.$route != "/") this.$router.push("/");
+
             this.$refs.form.reset();
             this.dialog = false;
           } else if (resp?.status == 404) {
@@ -234,7 +257,8 @@ export default {
 
 <style lang="scss" scoped>
 .card__login__bg {
-  height: 141px;
+  max-height: 141px;
+  min-height: 120px;
   background: white;
 }
 
