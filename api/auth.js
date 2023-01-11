@@ -25,28 +25,45 @@ export default ($axios, store, ctx, router) => ({
       });
   },
 
-  async logout() {
-    $axios.setHeader("auth_id", `${localStorage.getItem("auth_id")}`);
-    return await $axios
-      .get(`/logout.php`)
-      .then((response) => {
-        // Removes default Authorization header from `common` scope (all requests)
-        store.commit("auth/remove_auth_id");
+  // async logout() {
+  //   $axios.setHeader("auth_id", `${localStorage.getItem("auth_id")}`);
+  //   return await $axios
+  //     .get(`/logout.php?auth_id=${localStorage.getItem("auth_id")}`)
+  //     .then((response) => {
+  //       // Removes default Authorization header from `common` scope (all requests)
+  //       store.commit("auth/remove_auth_id");
 
-        store.dispatch("resetJobsData");
-        $axios.setHeader("auth_id", "");
-        ctx.app.router.push("/");
-        return response;
-      })
-      .catch((error) => {
-        // Removes default Authorization header from `common` scope (all requests)
-        store.commit("auth/remove_auth_id");
-        $axios.setHeader("auth_id", "");
-        ctx.app.router.push("/");
-        console.error(error);
+  //       store.dispatch("resetJobsData");
+  //       $axios.setHeader("auth_id", "");
+  //       ctx.app.router.push("/");
+  //       return response;
+  //     })
+  //     .catch((error) => {
+  //       // Removes default Authorization header from `common` scope (all requests)
+  //       store.commit("auth/remove_auth_id");
+  //       $axios.setHeader("auth_id", "");
+  //       ctx.app.router.push("/");
+  //       console.error(error);
+  //     });
+  // },
+
+  async logout(data) {
+    const url = "https://api.cvvlogs.com/cv-tube/api.v.1/user/logout.php?auth_id=" + localStorage.getItem('auth_id');
+    const options = {
+      method: "GET",
+      crossorigin: true,
+      mode: 'no-cors',
+      headers: {
+      }
+    };
+    fetch(url, options)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
       });
   },
 
+  // getProfile
   async getProfile() {
     return ctx.$request
       .get("/profile.php")
