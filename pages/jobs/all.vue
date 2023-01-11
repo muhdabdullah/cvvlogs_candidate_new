@@ -21,10 +21,10 @@
               v-if="$store.getters['auth/get_authId']"
               tile
               depressed
-              :color="filter.is_Fav ? 'secondary' : ''"
+              :color="filter.is_fav ? 'secondary' : ''"
               class="mx-2"
               small
-              :value="filter.is_Fav ? 1 : 0"
+              :value="filter.is_fav ? 1 : 0"
               @click="filter_jobs_by_Fav"
             >
               Favourites
@@ -391,7 +391,7 @@ export default {
         keyword: null,
         page: null,
         limit: 30,
-        is_Fav: 0,
+        is_fav: 0,
       },
     };
   },
@@ -433,7 +433,7 @@ export default {
   },
   methods: {
     filter_jobs_by_Fav() {
-      this.filter.is_Fav = this.filter.is_Fav ? 0 : 1;
+      this.filter.is_fav = this.filter.is_fav ? 0 : 1;
       this.get_job_list();
     },
     async get_job_list() {
