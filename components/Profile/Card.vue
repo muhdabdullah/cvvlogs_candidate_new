@@ -168,6 +168,7 @@
                     width="224"
                     height="60"
                     depressed
+                    to="/profile"
                     :color="'secondary'"
                     v-if="
                       dashboardData &&

@@ -218,9 +218,9 @@
 
             <v-btn
               @click.prevent="get_job_list"
-              color="primary"
-              outlined
+              color="secondary"
               depressed
+              height="60"
               block
               ><span class="text-capitalize tw-text-lg tw-font-bold"
                 >Apply Filter</span
@@ -455,10 +455,8 @@ export default {
         this.child_industry_id_parent
       );
 
-      // sending userId in payload.
       let userData = JSON.parse(localStorage.getItem("userData"));
-      params.user_id = userData?.id;
-
+      if (userData) params.user_id = userData?.id;
       (params.country_id = [
         this.$store.getters["auth/get_ip_info"]?.country_id,
       ]),

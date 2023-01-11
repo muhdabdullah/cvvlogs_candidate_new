@@ -243,6 +243,7 @@ export default {
                 auth_id: resp.data.auth_id,
               },
             });
+            this.$store.dispatch("auth/set_authId", resp.data);
             this.$refs.form.reset();
             this.dialog = false;
 
