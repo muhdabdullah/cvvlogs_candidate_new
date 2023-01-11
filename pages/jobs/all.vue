@@ -407,7 +407,7 @@ export default {
     // New API Flow
     this.get_job_list();
 
-    // Get Filter Data
+    // Get Filter Data from Backend
     this.search_data_get();
   },
   computed: {
