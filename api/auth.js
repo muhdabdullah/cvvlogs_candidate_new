@@ -2,8 +2,16 @@ import nuxtConfig from "@/nuxt.config";
 
 export default ($axios, store, ctx, router) => ({
   async signUp(params) {
+    const config = {
+      headers: { secret_key: "a1f33e3555cae4dcb631d63ed534f1d1" },
+    };
+
     return await $axios
-      .$post("/signup_new.php", params)
+      .$post(
+        "https://api.cvvlogs.com/cv-tube/api.v.1/user/signup_new.php",
+        params,
+        config
+      )
       .then((response) => {
         return response;
       })
@@ -48,19 +56,23 @@ export default ($axios, store, ctx, router) => ({
   // },
 
   async logout(data) {
-    const url = "https://api.cvvlogs.com/cv-tube/api.v.1/user/logout.php?auth_id=" + localStorage.getItem('auth_id');
+    const url =
+      "https://api.cvvlogs.com/cv-tube/api.v.1/user/logout.php?auth_id=" +
+      localStorage.getItem("auth_id");
     const options = {
       method: "GET",
       crossorigin: true,
-      mode: 'no-cors',
-      headers: {
-      }
+      mode: "no-cors",
+      headers: {},
     };
-    fetch(url, options)
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-      });
+    fetch(url, options).then((data) => {
+      // Removes default Authorization header from `common` scope (all requests)
+      store.commit("auth/remove_auth_id");
+
+      store.dispatch("resetJobsData");
+      $axios.setHeader("auth_id", "");
+      ctx.app.router.push("/");
+    });
   },
 
   // getProfile

@@ -11,7 +11,7 @@
               text-center text-capitalize
             "
           >
-            Disable Account
+            Activate Account
           </h1>
           <v-card-text class="pa-3">
             <div class="my-3 text-center black--text">
@@ -26,6 +26,7 @@
               placeholder="Enter the 4 digit OTP"
               class="my-2"
               v-model="otp"
+              @keyup.enter="submit"
               outlined
             ></v-text-field>
 
@@ -60,8 +61,8 @@
     </v-row>
   </v-container>
 </template>
-
-<script>
+  
+  <script>
 export default {
   data() {
     return {
@@ -74,7 +75,8 @@ export default {
     };
   },
   async mounted() {
-    await this.send_disable_otp();
+    const { resend } = this.$route.params;
+    if (resend) this.resend();
   },
   methods: {
     async submit() {
@@ -87,16 +89,10 @@ export default {
     async otp_disable() {
       this.buttonLoader = true;
       await this.$api.utilsService
-        .confirm_disable(
-          { code: this.otp },
-          this.$store.getters["auth/get_authId"]
-        )
+        .send_otp_activate({ code: this.otp })
         .then((response) => {
           if (response?.status == 200) {
             this.reset();
-            this.$store.commit("auth/remove_auth_id");
-            this.$store.dispatch("resetJobsData");
-            this.$axios.setHeader("auth_id", "");
             if (this.$route.path != "/") this.$router.push("/");
           } else if (response?.status) {
             this.$notifier.showMessage({
@@ -110,7 +106,7 @@ export default {
     async send_disable_otp(noToast) {
       this.resendLoader = true;
       await this.$api.utilsService
-        .send_disable_otp()
+        .resend_otp()
         .then((response) => {
           if (response?.status == 200) {
             if (!noToast) {
@@ -130,6 +126,6 @@ export default {
   },
 };
 </script>
-
-<style>
+  
+  <style>
 </style>

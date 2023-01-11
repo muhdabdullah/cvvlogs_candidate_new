@@ -1,6 +1,6 @@
 <template>
   <div class="text-center">
-    <v-dialog width="582" persistent v-model="dialog">
+    <v-dialog max-width="750" persistent v-model="dialog">
       <template v-slot:activator="{ on, attrs }">
         <v-btn
           v-bind="attrs"
@@ -16,13 +16,7 @@
           Register
         </v-btn>
       </template>
-      <v-card
-        color="primary"
-        width="582"
-        rounded
-        flat
-        class="mx-auto tw-border-0"
-      >
+      <v-card color="primary" rounded flat class="mx-auto tw-border-0">
         <div class="pa-2 card__login__bg d-flex justify-end">
           <div class="d-flex align-center tw-w-full">
             <img
@@ -42,7 +36,7 @@
             class="primary"
             color="white"
             small
-            @click="dialog = false"
+            @click="close"
             >x</v-btn
           >
         </div>
@@ -97,24 +91,45 @@
                   density="comfortable"
                 ></v-text-field>
 
-                <v-text-field
-                  :readonly="loading"
-                  :rules="[required]"
-                  class="mb-2"
-                  hide-spin-buttons
-                  v-model="registerData.number"
-                  solo
-                  type="number"
-                  placeholder="Phone"
-                  density="comfortable"
-                ></v-text-field>
+                <v-row class="" no-gutters dense>
+                  <v-col cols="4">
+                    <v-autocomplete
+                      v-model="registerData.num_code"
+                      :items="country_code_list"
+                      item-value="country_code"
+                      item-text="country_code"
+                      placeholder="Code"
+                      :rules="[(v) => !!v || 'Country code required']"
+                      solo
+                      class="mb-2 mr-2"
+                    >
+                      <template v-slot:append>
+                        <!-- Caret Down -->
+                        <v-icon>mdi-chevron-down</v-icon>
+                      </template>
+                    </v-autocomplete>
+                  </v-col>
+
+                  <v-col cols="8">
+                    <v-text-field
+                      :readonly="loading"
+                      :rules="[required]"
+                      class="mb-2"
+                      hide-spin-buttons
+                      v-model="registerData.number"
+                      solo
+                      type="number"
+                      placeholder="Phone"
+                    ></v-text-field>
+                  </v-col>
+                </v-row>
 
                 <v-text-field
                   class=""
                   :readonly="loading"
                   solo
                   :rules="[required]"
-                  v-model="registerData.confirmPassword"
+                  v-model="confirmPassword"
                   :append-icon="showConfirmPass ? 'mdi-eye' : 'mdi-eye-off'"
                   :type="showConfirmPass ? 'text' : 'password'"
                   @click:append="showConfirmPass = !showConfirmPass"
@@ -169,14 +184,16 @@
 export default {
   data: () => ({
     rememberMe: false,
+    country_code_list: [],
     registerData: {
       first_name: null,
       last_name: null,
       email: null,
       password: null,
-      confirmPassword: null,
+      num_code: null,
       number: null,
     },
+    confirmPassword: null,
     dialog: false,
     showPass: false,
     showConfirmPass: false,
@@ -189,8 +206,19 @@ export default {
     this.$nuxt.$on("init-register-dialog", () => {
       this.dialog = true;
     });
+
+    this.get_country_code();
   },
   methods: {
+    close() {
+      this.dialog = false;
+      this.$refs.form.reset();
+    },
+    get_country_code() {
+      this.$api.utilsService.get_country_code().then(async (response) => {
+        this.country_code_list = response?.data?.country_codes;
+      });
+    },
     init_SignIn_dialog() {
       this.dialog = false;
       this.$emit("initSignIn");
@@ -206,31 +234,40 @@ export default {
         .signUp(this.registerData)
         .then((resp) => {
           if (resp?.status == 200 && resp?.data) {
-            // // Get new Auth Data, Cause Now the user is logged In.
-            this.$api.jobService.get_offline_dashboard().then((response) => {
-              if (response.data) {
-                this.$store.dispatch(
-                  "set_jobs_by_industry",
-                  response.data.jobs_by_industry
-                );
-                this.$store.dispatch("setDashboardData", response.data);
-
-                this.$store.dispatch(
-                  "setRecentJobs",
-                  response.data.recent_jobs
-                );
-              }
+            this.$router.push({
+              name: "otp-activate-account",
+              params: {
+                resend: true,
+              },
+              query: {
+                auth_id: resp.data.auth_id,
+              },
             });
-
-            this.$api.jobService.get_job_exclude().then((response) => {
-              this.$store.dispatch("setAllJobs", response?.data?.job);
-            });
-
-            this.$store.dispatch("auth/set_authId", resp.data);
-            if (this.$route != "/") this.$router.push("/");
-
             this.$refs.form.reset();
             this.dialog = false;
+
+            // // // Get new Auth Data, Cause Now the user is logged In.
+            // this.$api.jobService.get_offline_dashboard().then((response) => {
+            //   if (response.data) {
+            //     this.$store.dispatch(
+            //       "set_jobs_by_industry",
+            //       response.data.jobs_by_industry
+            //     );
+            //     this.$store.dispatch("setDashboardData", response.data);
+
+            //     this.$store.dispatch(
+            //       "setRecentJobs",
+            //       response.data.recent_jobs
+            //     );
+            //   }
+            // });
+
+            // this.$api.jobService.get_job_exclude().then((response) => {
+            //   this.$store.dispatch("setAllJobs", response?.data?.job);
+            // });
+
+            // this.$store.dispatch("auth/set_authId", resp.data);
+            // if (this.$route != "/") this.$router.push("/");
           } else if (resp?.status == 404) {
             this.$notifier.showMessage({
               content: resp?.message || "Error",

@@ -162,6 +162,21 @@ export default {
           if (resp.data) {
             this.$store.dispatch("resetJobsData");
 
+            if (
+              resp?.message ==
+                "Click on ok, enter otp and activate your account" &&
+              resp?.status == 404
+            ) {
+              this.$router.push({
+                name: "otp-activate-account",
+                query: {
+                  auth_id: resp.data.auth_id,
+                },
+              });
+              this.$store.dispatch("auth/set_authId", resp.data);
+              this.dialog = false;
+            }
+
             if (resp?.status == 200 && resp?.data) {
               // // Get new Auth Data, Cause Now the user is logged In.
               this.$api.jobService.get_offline_dashboard().then((response) => {

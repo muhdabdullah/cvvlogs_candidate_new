@@ -101,22 +101,28 @@ export default ($axios, store, ctx, router) => ({
   // async confirm_disable(data) {
   //   return ctx.$request.post("/confirm_disable.php", data);
   // },
-  async confirm_disable(data) {
-    const url = "https://api.cvvlogs.com/cv-tube/api.v.1/user/confirm_disable.php";
+  async confirm_disable(data, auth_id) {
+    const url =
+      "https://api.cvvlogs.com/cv-tube/api.v.1/user/confirm_disable.php";
     const options = {
       method: "POST",
-      headers: {
-      },
+      headers: {},
       body: JSON.stringify({
-        auth_id: 'vMnXIspF6vvEMaEdcU2iTwAMMh/Q',
+        auth_id: auth_id,
         code: data.code,
       }),
     };
-    fetch(url, options)
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-      });
+    return fetch(url, options).then((response) => {
+      return response.json();
+    });
+  },
+
+  async send_otp_activate(data) {
+    return ctx.$request.post("/otp_suc.php", data);
+  },
+
+  async resend_otp(data) {
+    return ctx.$request.get("/resend.php", data);
   },
 
   async send_disable_otp() {
