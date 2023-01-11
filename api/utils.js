@@ -98,8 +98,25 @@ export default ($axios, store, ctx, router) => ({
     return ctx.$request.post("/confirm_delete_account.php", code);
   },
 
+  // async confirm_disable(data) {
+  //   return ctx.$request.post("/confirm_disable.php", data);
+  // },
   async confirm_disable(data) {
-    return ctx.$request.post("/confirm_disable.php", data);
+    const url = "https://api.cvvlogs.com/cv-tube/api.v.1/user/confirm_disable.php";
+    const options = {
+      method: "POST",
+      headers: {
+      },
+      body: JSON.stringify({
+        auth_id: 'vMnXIspF6vvEMaEdcU2iTwAMMh/Q',
+        code: data.code,
+      }),
+    };
+    fetch(url, options)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      });
   },
 
   async send_disable_otp() {
