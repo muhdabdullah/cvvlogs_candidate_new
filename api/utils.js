@@ -1,3 +1,5 @@
+import nuxtConfig from "@/nuxt.config";
+
 export default ($axios, store, ctx, router) => ({
   async getSkills() {
     return ctx.$request.get(`/add_skills_get.php`).then((response) => {
@@ -43,8 +45,16 @@ export default ($axios, store, ctx, router) => ({
     return ctx.$request.get(`/country_codes.php`);
   },
 
-  async saveProfileDetail(params) {
-    return ctx.$request.post("/add_profile.php", params);
+  async saveProfileDetail(formData) {
+    return fetch(`${nuxtConfig?.axios?.baseURL}/add_profile.php`, {
+      method: "POST",
+      body: formData,
+      headers: {
+        Accept: "application/json",
+        auth_id: localStorage.getItem("auth_id"),
+      },
+    }).then((res) => res?.json());
+    // return ctx.$request.post("/add_profile.php", params);
   },
 
   async getProfessionalDetail() {

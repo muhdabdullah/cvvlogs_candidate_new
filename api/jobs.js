@@ -68,6 +68,16 @@ export default ($axios, store, ctx, router) => ({
   },
 
   async get_job_list(params) {
+    let userData = JSON.parse(localStorage.getItem("userData"));
+
+    if (localStorage.getItem("auth_id")) {
+      params["country_id[]"] = userData.countryId;
+      params.user_id = userData.id;
+    } else {
+      let ip_info = JSON.parse(localStorage.getItem("ip_info"));
+      params["country_id[]"] = ip_info?.country_id;
+    }
+
     return await $axios
       .$get(`https://staging.cvvlogs.com/api/get-job-list`, {
         params: params,

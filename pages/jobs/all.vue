@@ -455,24 +455,19 @@ export default {
         this.child_industry_id_parent
       );
 
-      let userData = JSON.parse(localStorage.getItem("userData"));
-      if (userData) params.user_id = userData?.id;
-      (params.country_id = [
-        this.$store.getters["auth/get_ip_info"]?.country_id,
-      ]),
-        // params.min_salary = this.salary_value[0];
-        // params.max_salary = this.salary_value[1];
+      // params.min_salary = this.salary_value[0];
+      // params.max_salary = this.salary_value[1];
 
-        this.$api.jobService
-          .get_job_list(params)
-          .then((response) => {
-            this.recentJobs = response?.data?.data;
-            this.jobs_search_data = response?.data;
-            this.filter.page = response?.data?.current_page;
-          })
-          .finally(() => {
-            this.loading = false;
-          });
+      this.$api.jobService
+        .get_job_list(params)
+        .then((response) => {
+          this.recentJobs = response?.data?.data;
+          this.jobs_search_data = response?.data;
+          this.filter.page = response?.data?.current_page;
+        })
+        .finally(() => {
+          this.loading = false;
+        });
     },
     search_data_get() {
       this.$api.jobService

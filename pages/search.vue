@@ -104,7 +104,11 @@
                 clearable
                 outlined
                 class="mr-1 pa-1"
-              ></v-combobox>
+              >
+                <template v-slot:item="{ item }">
+                  <span>{{ item.name }} ({{ item.job_count || 0 }})</span>
+                </template>
+              </v-combobox>
               <v-btn
                 :loading="job_list_loading"
                 depressed
@@ -303,7 +307,17 @@ export default {
   computed: {
     job_categories() {
       if (this.$store.getters["get_jobs_by_industry"]) {
-        return this.$store.getters["get_jobs_by_industry"];
+        let jobs = this.$store.getters["get_jobs_by_industry"];
+
+        let arr = [...jobs];
+        if (arr?.length) {
+          arr.sort((a, b) => {
+            // Sort array in descending order.
+            return b.job_count - a.job_count;
+          });
+        }
+
+        return arr;
       }
       return [];
     },
@@ -343,15 +357,15 @@ export default {
       params.city_id = params.city_id?.map((row) => row.city_id);
       params.industry_id = params.industry_id?.map((row) => row.id);
       let userData = JSON.parse(localStorage.getItem("userData"));
-      if (userData) params.user_id = userData?.id;
+      // if (userData) params.user_id = userData?.id;
 
-      if (this.$store.getters["auth/get_authId"] && userData) {
-        params.countryId = userData.countryId;
-      } else {
-        params.country_id = [
-          this.$store.getters["auth/get_ip_info"]?.country_id,
-        ];
-      }
+      // if (this.$store.getters["auth/get_authId"] && userData) {
+      //   params.countryId = userData.countryId;
+      // } else {
+      //   params.country_id = [
+      //     this.$store.getters["auth/get_ip_info"]?.country_id,
+      //   ];
+      // }
 
       // params.min_salary = this.salary_value[0];
       // params.max_salary = this.salary_value[1];

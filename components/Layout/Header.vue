@@ -23,9 +23,19 @@
 
       <div class="d-flex align-center flex-wrap">
         <LayoutLoginMenu v-if="AuthID" />
-        <AuthSignIn v-else class="ma-2" />
+        <AuthSignIn
+          ref="signInDialog"
+          @initSignup="initSignup"
+          v-else
+          class="ma-2"
+        />
 
-        <AuthRegister class="ma-2" />
+        <AuthRegister
+          @initSignIn="initSignIn"
+          ref="signUpDialog"
+          v-if="!AuthID"
+          class="ma-2"
+        />
       </div>
       <v-btn
         class="ml-2 text-center"
@@ -45,7 +55,14 @@
 
       <template v-if="AuthID" v-slot:append>
         <div class="pa-2">
-          <v-btn depressed color="error" block> Logout </v-btn>
+          <v-btn
+            @click="$api.authService.logout()"
+            depressed
+            color="error"
+            block
+          >
+            Logout
+          </v-btn>
         </div>
       </template>
     </v-navigation-drawer>
